@@ -1,5 +1,6 @@
 package ProjectPackage;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.*;  
 
@@ -13,11 +14,27 @@ public class App {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileLocation))) {
             String s;
             //read each line indiviually 
+            String name = null, type;
             while ((s = reader.readLine()) != null) {
-                System.out.println(s);
-               String[] words = s.split("");
-               for(int i = 0; i < words.length; i++){
-               }
+                if(s.contains("name") && name == null){
+                    s = s.replace("\"", "");
+                    s = s.replace("name", "");
+                    s = s.replace(":", "");
+                    s = s.replace(",", "");
+                    name = s.stripIndent().strip();
+                    s = reader.readLine();
+                    s = s.replace("\"", "");
+                    s = s.replace(":", "");
+                    s = s.replace("[", "");
+                    if(!s.contains("processing_elements") && !s.contains("entries") ){
+                        System.out.println("Is not a processing_elements or entries");
+                        reader.close();
+                    }
+                    type = s.strip().stripIndent();
+                    System.out.println(name);
+                    System.out.println(type);
+                }
+                //create a new function and pass reader in by reference; you'll be able to sort 
             }
             reader.close();
 
@@ -41,6 +58,10 @@ public class App {
         textScan.close();
 
         return fileLocation.strip();
+    }
+
+    public static void generateFliters(){
+
     }
 }
 
