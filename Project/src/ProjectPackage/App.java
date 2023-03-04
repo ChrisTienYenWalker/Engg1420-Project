@@ -17,15 +17,10 @@ public class App {
             String name = null, type;
             while ((s = reader.readLine()) != null) {
                 if(s.contains("name") && name == null){
-                    s = s.replace("\"", "");
-                    s = s.replace("name", "");
-                    s = s.replace(":", "");
-                    s = s.replace(",", "");
+                    s = s.replace("\"", "").replace("name", "").replace(":", "").replace(",", "");
                     name = s.stripIndent().strip();
                     s = reader.readLine();
-                    s = s.replace("\"", "");
-                    s = s.replace(":", "");
-                    s = s.replace("[", "");
+                    s = s.replace("\"", "").replace(":", "").replace("[", "");
                     if(!s.contains("processing_elements") && !s.contains("entries") ){
                         System.out.println("Is not a processing_elements or entries");
                         reader.close();
