@@ -5,8 +5,8 @@ import java.util.Scanner;
 import java.io.*;
 
 public class App {
+    public static ArrayList<Filter> processingClassList = new ArrayList<Filter>();
     public static void main(String[] args) throws Exception {
-
         // get the fle location
         String fileLocation = getFile();
         System.out.println(fileLocation);
@@ -101,12 +101,11 @@ public class App {
         System.out.println("\n");
         type = type.strip().replace("type", "").replace("\"", "").replace(":", "").replace(",", "");
         System.out.println(type.stripIndent());
-        for (String num : inputValues) { 		      
-            System.out.println(num); 		
-       }
         switch(type.stripIndent()){
             case "List":    
                 System.out.println("works");
+                LengthFilter filter = new LengthFilter(inputValues, processingClassList);
+                processingClassList.add(filter);
                 break;
             case "LengthFilter":    
                 System.out.println("works");
@@ -136,4 +135,5 @@ public class App {
 
         }
     }
+
 }
