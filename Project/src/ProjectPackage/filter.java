@@ -5,4 +5,6 @@ abstract public class filter {
     public abstract void filter();
     public abstract void inputs();
     public abstract void outputs();
+    
+    
 }
