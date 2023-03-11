@@ -7,8 +7,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-abstract class Filter {
+abstract class Processing_elements {
     ArrayList<String> entries = new ArrayList<String>();
+    ArrayList<String> outputList = new ArrayList<String>();
     public abstract void opertaions();
     public abstract void outputs();
 

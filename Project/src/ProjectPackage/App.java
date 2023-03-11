@@ -5,7 +5,7 @@ import java.util.Scanner;
 import java.io.*;
 
 public class App {
-    public static ArrayList<Filter> processingClassList = new ArrayList<Filter>();
+    public static ArrayList<Processing_elements> processingClassList = new ArrayList<Processing_elements>();
     public static void main(String[] args) throws Exception {
         // get the fle location
         String fileLocation = getFile();
