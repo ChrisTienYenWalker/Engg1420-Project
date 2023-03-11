@@ -108,6 +108,25 @@ public class App {
             case "List":    
                 System.out.println("works");
                 break;
+            case "Length":    
+                System.out.println("works");
+                break;
+            case "Content":    
+                System.out.println("works");
+                break;
+            case "Count":    
+                System.out.println("works");
+                break;
+            case "Split":    
+                System.out.println("works");
+                break;
+            case "Rename":    
+                System.out.println("works");
+                break;
+            case "Print":    
+                System.out.println("works");
+                break;
+
             default:
                 System.out.println("type does not exist");
                 break;
