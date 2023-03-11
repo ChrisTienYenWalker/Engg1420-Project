@@ -79,7 +79,7 @@ public class App {
                 if(insideParameters > 0){
                     newfilter = true;
                 }
-                if(insideParameters == 0){
+                if(insideParameters == 0 && type != null){
                     newfilter = false;
                     generatefilterClass(filterDetails, type);
                     filterDetails.removeAll(filterDetails);
@@ -108,13 +108,16 @@ public class App {
             case "List":    
                 System.out.println("works");
                 break;
-            case "Length":    
+            case "LengthFilter":    
                 System.out.println("works");
                 break;
-            case "Content":    
+            case "NameFilter":    
                 System.out.println("works");
                 break;
-            case "Count":    
+            case "ContentFilter":    
+                System.out.println("works");
+                break;
+            case "CountFtiler":    
                 System.out.println("works");
                 break;
             case "Split":    

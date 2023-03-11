@@ -9,4 +9,12 @@ abstract class Filter {
 
     public abstract void outputs();
 
+    public void getEntriesLocal(String filename){
+
+    }
+
+    public void getEntriesRemote(String repoId, String entryId){
+
+    }
+
 }
