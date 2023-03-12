@@ -21,7 +21,7 @@ import java.util.function.Consumer;
  *
  * @author 
  */
-public class Sample {
+public class remote {
 
     public static void main(String[] args) {
         String servicePrincipalKey = "x0BmysMxlH_XfLoc69Kk";
