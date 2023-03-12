@@ -136,28 +136,42 @@ public class App {
         switch(type.stripIndent()){
             case "List":    
                 System.out.println("works");
-                LengthFilter filter = new LengthFilter(inputValues, processingClassList);
-                processingClassList.add(filter);
+                List list = new List(inputValues, processingClassList);
+                processingClassList.add(list);
                 break;
             case "LengthFilter":    
+                LengthFilter lengthfilter = new LengthFilter(inputValues, processingClassList);
+                processingClassList.add(lengthfilter);
                 System.out.println("works");
                 break;
             case "NameFilter":    
+                NameFilter namefilter = new NameFilter(inputValues, processingClassList);
+                processingClassList.add(namefilter);
                 System.out.println("works");
                 break;
             case "ContentFilter":    
+                ContentFilter contentfilter = new ContentFilter(inputValues, processingClassList);
+                processingClassList.add(contentfilter);
                 System.out.println("works");
                 break;
-            case "CountFtiler":    
+            case "CountFilter":    
+                CountFilter countfilter = new CountFilter(inputValues, processingClassList);
+                processingClassList.add(countfilter);
                 System.out.println("works");
                 break;
             case "Split":    
+                Split split = new Split(inputValues, processingClassList);
+                processingClassList.add(split);
                 System.out.println("works");
                 break;
             case "Rename":    
+                Rename rename = new Rename(inputValues, processingClassList);
+                processingClassList.add(rename);
                 System.out.println("works");
                 break;
             case "Print":    
+                Print print = new Print(inputValues, processingClassList);
+                processingClassList.add(print);
                 System.out.println("works");
                 break;
 
