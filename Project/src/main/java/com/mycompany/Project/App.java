@@ -5,39 +5,39 @@ import java.util.Scanner;
 import java.io.*;
 
 public class App {
+
+    //arraylist for the past filters
     public static ArrayList<Processing_elements> processingClassList = new ArrayList<Processing_elements>();
     public static void main(String[] args) throws Exception {
+
+
         // get the fle location
         String fileLocation = getFile();
         System.out.println(fileLocation);
+
         // open file
         try (BufferedReader reader = new BufferedReader(new FileReader(fileLocation))) {
+       
             String s;
+            String name = null;
+
             // read each line indiviually
-            String name = null, type = null;
             while ((s = reader.readLine()) != null && name == null) {
+
+                //name gives senario name 
                 if (s.contains("name") && name == null) {
                     s = s.replace("\"", "").replace("name", "").replace(":", "").replace(",", "");
                     name = s.stripIndent().strip();
                     s = reader.readLine();
-
-                    //this part might be useless
-                    if (s.contains("processing_elements")) {
-                        type = "processing_elements";
-                    }
-                    else if(s.contains("entries")){
-                        type = "entries";
-                    }
-                    else{
-                        System.out.println("Is not a processing_elements or entries");
-                        reader.close();
-                    }
                     System.out.println(name);
-                    System.out.println(type);
                     break;
                 }
-                // create a new function and pass reader in by reference; you'll be able to sort
+                //the next line should be processing
+                //this line does not contain relavent information
+                reader.readLine();
             }
+
+            //generate filters
             generateFliters(reader);
             reader.close();
 
@@ -49,6 +49,7 @@ public class App {
         }
     }
 
+    //gets the json file from user input
     public static String getFile() {
 
         // create scanner
@@ -63,31 +64,54 @@ public class App {
     }
 
     public static void generateFliters(BufferedReader reader) {
+
+        //continue to read the file
         try {
+
+
             String s;
-            int insideParameters = 0;
             boolean newfilter = false;
+
+            //insideParameters is to help match curly brackets and make sure each scenario is seperate
+            int insideParameters = 0;
             String type = null;
+
+            //stores each line in an arraylist
             ArrayList <String> filterDetails = new ArrayList<String>();
+
             while ((s = reader.readLine()) != null) {
+
+                //keeps track of if the reader is still in the same scenario
                 if(s.contains("{")){
                     insideParameters++;
                 }
                 if(s.contains("}")){
                     insideParameters--;
                 }
+
+                //if it is exiting the scenario 
                 if(insideParameters > 0){
                     newfilter = true;
                 }
+
+                //if it's exiting the scenario
                 if(insideParameters == 0 && type != null){
+
+                    //create a new filter class
                     newfilter = false;
                     generatefilterClass(filterDetails, type);
                     filterDetails.removeAll(filterDetails);
                     type = null;
                 }
+
+                //and details from each line as long as it is not a curly bracket line
                 if(newfilter == true && !(s.strip().contains("{")|| s.strip().contains("}"))){
+
+
+                    //help clean up text to make it easier to use
                     filterDetails.add(s.replace("\"", " ").replace(",", ""));
                     
+                    //identify which type of scenario it is
                     if(s.contains("type") && type == null){
                         type = s;
                     }
@@ -97,10 +121,18 @@ public class App {
             System.out.println(ex);
         }
     }
+
+    //create new scenario class
     public static void generatefilterClass(ArrayList<String> inputValues, String type){
+
         System.out.println("\n");
+
         type = type.strip().replace("type", "").replace("\"", "").replace(":", "").replace(",", "");
+       
         System.out.println(type.stripIndent());
+
+        //switch statement to match the type to the scenario
+        //then create the new object and add it to the arraylist of past filters
         switch(type.stripIndent()){
             case "List":    
                 System.out.println("works");
