@@ -34,7 +34,6 @@ public class App {
                 }
                 //the next line should be processing
                 //this line does not contain relavent information
-                reader.readLine();
             }
 
             //generate filters
@@ -80,7 +79,6 @@ public class App {
             ArrayList <String> filterDetails = new ArrayList<String>();
 
             while ((s = reader.readLine()) != null) {
-
                 //keeps track of if the reader is still in the same scenario
                 if(s.contains("{")){
                     insideParameters++;
@@ -93,10 +91,8 @@ public class App {
                 if(insideParameters > 0){
                     newfilter = true;
                 }
-
                 //if it's exiting the scenario
                 if(insideParameters == 0 && type != null){
-
                     //create a new filter class
                     newfilter = false;
                     generatefilterClass(filterDetails, type);
@@ -130,49 +126,41 @@ public class App {
         type = type.strip().replace("type", "").replace("\"", "").replace(":", "").replace(",", "");
        
         System.out.println(type.stripIndent());
-
+        
         //switch statement to match the type to the scenario
         //then create the new object and add it to the arraylist of past filters
         switch(type.stripIndent()){
             case "List":    
-                System.out.println("works");
                 List list = new List(inputValues, processingClassList);
                 processingClassList.add(list);
                 break;
             case "LengthFilter":    
                 LengthFilter lengthfilter = new LengthFilter(inputValues, processingClassList);
                 processingClassList.add(lengthfilter);
-                System.out.println("works");
                 break;
             case "NameFilter":    
                 NameFilter namefilter = new NameFilter(inputValues, processingClassList);
                 processingClassList.add(namefilter);
-                System.out.println("works");
                 break;
             case "ContentFilter":    
                 ContentFilter contentfilter = new ContentFilter(inputValues, processingClassList);
                 processingClassList.add(contentfilter);
-                System.out.println("works");
                 break;
             case "CountFilter":    
                 CountFilter countfilter = new CountFilter(inputValues, processingClassList);
                 processingClassList.add(countfilter);
-                System.out.println("works");
                 break;
             case "Split":    
                 Split split = new Split(inputValues, processingClassList);
                 processingClassList.add(split);
-                System.out.println("works");
                 break;
             case "Rename":    
                 Rename rename = new Rename(inputValues, processingClassList);
                 processingClassList.add(rename);
-                System.out.println("works");
                 break;
             case "Print":    
                 Print print = new Print(inputValues, processingClassList);
                 processingClassList.add(print);
-                System.out.println("works");
                 break;
 
             default:

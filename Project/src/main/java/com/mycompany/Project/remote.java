@@ -23,37 +23,20 @@ import com.laserfiche.repository.api.clients.impl.model.Entry;
 import com.laserfiche.repository.api.clients.impl.model.ODataValueContextOfIListOfEntry;
 import com.laserfiche.repository.api.clients.impl.model.Folder;
 
-
-
 /**
  *
- * @author 
+ * @author
  */
 public class remote {
 
     public static void main(String[] args) {
         String servicePrincipalKey = "x0BmysMxlH_XfLoc69Kk";
         String accessKeyBase64 = "ewoJImN1c3RvbWVySWQiOiAiMTQwMTM1OTIzOCIsCgkiY2xpZW50SWQiOiAiOGFkZTZjNTctZDIxNS00ZmYyLThkOTctOTE1YjRiYWUyZWIzIiwKCSJkb21haW4iOiAibGFzZXJmaWNoZS5jYSIsCgkiandrIjogewoJCSJrdHkiOiAiRUMiLAoJCSJjcnYiOiAiUC0yNTYiLAoJCSJ1c2UiOiAic2lnIiwKCQkia2lkIjogImNCeWdXYnh6YU9jRHZVcUdBU1RfcURTY0plcWw3aU9Ya19SZVFleUpiTzQiLAoJCSJ4IjogIjZNSXNuODRLanFtMEpTUmhmS2tHUTRzbGhkcldCbVNMWk9nMW5oWjhubFkiLAoJCSJ5IjogIlpkZ1M1YWIxdU0yaVdaWHVpdmpBc2VacC11LWlJUlc4MjFwZWhENVJ5bUkiLAoJCSJkIjogIldjN091cDFYV3FudjlEVFVzQWZIYmxGTDFqU3UwRWJRY3g0LXNqbG0xRmMiLAoJCSJpYXQiOiAxNjc3Mjk3NTU0Cgl9Cn0=";
-		String repositoryId = "r-0001d410ba56";
+        String repositoryId = "r-0001d410ba56";
         AccessKey accessKey = AccessKey.createFromBase64EncodedAccessKey(accessKeyBase64);
-       
-        Scanner textScan = new Scanner(System.in);
-
-        // read in file
-        System.out.println("Enter File location: ");
-        int fileNumber = textScan.nextInt();
-        textScan.close();
 
         RepositoryApiClient client = RepositoryApiClientImpl.createFromAccessKey(
                 servicePrincipalKey, accessKey);
-
-        Entry trial = client.getEntriesClient().getEntry(repositoryId, fileNumber, null).join();
-
-        if(trial.getEntryType().toString() == "Document"){
-            System.out.println("HI");
-        }
-        
-
 
         // Get information about the ROOT entry, i.e. entry with ID=1
         int rootEntryId = 1;
@@ -66,16 +49,19 @@ public class remote {
         // // Get information about the child entries of the Root entry
         ODataValueContextOfIListOfEntry result = client
                 .getEntriesClient()
-                .getEntryListing(repositoryId, rootEntryId, true, null, null, null, null, null, "name", null, null, null).join();
+                .getEntryListing(repositoryId, rootEntryId, true, null, null, null, null, null, "name", null, null,
+                        null)
+                .join();
         List<Entry> entries = result.getValue();
         for (Entry childEntry : entries) {
             System.out.println(
                     String.format("Child Entry ID: %d, Name: %s, EntryType: %s, FullPath: %s",
-                            childEntry.getId(), childEntry.getName(), childEntry.getEntryType(), childEntry.getFullPath()));
+                            childEntry.getId(), childEntry.getName(), childEntry.getEntryType(),
+                            childEntry.getFullPath()));
         }
-        // Download an antry 
+        // Download an antry
         int entryIdToDownload = 7;
-        File deleteFile = new File("Project\\remoteFile.txt"); 
+        File deleteFile = new File("Project\\remoteFile.txt");
         deleteFile.delete();
         final String FILE_NAME = "Project\\remoteFile.txt";
         Consumer<InputStream> consumer = inputStream -> {
