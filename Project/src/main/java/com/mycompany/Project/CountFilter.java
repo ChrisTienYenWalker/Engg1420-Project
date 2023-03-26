@@ -62,7 +62,7 @@ public class CountFilter extends Processing_Elements
         return false;
     }
     
-    public CountFilter(ArrayList<String> entries, String Key int Min) {
+    public CountFilter(ArrayList<String> entries, String Key, int Min) {
         //if there's no entries use past entries
 
     }
