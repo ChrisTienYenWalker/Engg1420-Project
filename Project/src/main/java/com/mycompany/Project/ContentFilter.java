@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class ContentFilter extends Processing_elements {
 
     //constructor
-    public ContentFilter(ArrayList<String> inputValue, String pastEntries) {
+    public ContentFilter(ArrayList<String> inputValue, ArrayList<String> pastEntries) {
         //if there's no entries use past entries
 
     }

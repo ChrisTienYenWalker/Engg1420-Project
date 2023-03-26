@@ -7,7 +7,7 @@ import java.io.*;
 public class App {
 
     //arraylist for the past filters
-    public static String pastEntries;
+    public static ArrayList<String> pastEntries = new ArrayList<String>();
     public static void main(String[] args) throws Exception {
 
 

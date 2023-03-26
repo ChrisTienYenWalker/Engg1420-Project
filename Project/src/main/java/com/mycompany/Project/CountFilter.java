@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class CountFilter extends Processing_elements {
 
     //constructor
-    public CountFilter(ArrayList<String> inputValue, String pastEntries) {
+    public CountFilter(ArrayList<String> inputValue, ArrayList<String> pastEntries) {
         //if there's no entries use past entries
 
     }

@@ -6,7 +6,7 @@ public class Rename extends Processing_elements {
 
     private String suffix;
     //constructor
-    public Rename(ArrayList<String> inputValue, String pastEntries) {
+    public Rename(ArrayList<String> inputValue, ArrayList<String> pastEntries) {
         //if there's no entries use past entries
 
         for(String text: inputValue){
