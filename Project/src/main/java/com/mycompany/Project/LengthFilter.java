@@ -1,42 +1,26 @@
 package com.mycompany.Project;
 
-import java.util.ArrayList;
 import java.io.*;
+import java.util.ArrayList;
 
 public class LengthFilter extends Processing_elements {
 
     private ArrayList<File> filteredFiles = null;
     private long length;
     private String op;
-    
-    private ArrayList<File> subFiles = null;
 
-    public ArrayList<File> getSubFiles() {
-        return subFiles;
-    }
+    private ArrayList<File> subFiles = null;
 
     public void setSubFiles(ArrayList<File> subFiles) {
         this.subFiles = subFiles;
-    }
-
-    public ArrayList<File> getFilteredFiles() {
-        return filteredFiles;
     }
 
     public void setFilteredFiles(ArrayList<File> filteredFiles) {
         this.filteredFiles = filteredFiles;
     }
 
-    public long getLength() {
-        return length;
-    }
-
     public void setLength(long length) {
         this.length = length;
-    }
-
-    public String getOp() {
-        return op;
     }
 
     public void setOp(String op) {
@@ -44,108 +28,155 @@ public class LengthFilter extends Processing_elements {
     }
 
     //constructor
-    public LengthFilter(ArrayList<File> entries, long length, String op) {
+    public LengthFilter(ArrayList<String> inputs, ArrayList<String> entries) {
+        
+        String tempstr = "";
+        
+        
+        for (String str : inputs){
+            System.out.println(str); 
+            
+            if(str.contains("Length")){
+                tempstr = str.replace("name", " ").replace(":", " ").strip();         
+            }
+            
+            if (str.contains("value") && tempstr.equals("Length")){
+                tempstr = str.replace("value", " ").replace(":", " ").strip();
+                this.length = Integer.parseInt(tempstr);
+            }
+            
+            if (str.contains("Operator")){
+                tempstr = str.replace("Operator", " ").replace(":", " ").strip();
+            }
+            
+            if (str.contains("value") && tempstr.equals("Operator")){
+                tempstr = str.replace("value", " ").replace(":", " ").strip();
+                this.op = tempstr;
+            }
+            
+            
+            
+        }
+        
+       
+        ArrayList<File> getPath = null;
 
-        setLength(length);
-        setOp(op);
+        if (entries != null) {
 
-        for (File userInput : entries) {
-
-            if (userInput.isFile() == true) {
-                filteredFiles.add(userInput);
+            for (String filePath : entries) {
+                File file = new File(filePath);
+                getPath.add(file);
             }
 
+            for (File userInput : getPath) {
+
+                if (userInput.isFile() == true) {
+                    filteredFiles.add(userInput);
+                }
+
+            }
+            this.operations();
+            this.outputs();
+            
+        } else {
+            System.out.println("No Entries found.");
         }
 
     }
 
     //define these functions
-    public void opertaions() {
+    @Override
+    public void operations() {
         switch (op) {
 
             case "EQ":
-                
-                for (File subFile : filteredFiles) {
-                    
-                    if (subFile.length() == length){
-                        subFiles.add(subFile);
+                if (filteredFiles != null) {
+                    for (File subFile : filteredFiles) {
+
+                        if (subFile.length() == length) {
+                            subFiles.add(subFile);
+                        }
+
                     }
-                    
                 }
-                
                 break;
 
             case "NEQ":
- 
-                for (File subFile : filteredFiles) {
-                    
-                    if (subFile.length() != length){
-                        subFiles.add(subFile);
+                if (filteredFiles != null) {
+                    for (File subFile : filteredFiles) {
+
+                        if (subFile.length() != length) {
+                            subFiles.add(subFile);
+                        }
                     }
-                    
                 }
                 break;
 
             case "GT":
- 
-                for (File subFile : filteredFiles) {
-                    
-                    if (subFile.length() > length){
-                        subFiles.add(subFile);
+                if (filteredFiles != null) {
+                    for (File subFile : filteredFiles) {
+
+                        if (subFile.length() > length) {
+                            subFiles.add(subFile);
+                        }
                     }
-                    
                 }
                 break;
 
             case "GTE":
- 
-                for (File subFile : filteredFiles) {
-                    
-                    if (subFile.length() >= length){
-                        subFiles.add(subFile);
+                if (filteredFiles != null) {
+                    for (File subFile : filteredFiles) {
+
+                        if (subFile.length() >= length) {
+                            subFiles.add(subFile);
+                        }
                     }
-                    
                 }
                 break;
 
             case "LT":
- 
-                for (File subFile : filteredFiles) {
-                    
-                    if (subFile.length() < length){
-                        subFiles.add(subFile);
+                if (filteredFiles != null) {
+                    for (File subFile : filteredFiles) {
+
+                        if (subFile.length() < length) {
+                            subFiles.add(subFile);
+                        }
                     }
-                    
                 }
                 break;
 
             case "LTE":
- 
-                for (File subFile : filteredFiles) {
-                    
-                    if (subFile.length() <= length){
-                        subFiles.add(subFile);
+                if (filteredFiles != null) {
+                    for (File subFile : filteredFiles) {
+
+                        if (subFile.length() <= length) {
+                            subFiles.add(subFile);
+                        }
                     }
-                    
                 }
                 break;
 
             default:
-                System.out.println("Operator does not exist, all files outputted.");
-                 for (File subFile: filteredFiles){
+                if (filteredFiles != null) {
+                    System.out.println("Operator does not exist, all files outputted.");
+                    for (File subFile : filteredFiles) {
                         subFiles.add(subFile);
                     }
+                }
                 break;
 
         }
 
     }
-
+    
+    @Override
     public void outputs() {
-        
-        for(File printFile: subFiles){
+
+        for (File printFile : subFiles) {
             System.out.println(printFile.getName());
         }
     }
 
 }
+
+
