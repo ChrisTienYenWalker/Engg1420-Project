@@ -12,10 +12,6 @@ public class CountFilter extends Processing_Elements
     private int Min;
     private ArrayList<File> subFiles = null;
 
-<<<<<<< HEAD
-    //constructor
-    public CountFilter(ArrayList<String> inputValue, ArrayList<String> pastEntries) {
-=======
     public ArrayList<File> getSubFiles() {
         return subFiles;
     }
@@ -48,8 +44,25 @@ public class CountFilter extends Processing_Elements
         return entries;
     }
     
-    public CountFilter(ArrayList<String> inputValue, String pastEntries) {
->>>>>>> af2fc71668b4fa84f42e5ea420910dca8b77d14b
+    public static boolean hasKey(String entry, String key, int min){
+        try(BufferedReader br = new BufferedReader(new FileReader(entry))){
+            String line;
+            int count = 0;
+            while ((line = br.readLine()) != null){
+                if (line.contains(key)){
+                    count++;
+                    if(count >= min){
+                        return true;
+                    }
+                }
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    public CountFilter(ArrayList<String> entries, String Key int Min) {
         //if there's no entries use past entries
 
     }
