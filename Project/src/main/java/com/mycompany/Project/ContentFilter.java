@@ -10,10 +10,21 @@ public class ContentFilter extends Processing_elements {
 
     //constructor
     public ContentFilter(ArrayList<String> inputValue, String pastEntries) {
-        //if there's no entries use past entries
-
+        
+        setInputValues(entryList);
+        setKey(key);
     }
 
+    public void setInputValues(ArrayList<String> inputValues) {
+        this.inputValues = inputValues;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    
+    
     //define these functions
     public void opertaions(){
 
