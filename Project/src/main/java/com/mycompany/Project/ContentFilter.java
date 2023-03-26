@@ -3,6 +3,10 @@ package com.mycompany.Project;
 import java.util.ArrayList;
 
 public class ContentFilter extends Processing_elements {
+    
+    private String key;
+    private ArrayList<String> inputValues;
+    private ArrayList<String> outputValues = null;
 
     //constructor
     public ContentFilter(ArrayList<String> inputValue, String pastEntries) {
