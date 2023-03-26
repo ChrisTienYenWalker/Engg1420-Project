@@ -35,7 +35,7 @@ abstract class Processing_elements {
         File folder = new File(filename);
         File[] listOfFiles = folder.listFiles();
         for (int i = 0; i < listOfFiles.length; i++) {
-            entries.add(listOfFiles[i].toString());
+            data.add(listOfFiles[i].toString());
         }
     }
 
@@ -74,7 +74,7 @@ abstract class Processing_elements {
             String s;
             // read each line indiviually while the file is not at the end
             while ((s = reader.readLine()) != null) {
-                entries.add(s);
+                data.add(s);
             }
             reader.close();
             // exception handling
@@ -98,7 +98,7 @@ abstract class Processing_elements {
                 .join();
         List<Entry> RemoteEntries = result.getValue();
         for (Entry childEntry : RemoteEntries) {
-            entries.add(childEntry.getName());
+            data.add(childEntry.getName());
         }
     }
 
