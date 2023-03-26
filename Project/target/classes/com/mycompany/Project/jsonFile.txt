@@ -2,7 +2,7 @@
 "name": "First Scenario",
 "processing_elements": [
 {
-"type": "List",
+"type": "ContentFilter",
 "input_entries": [
 {
 "type": "local",
@@ -11,7 +11,7 @@
 ],
 "parameters": [
 {
-"name": "Max",
+"name": "Key",
 "value": "100"
 }
 ]

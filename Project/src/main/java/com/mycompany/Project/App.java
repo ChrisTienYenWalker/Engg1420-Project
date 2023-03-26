@@ -134,7 +134,7 @@ public class App {
                 List list = new List(inputValues, pastEntries);
                 break;
             case "LengthFilter":    
-                LengthFilter lengthfilter = new LengthFilter(inputValues, pastEntries);
+                // LengthFilter lengthfilter = new LengthFilter(inputValues, pastEntries);
                 break;
             case "NameFilter":    
                 NameFilter namefilter = new NameFilter(inputValues, pastEntries);
@@ -143,7 +143,7 @@ public class App {
                 ContentFilter contentfilter = new ContentFilter(inputValues, pastEntries);
                 break;
             case "CountFilter":    
-                CountFilter countfilter = new CountFilter(inputValues, pastEntries);
+                // CountFilter countfilter = new CountFilter(inputValues, pastEntries);
                 break;
             case "Split":    
                 Split split = new Split(inputValues, pastEntries);
