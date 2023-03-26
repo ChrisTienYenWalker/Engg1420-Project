@@ -18,7 +18,7 @@ public class Rename extends Processing_elements {
     }
 
     //define these functions
-    public void opertaions(){
+    public void operations(){
         for(int i = 0; i < entries.size(); i++){
             File file = new File(entries.get(i));
             if(file.isFile()){

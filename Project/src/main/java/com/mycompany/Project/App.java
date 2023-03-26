@@ -135,15 +135,16 @@ public class App {
                 break;
             case "LengthFilter":    
                 LengthFilter lengthfilter = new LengthFilter(inputValues, pastEntries);
+                System.out.println("passed"); 
                 break;
             case "NameFilter":    
                 NameFilter namefilter = new NameFilter(inputValues, pastEntries);
                 break;
             case "ContentFilter":    
-                ContentFilter contentfilter = new ContentFilter(inputValues, pastEntries);
+                // ContentFilter contentfilter = new ContentFilter(inputValues, pastEntries);
                 break;
             case "CountFilter":    
-                CountFilter countfilter = new CountFilter(inputValues, pastEntries);
+                // CountFilter countfilter = new CountFilter(inputValues, pastEntries);
                 break;
             case "Split":    
                 Split split = new Split(inputValues, pastEntries);

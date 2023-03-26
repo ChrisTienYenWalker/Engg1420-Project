@@ -1,64 +1,64 @@
-package com.mycompany.Project;
+// package com.mycompany.Project;
 
-import java.util.ArrayList;
+// import java.util.ArrayList;
 
-public class ContentFilter extends Processing_elements {
+// public class ContentFilter extends Processing_elements {
     
-    private String key;
-    private ArrayList<String> inputValues;
-    private ArrayList<String> outputValues = null;
+//     private String key;
+//     private ArrayList<String> inputValues;
+//     private ArrayList<String> outputValues = null;
 
-    //constructor
-    public ContentFilter(ArrayList<String> inputValue, ArrayList<String> pastEntries) {
-        //if there's no entries use past entries
-    public ContentFilter(ArrayList<String> inputValue, String pastEntries) {
+//     //constructor
+//     public ContentFilter(ArrayList<String> inputValue, ArrayList<String> pastEntries) {
+//         //if there's no entries use past entries
+//     public ContentFilter(ArrayList<String> inputValue, String pastEntries) {
         
-        setInputValues(entryList);
-        setKey(key);
-    }
+//         setInputValues(entryList);
+//         setKey(key);
+//     }
 
-    public void setInputValues(ArrayList<String> inputValues) {
-        this.inputValues = inputValues;
-    }
+//     public void setInputValues(ArrayList<String> inputValues) {
+//         this.inputValues = inputValues;
+//     }
 
-    public void setKey(String key) {
-        this.key = key;
-    }
+//     public void setKey(String key) {
+//         this.key = key;
+//     }
 
     
     
-    //define these functions
-    public void opertaions(){
+//     //define these functions
+//     public void operations(){
 
         
-        for (String element : inputValues) {
+//         for (String element : inputValues) {
             
-            try (BufferedReader reader = new BufferedReader(new FileReader(element))) {
+//             try (BufferedReader reader = new BufferedReader(new FileReader(element))) {
 
-                String line;
+//                 String line;
 
-                while ((line = reader.readLine()) != null) {
+//                 while ((line = reader.readLine()) != null) {
 
-                    if (!line.contains(key)) {
-                        System.err.println("Key is not found in each line");
-                        System.exit(1);
-                    }
-                }
+//                     if (!line.contains(key)) {
+//                         System.err.println("Key is not found in each line");
+//                         System.exit(1);
+//                     }
+//                 }
 
-                outputValues.add(element);
+//                 outputValues.add(element);
 
-                reader.close();
+//                 reader.close();
                 
-            } catch (FileNotFoundException ex) {
-            System.out.println(ex);
+//             } catch (FileNotFoundException ex) {
+//             System.out.println(ex);
 
-            } catch (IOException ex) {
-                System.out.println(ex);
-            }
+//             } catch (IOException ex) {
+//                 System.out.println(ex);
+//             }
 
-        }
+//         }
         
-    };
-    public void outputs() {
-    };
-}
+//     };
+//     public void outputs() {
+//     };
+// }

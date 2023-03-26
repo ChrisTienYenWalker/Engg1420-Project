@@ -18,7 +18,12 @@
 },
 {
 "type": "LengthFilter",
-"input_entries": [],
+"input_entries": [
+{
+"type": "local",
+"path": "c:\\sample\\text_files"
+}
+],
 "parameters": [
 {
 "name": "Length",

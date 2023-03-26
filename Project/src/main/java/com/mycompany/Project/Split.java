@@ -11,7 +11,7 @@ public class Split extends Processing_elements {
     }
 
     //define these functions
-    public void opertaions(){
+    public void operations(){
 
     };
     public void outputs() {
