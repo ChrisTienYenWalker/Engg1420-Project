@@ -32,11 +32,10 @@ public class LengthFilter extends Processing_elements {
         
         String tempstr = "";
         
-        
         for (String str : inputs){
             System.out.println(str); 
             
-            if(str.contains("Length")){
+            if(str.contains("line")){
                 tempstr = str.replace("name", " ").replace(":", " ").strip();         
             }
             
@@ -53,34 +52,37 @@ public class LengthFilter extends Processing_elements {
                 tempstr = str.replace("value", " ").replace(":", " ").strip();
                 this.op = tempstr;
             }
-            
-            
+
             
         }
         
        
         ArrayList<File> getPath = null;
+        try {
+            if(entries != null) {
 
-        if (entries != null) {
-
-            for (String filePath : entries) {
-                File file = new File(filePath);
-                getPath.add(file);
-            }
-
-            for (File userInput : getPath) {
-
-                if (userInput.isFile() == true) {
-                    filteredFiles.add(userInput);
+                for (String filePath : entries) {
+                    File file = new File(filePath);
+                    getPath.add(file);
                 }
-
+    
+                for (File userInput : getPath) {
+    
+                    if (userInput.isFile() == true) {
+                        filteredFiles.add(userInput);
+                    }
+    
+                }
+                this.operations();
+                this.outputs();
+                
+            } else {
+                System.out.println("No Entries found.");
             }
-            this.operations();
-            this.outputs();
-            
-        } else {
-            System.out.println("No Entries found.");
-        }
+        } catch (Exception e) {
+            // TODO: handle exception
+            System.out.println(e);
+        } 
 
     }
 
