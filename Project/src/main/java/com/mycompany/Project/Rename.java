@@ -1,5 +1,6 @@
 package com.mycompany.Project;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class Rename extends Processing_elements {
@@ -19,18 +20,19 @@ public class Rename extends Processing_elements {
     //define these functions
     public void opertaions(){
         for(int i = 0; i < entries.size(); i++){
-            File file 
-            if(){
+            File file = new File(entries.get(i));
+            if(file.isFile()){
                 String temp = entries.get(i);
                 temp = temp.substring(0,temp.length()-4);
                 temp = temp.concat(suffix);
-                entries.set(i, temp);
+                entries.add(i, temp);
             }
             else{
-                entries.set(i, entries.get(i).concat(suffix));
+                entries.add(i, entries.get(i).concat(suffix));
             }
         }
     };
     public void outputs() {
+        //return entries;
     };
 }

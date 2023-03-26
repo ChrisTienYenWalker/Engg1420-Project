@@ -9,10 +9,8 @@ public class ContentFilter extends Processing_elements {
     private ArrayList<String> outputValues = null;
 
     //constructor
-<<<<<<< HEAD
     public ContentFilter(ArrayList<String> inputValue, ArrayList<String> pastEntries) {
         //if there's no entries use past entries
-=======
     public ContentFilter(ArrayList<String> inputValue, String pastEntries) {
         
         setInputValues(entryList);
@@ -22,7 +20,6 @@ public class ContentFilter extends Processing_elements {
     public void setInputValues(ArrayList<String> inputValues) {
         this.inputValues = inputValues;
     }
->>>>>>> af2fc71668b4fa84f42e5ea420910dca8b77d14b
 
     public void setKey(String key) {
         this.key = key;

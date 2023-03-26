@@ -5,17 +5,15 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.*;
 
-public class CountFilter extends Processing_Elements
-{
+public class CountFilter extends Processing_elements {
     private ArrayList<File> entries = null;
     private String Key;
     private int Min;
     private ArrayList<File> subFiles = null;
 
-<<<<<<< HEAD
-    //constructor
+    // constructor
     public CountFilter(ArrayList<String> inputValue, ArrayList<String> pastEntries) {
-=======
+
     public ArrayList<File> getSubFiles() {
         return subFiles;
     }
@@ -23,41 +21,41 @@ public class CountFilter extends Processing_Elements
     public void setSubFiles(ArrayList<File> subFiles) {
         this.subFiles = subFiles;
     }
-    
-    public void setKey(String Key){
+
+    public void setKey(String Key) {
         this.Key = Key;
     }
-    
-    public String getKey(){
+
+    public String getKey() {
         return Key;
     }
-    
-    public void setMin(int Min){
+
+    public void setMin(int Min) {
         this.Min = Min;
     }
-    
-    public int getMin(){
+
+    public int getMin() {
         return Min;
     }
-    
-    public void setEntries(ArrayList<File> entries){
+
+    public void setEntries(ArrayList<File> entries) {
         this.entries = entries;
     }
-    
-    public ArrayList<File> getEntries(){
+
+    public ArrayList<File> getEntries() {
         return entries;
     }
-    
+
     public CountFilter(ArrayList<String> inputValue, String pastEntries) {
->>>>>>> af2fc71668b4fa84f42e5ea420910dca8b77d14b
         //if there's no entries use past entries
 
     }
 
-    //define these functions
-    public void opertaions(){
+    // define these functions
+    public void opertaions() {
 
     };
+
     public void outputs() {
     };
 }
