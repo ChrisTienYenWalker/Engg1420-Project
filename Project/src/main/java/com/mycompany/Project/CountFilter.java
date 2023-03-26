@@ -71,6 +71,20 @@ public class CountFilter extends Processing_elements {
         return false;
     }
     
+    public static ArrayList<String> fileProcess (ArrayList<String> entries, String key, int min){
+        List<String> result = new ArrayList<String>();
+        
+        for (int entry = 0; entry < entries.toString().length(); entry++){
+            if (isFile(entry)){
+                if (hasKey(entry, key, min)){
+                    result.add(entry);
+                }
+            }
+        }
+        return (ArrayList<String>) result;
+    }
+}
+    
     public CountFilter(ArrayList<String> entries, String Key, int Min) {
 >>>>>>> 5699710a51cf54207880e5361e196c035e0b8fa4
         //if there's no entries use past entries
