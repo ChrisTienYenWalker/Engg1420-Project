@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class List extends Processing_elements {
 
     //constructor
-    public List(ArrayList<String> inputValue, ArrayList<Processing_elements> pastEntries) {
+    public List(ArrayList<String> inputValue, String pastEntries) {
         //if there's no entries use past entries
 
     }

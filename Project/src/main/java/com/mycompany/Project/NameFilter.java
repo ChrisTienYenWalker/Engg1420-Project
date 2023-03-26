@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class NameFilter extends Processing_elements {
 
     //constructor
-    public NameFilter(ArrayList<String> inputValue, ArrayList<Processing_elements> pastEntries) {
+    public NameFilter(ArrayList<String> inputValue, String pastEntries) {
         //if there's no entries use past entries
 
     }

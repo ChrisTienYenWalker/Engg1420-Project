@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Split extends Processing_elements {
 
     //constructor
-    public Split(ArrayList<String> inputValue, ArrayList<Processing_elements> pastEntries) {
+    public Split(ArrayList<String> inputValue, String pastEntries) {
         //if there's no entries use past entries
 
     }

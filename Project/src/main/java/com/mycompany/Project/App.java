@@ -7,7 +7,7 @@ import java.io.*;
 public class App {
 
     //arraylist for the past filters
-    public static ArrayList<Processing_elements> processingClassList = new ArrayList<Processing_elements>();
+    public static String pastEntries;
     public static void main(String[] args) throws Exception {
 
 
@@ -131,36 +131,28 @@ public class App {
         //then create the new object and add it to the arraylist of past filters
         switch(type.stripIndent()){
             case "List":    
-                List list = new List(inputValues, processingClassList);
-                processingClassList.add(list);
+                List list = new List(inputValues, pastEntries);
                 break;
             case "LengthFilter":    
-                LengthFilter lengthfilter = new LengthFilter(inputValues, processingClassList);
-                processingClassList.add(lengthfilter);
+                LengthFilter lengthfilter = new LengthFilter(inputValues, pastEntries);
                 break;
             case "NameFilter":    
-                NameFilter namefilter = new NameFilter(inputValues, processingClassList);
-                processingClassList.add(namefilter);
+                NameFilter namefilter = new NameFilter(inputValues, pastEntries);
                 break;
             case "ContentFilter":    
-                ContentFilter contentfilter = new ContentFilter(inputValues, processingClassList);
-                processingClassList.add(contentfilter);
+                ContentFilter contentfilter = new ContentFilter(inputValues, pastEntries);
                 break;
             case "CountFilter":    
-                CountFilter countfilter = new CountFilter(inputValues, processingClassList);
-                processingClassList.add(countfilter);
+                CountFilter countfilter = new CountFilter(inputValues, pastEntries);
                 break;
             case "Split":    
-                Split split = new Split(inputValues, processingClassList);
-                processingClassList.add(split);
+                Split split = new Split(inputValues, pastEntries);
                 break;
             case "Rename":    
-                Rename rename = new Rename(inputValues, processingClassList);
-                processingClassList.add(rename);
+                Rename rename = new Rename(inputValues, pastEntries);
                 break;
             case "Print":    
-                Print print = new Print(inputValues, processingClassList);
-                processingClassList.add(print);
+                Print print = new Print(inputValues, pastEntries);
                 break;
 
             default:

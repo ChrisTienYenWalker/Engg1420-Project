@@ -24,7 +24,7 @@ abstract class Processing_elements {
 
     // array list for information
     ArrayList<String> entries = new ArrayList<String>();
-    ArrayList<String> outputList = new ArrayList<String>();
+    ArrayList<String> outputList = new ArrayList<String>(); 
 
     // classes that will need to be defined
     public abstract void opertaions();
