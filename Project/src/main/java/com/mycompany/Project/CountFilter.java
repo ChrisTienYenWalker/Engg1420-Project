@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.*;
 
-public class countFilter
+public class CountFilter extends Processing_Elements
 {
     private ArrayList<File> entries = null;
     private String Key;
