@@ -1,5 +1,6 @@
-package com.mycompany.Project;
+// package com.mycompany.Project;
 
+<<<<<<< HEAD
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -40,11 +41,30 @@ public class ContentFilter extends Processing_elements {
         
 
     }
+=======
+// import java.util.ArrayList;
 
-    public void setInputValues(ArrayList<String> inputValues) {
-        this.inputValues = inputValues;
-    }
+// public class ContentFilter extends Processing_elements {
+    
+//     private String key;
+//     private ArrayList<String> inputValues;
+//     private ArrayList<String> outputValues = null;
 
+//     //constructor
+//     public ContentFilter(ArrayList<String> inputValue, ArrayList<String> pastEntries) {
+//         //if there's no entries use past entries
+//     public ContentFilter(ArrayList<String> inputValue, String pastEntries) {
+        
+//         setInputValues(entryList);
+//         setKey(key);
+//     }
+>>>>>>> 47bd7562eb94274431cb7893433479090b579002
+
+//     public void setInputValues(ArrayList<String> inputValues) {
+//         this.inputValues = inputValues;
+//     }
+
+<<<<<<< HEAD
     public void setPastEntries(String pastEntries) {
         this.pastEntries = pastEntries;
     } // doesn't matter
@@ -56,28 +76,59 @@ public class ContentFilter extends Processing_elements {
         for (String element : inputValues) {
 
             try (BufferedReader reader = new BufferedReader(new FileReader(element))) {
+=======
+//     public void setKey(String key) {
+//         this.key = key;
+//     }
 
-                String line;
+    
+    
+//     //define these functions
+//     public void operations(){
 
-                while ((line = reader.readLine()) != null) {
+        
+//         for (String element : inputValues) {
+            
+//             try (BufferedReader reader = new BufferedReader(new FileReader(element))) {
+>>>>>>> 47bd7562eb94274431cb7893433479090b579002
 
+//                 String line;
+
+//                 while ((line = reader.readLine()) != null) {
+
+<<<<<<< HEAD
                     if (!line.contains(key)) {
                         System.err.println("Key is not found in each line");
                     }
 
                 }
+=======
+//                     if (!line.contains(key)) {
+//                         System.err.println("Key is not found in each line");
+//                         System.exit(1);
+//                     }
+//                 }
+>>>>>>> 47bd7562eb94274431cb7893433479090b579002
 
-                outputValues.add(element);
+//                 outputValues.add(element);
 
+<<<<<<< HEAD
                 reader.close();
 
             } catch (FileNotFoundException ex) {
                 System.out.println(ex);
+=======
+//                 reader.close();
+                
+//             } catch (FileNotFoundException ex) {
+//             System.out.println(ex);
+>>>>>>> 47bd7562eb94274431cb7893433479090b579002
 
-            } catch (IOException ex) {
-                System.out.println(ex);
-            }
+//             } catch (IOException ex) {
+//                 System.out.println(ex);
+//             }
 
+<<<<<<< HEAD
         }
     }
 
@@ -88,3 +139,11 @@ public class ContentFilter extends Processing_elements {
     }
 
 }
+=======
+//         }
+        
+//     };
+//     public void outputs() {
+//     };
+// }
+>>>>>>> 47bd7562eb94274431cb7893433479090b579002
