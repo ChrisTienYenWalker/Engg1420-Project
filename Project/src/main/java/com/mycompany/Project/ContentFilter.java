@@ -3,13 +3,33 @@ package com.mycompany.Project;
 import java.util.ArrayList;
 
 public class ContentFilter extends Processing_elements {
+    
+    private String key;
+    private ArrayList<String> inputValues;
+    private ArrayList<String> outputValues = null;
 
     //constructor
+<<<<<<< HEAD
     public ContentFilter(ArrayList<String> inputValue, ArrayList<String> pastEntries) {
         //if there's no entries use past entries
-
+=======
+    public ContentFilter(ArrayList<String> inputValue, String pastEntries) {
+        
+        setInputValues(entryList);
+        setKey(key);
     }
 
+    public void setInputValues(ArrayList<String> inputValues) {
+        this.inputValues = inputValues;
+    }
+>>>>>>> af2fc71668b4fa84f42e5ea420910dca8b77d14b
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    
+    
     //define these functions
     public void opertaions(){
 
