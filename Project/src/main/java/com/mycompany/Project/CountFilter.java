@@ -44,7 +44,7 @@ public class CountFilter extends Processing_Elements
         return entries;
     }
     
-    public static boolean hasKey(String entry, String key, int min){
+    public static boolean hasKey(String entry, String Key, int Min){
         try(BufferedReader br = new BufferedReader(new FileReader(entry))){
             String line;
             int count = 0;
