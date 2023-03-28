@@ -1,229 +1,166 @@
-// package com.mycompany.Project;
 package com.mycompany.Project;
 
-import java.io.*;
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.io.*;
 
-public class LengthFilter extends Processing_elements {
+public class App {
 
-    private ArrayList<File> filteredFiles = null;
-    private long length;
-    private String op;
-
-    private ArrayList<File> subFiles = null;
-
-    public void setSubFiles(ArrayList<File> subFiles) {
-        this.subFiles = subFiles;
-    }
-
-    public void setFilteredFiles(ArrayList<File> filteredFiles) {
-        this.filteredFiles = filteredFiles;
-    }
-
-    public void setLength(long length) {
-        this.length = length;
-    }
-
-    public void setOp(String op) {
-        this.op = op;
-    }
-
-    //constructor
-    public LengthFilter(ArrayList<String> inputs, ArrayList<String> entries) {
-        
-        String tempstr = "";
-        String dirType = "remte";
-        String localPath = null; 
-        String repoId = "";
-        String entryId = "";
+    //arraylist for the past filters
+    public static ArrayList<String> pastEntries = new ArrayList<String>();
+    public static void main(String[] args) throws Exception {
 
 
-        for (String str : inputs){
-            System.out.println(str); 
+        // get the fle location
+        String fileLocation = getFile();
+        System.out.println(fileLocation);
 
-            //remote or local??
-            if (str.contains("local")){
-                dirType = str.replace("type", " ").replace(":", " ").strip();
-            }
-            /*
-             else if (str.contains("remte")){
-                dirType = str.replace("type", " ").replace(":", " ").strip();
-            }
-             */
-            
-            
-            if (dirType.equals("local") && str.contains("path")){
-                localPath = str.replace("path: ", " ").strip();
-            }
-
-            if (str.contains("repositoryId")){
-                repoId = str.replace("repositoryId", " ").replace(":", " ").strip();
-            }
-
-            if(str.contains(entryId)){
-                entryId = str.replace("repositoryId", " ").replace(":", " ").strip();
-            }
-
-
-            System.out.println(localPath);
-
-
-
-            //get operator and length
-
-            
-            if(str.contains("Length")){
-                tempstr = str.replace("name", " ").replace(":", " ").strip();         
-            }
-            
-            if (str.contains("value") && tempstr.equals("Length")){
-                tempstr = str.replace("value", " ").replace(":", " ").strip();
-                this.length = Integer.parseInt(tempstr);
-            }
-            
-            if (str.contains("Operator")){
-                tempstr = str.replace("Operator", " ").replace(":", " ").strip();
-            }
-            
-            if (str.contains("value") && tempstr.equals("Operator")){
-                tempstr = str.replace("value", " ").replace(":", " ").strip();
-                this.op = tempstr;
-            }
-
-            
-
-            
-        }
-        
-        //case if local or directory
-
-        if (dirType.equals("local")){
-
-        }
-        else if (dirType.equals("remte")){
-
-        }
-
+        // open file
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileLocation))) {
        
-        ArrayList<File> getPath = null;
-        try {
-            if(entries != null) {
+            String s;
+            String name = null;
 
-//                 for (String filePath : entries) {
-//                     File file = new File(filePath);
-//                     getPath.add(file);
-//                 }
-    
-//                 for (File userInput : getPath) {
-    
-//                     if (userInput.isFile() == true) {
-//                         filteredFiles.add(userInput);
-//                     }
-    
-//                 }
-//                 this.operations();
-//                 this.outputs();
-                
-            } else {
-                System.out.println("No Entries found.");
+            // read each line indiviually
+            while ((s = reader.readLine()) != null && name == null) {
+
+                //name gives senario name 
+                if (s.contains("name") && name == null) {
+                    s = s.replace("\"", "").replace("name", "").replace(":", "").replace(",", "");
+                    name = s.stripIndent().strip();
+                    s = reader.readLine();
+                    System.out.println(name);
+                    break;
+                }
+                //the next line should be processing
+                //this line does not contain relavent information
             }
-        } catch (Exception e) {
-            // TODO: handle exception
-            System.out.println(e);
-        } 
 
+            //generate filters
+            generateFliters(reader);
+            reader.close();
+
+            // exception handling
+        } catch (FileNotFoundException ex) {
+            System.out.println(ex);
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
     }
 
-    //define these functions
-    @Override
-    public void operations() {
-        switch (op) {
+    //gets the json file from user input
+    public static String getFile() {
 
-            case "EQ":
-                if (filteredFiles != null) {
-                    for (File subFile : filteredFiles) {
+        // create scanner
+        Scanner textScan = new Scanner(System.in);
 
-                        if (subFile.length() == length) {
-                            subFiles.add(subFile);
-                        }
+        // read in file
+        System.out.println("Enter File location: ");
+        String fileLocation = textScan.nextLine();
+        textScan.close();
 
+        return fileLocation.strip();
+    }
+
+    public static void generateFliters(BufferedReader reader) {
+
+        //continue to read the file
+        try {
+
+
+            String s;
+            boolean newfilter = false;
+
+            //insideParameters is to help match curly brackets and make sure each scenario is seperate
+            int insideParameters = 0;
+            String type = null;
+
+            //stores each line in an arraylist
+            ArrayList <String> filterDetails = new ArrayList<String>();
+
+            while ((s = reader.readLine()) != null) {
+                //keeps track of if the reader is still in the same scenario
+                if(s.contains("{")){
+                    insideParameters++;
+                }
+                if(s.contains("}")){
+                    insideParameters--;
+                }
+
+                //if it is exiting the scenario 
+                if(insideParameters > 0){
+                    newfilter = true;
+                }
+                //if it's exiting the scenario
+                if(insideParameters == 0 && type != null){
+                    //create a new filter class
+                    newfilter = false;
+                    generatefilterClass(filterDetails, type);
+                    filterDetails.removeAll(filterDetails);
+                    type = null;
+                }
+
+                //and details from each line as long as it is not a curly bracket line
+                if(newfilter == true && !(s.strip().contains("{")|| s.strip().contains("}"))){
+
+
+                    //help clean up text to make it easier to use
+                    filterDetails.add(s.replace("\"", " ").replace(",", ""));
+                    
+                    //identify which type of scenario it is
+                    if(s.contains("type") && type == null){
+                        type = s;
                     }
                 }
+            }
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
+    }
+
+    //create new scenario class
+    public static void generatefilterClass(ArrayList<String> inputValues, String type){
+
+        System.out.println("\n");
+
+        type = type.strip().replace("type", "").replace("\"", "").replace(":", "").replace(",", "");
+       
+        System.out.println(type.stripIndent());
+        
+        //switch statement to match the type to the scenario
+        //then create the new object and add it to the arraylist of past filters
+        switch(type.stripIndent()){
+            case "List":    
+                List list = new List(inputValues, pastEntries);
                 break;
-
-            case "NEQ":
-                if (filteredFiles != null) {
-                    for (File subFile : filteredFiles) {
-
-                        if (subFile.length() != length) {
-                            subFiles.add(subFile);
-                        }
-                    }
-                }
+            case "LengthFilter":    
+                LengthFilter lengthfilter = new LengthFilter(inputValues, pastEntries);
+                
+                System.out.println("passed"); 
                 break;
-
-            case "GT":
-                if (filteredFiles != null) {
-                    for (File subFile : filteredFiles) {
-
-                        if (subFile.length() > length) {
-                            subFiles.add(subFile);
-                        }
-                    }
-                }
+            case "NameFilter":    
+                NameFilter namefilter = new NameFilter(inputValues, pastEntries);
                 break;
-
-            case "GTE":
-                if (filteredFiles != null) {
-                    for (File subFile : filteredFiles) {
-
-                        if (subFile.length() >= length) {
-                            subFiles.add(subFile);
-                        }
-                    }
-                }
+            case "ContentFilter":    
+                // ContentFilter contentfilter = new ContentFilter(inputValues, pastEntries);
                 break;
-
-            case "LT":
-                if (filteredFiles != null) {
-                    for (File subFile : filteredFiles) {
-
-                        if (subFile.length() < length) {
-                            subFiles.add(subFile);
-                        }
-                    }
-                }
+            case "CountFilter":    
+                // CountFilter countfilter = new CountFilter(inputValues, pastEntries);
                 break;
-
-            case "LTE":
-                if (filteredFiles != null) {
-                    for (File subFile : filteredFiles) {
-
-                        if (subFile.length() <= length) {
-                            subFiles.add(subFile);
-                        }
-                    }
-                }
+            case "Split":    
+                Split split = new Split(inputValues, pastEntries);
+                break;
+            //case "Rename":    
+              //  Rename rename = new Rename(inputValues, pastEntries);
+                //break;
+            case "Print":    
+                Print print = new Print(inputValues, pastEntries);
                 break;
 
             default:
-                if (filteredFiles != null) {
-                    System.out.println("Operator does not exist, all files outputted.");
-                    for (File subFile : filteredFiles) {
-                        subFiles.add(subFile);
-                    }
-                }
+                System.out.println("type does not exist");
                 break;
 
-        }
-
-    }
-    
-    @Override
-    public void outputs() {
-
-        for (File printFile : subFiles) {
-            System.out.println(printFile.getName());
         }
     }
 
