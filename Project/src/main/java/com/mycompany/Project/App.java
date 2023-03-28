@@ -142,7 +142,7 @@ public class App {
                 NameFilter namefilter = new NameFilter(inputValues, pastEntries);
                 break;
             case "ContentFilter":    
-                // ContentFilter contentfilter = new ContentFilter(inputValues, pastEntries);
+                ContentFilter contentfilter = new ContentFilter(inputValues, pastEntries);
                 break;
             case "CountFilter":    
                 // CountFilter countfilter = new CountFilter(inputValues, pastEntries);
@@ -151,7 +151,7 @@ public class App {
                 Split split = new Split(inputValues, pastEntries);
                 break;
             case "Rename":    
-                Rename rename = new Rename(inputValues, pastEntries);
+                // Rename rename = new Rename(inputValues, pastEntries);
                 break;
             case "Print":    
                 Print print = new Print(inputValues, pastEntries);

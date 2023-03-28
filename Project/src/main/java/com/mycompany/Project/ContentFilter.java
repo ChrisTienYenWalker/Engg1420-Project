@@ -49,13 +49,13 @@ public class ContentFilter extends Processing_elements {
         try{
             getEntriesRemoteFileNames("r-0001d410ba56", 26);
         }catch(Exception e){
-            System.out.println(e);
+            // System.out.println(e);
         }
 
         try{
             getEntriesLocal(path);
         }catch(Exception e){
-            System.out.println(e);
+            // System.out.println(e);
         }
         for(String text: data){   // use data arrayList
             System.out.println(text);
