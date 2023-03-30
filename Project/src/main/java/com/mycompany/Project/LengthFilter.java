@@ -1,275 +1,355 @@
 package com.mycompany.Project;
 
-import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.io.*;
 
-public class LengthFilter extends Processing_elements {
-
-    private ArrayList<File> filteredFiles = null;
+public class LengthFilter extends Processing_elements{
     private long length;
-    private String op = "";
-    private File folder;
-    File[] noPrevious;
-    private ArrayList<File> subFiles = null;
-    private boolean containsContent = false;
- 
-     
+    private String Operator;
+    private String localPath = "empty";
+    private boolean firstEntry = false;
+    private ArrayList<File>filteredFiles = null;
+    private ArrayList<File>subFiles = null;
 
-    //constructor
-    public LengthFilter(ArrayList<String> inputs, ArrayList<String> entries) {
-        
-        String tempstr = "";
-        String localPath = "";
+    public void setOperator(String operator){
+        this.Operator = operator;
+    }
 
+    public String getOperator(){
+        return this.Operator;
+    }
+
+    public void setLength(long length){
+        this.length = length;
+    }
+
+    public long getLength(){
+        return this.length;
+    }
+
+    public void setLocalPath(String localPath){
+        this.localPath = localPath;
+    }
+
+    public String getLocalPath(){
+        return this.localPath;
+    }
+
+
+    
+
+    public LengthFilter2(ArrayList<String> inputs, ArrayList<String> entries){
+        String tempstr = null;
+
+      
 
         for (String str : inputs){
-            System.out.println(str); 
+             System.out.println(str);
 
-            
 
-            if (str.contains("local")){
+             //check if local or remte (implement rmte case)
+             if (str.contains("local"))
+            {
                 tempstr = str.replace("type", " ").replace(":", " ").strip();
-            }
-
-            //"path": "c:\\sample\\text_files"
-            if(str.contains("path") && tempstr.equals("local")){
-                localPath = str.replace("path :", " ").strip();
-
-                getFiles(localPath);
-            }
-
-
-            //Get Operators / Length
-            if(str.contains("Length")){
-                tempstr = str.replace("name", " ").replace(":", " ").strip();    
                 
-                  
             }
-            
-            if (str.contains("value") && tempstr.equals("Length")){
+
+            //if local getPath
+            if(str.contains("path") && tempstr.equals("local"))
+            {
+                localPath = str.replace("path :", " ").strip();           
+            }
+            //get length value
+            if(str.contains("Length"))
+            {
+                tempstr = str.replace("name", " ").replace(":", " ").strip();                  
+            }
+            //parse length value to integer
+            if (str.contains("value") && tempstr.equals("Length"))
+            {
                 tempstr = str.replace("value", " ").replace(":", " ").strip();
-               
-               
-                this.length = Integer.parseInt(tempstr);
+                setLength(Integer.parseInt(tempstr));
                 
-            }
-            
-            if (str.contains("Operator")){
-                tempstr = str.replace("name", " ").replace(":", " ").strip();
-               
-                
-            }
-            
-            if (str.contains("value") && tempstr.equals("Operator")){
+            }          
+            //Operator found
+            if (str.contains("Operator"))
+            {
+                tempstr = str.replace("name", " ").replace(":", " ").strip();              
+            }          
+            //set operator 
+            if (str.contains("value") && tempstr.equals("Operator"))
+            {
                 tempstr = str.replace("value", " ").replace(":", " ").strip();
-               
-                this.op = tempstr;
+                setOperator(tempstr);
             }
 
-        
-
-            
         }
+        //OUTPUTS
+        System.out.println("EXTRACTED CONTENT");
+        System.out.println(getOperator());
+        System.out.println(getLocalPath());
+        System.out.println(getLength());
 
-        System.out.println("Operator: " + op);
-        System.out.println("Length: " + length);
-        System.out.println("Path:" + localPath);
-        //GOOD UP UNTIL THIS POINT
-        
-      
-        
 
-        ArrayList<File> getPath = new ArrayList<>();
+       
+        /*
+         * There will be two cases
+         * 1. If I am the first entry therefore I am extracting from a single file.
+         * 2. I am taking away from previous entries.
+         */
 
-        //FILTER FILES
-    
-            try {
-                if(entries != null && containsContent == false) {
-                  
-                    for (String filePath : entries) {
-                        File file = new File(filePath);
-                        getPath.add(file);
-                    }
-        
-                    for (File userInput : getPath) {
-        
-                        if (userInput.isFile()) {
-                            filteredFiles.add(userInput);
-                        }
-        
-                    }
-                    this.operations();
-                    this.outputs();
-                    
-                
-                } else if(containsContent == true){
+         if (getLocalPath() != null){
+            firstEntry = true;
+         }
+         System.out.println(firstEntry);
 
-                    for (File file: noPrevious){
-                        getPath.add(file);
-                    }
 
-                    for (File userInput: getPath){
+         if (firstEntry = true && new File(getLocalPath()).exists())
+         {
+            filteredFiles = new ArrayList<File>();
+            File file = new File(getLocalPath());     
+            filteredFiles.add(file);
 
-                        if(userInput.isFile()){
-                            filteredFiles.add(userInput);
-                        }
-                        
-                    }
+            this.operations();
+            this.outputs();
+         }
 
-                   
-                    this.operations();
-                    this.outputs();
+         else{
+            if (!localPath.equals("empty"))
+            System.out.println("File does not exist or is directory");
+         }
 
-                }
-                
-                else{
-                    System.out.println("No entries found");
+         if (localPath.equals("empty")){
+            System.out.println("PASSED");
+            filteredFiles = new ArrayList<>();
+
+            for (String filePath : entries){
+                if (new File (filePath).exists()){
+                    File file = (new File (filePath));
+                    filteredFiles.add(file);
                 }
 
+            }
 
-            } catch (Exception e) {
-                // TODO: handle exception
-                System.out.println(e);
-            } 
+            this.operations();
+            this.outputs();
+         }
 
-        }
-       
-    
-       
-        
-        
 
-    
 
-    
-    public void getFiles(String foldername) {
-        File folder = new File(foldername);
-        System.out.println("DOES EXIST " + folder.exists());
-        //WORKS HERE
-        System.out.println(folder.isDirectory());
 
-        if (folder.isDirectory() == true){
-            this.noPrevious = folder.listFiles();
-            this.containsContent = true; 
 
-        }
-        else if (folder.isFile()){ 
-            noPrevious[0] = folder;
-            this.containsContent = true;
-        }
-
-        //printFiles();
 
     }
 
-    
-
-    //define these functions
     @Override
-    public void operations() {
-        switch (op) {
+    public void operations()
+    {
+        
+
+        switch (getOperator()) {
 
             case "EQ":
-                if (filteredFiles != null ) {
-                   
-
-                    for (File subFile : filteredFiles) {
-
-                        if (subFile.length() == length) {
-                            subFiles.add(subFile);
-                        }
-
+            subFiles = new ArrayList<>();
+            if (firstEntry){
+                  
+                for (File subFile : filteredFiles)
+                {
+                    System.out.println("LENGTH " + subFile.length());
+                    if (subFile.length() == getLength())
+                    {
+                        subFiles.add(subFile);
                     }
-
+                    
+                    
                 }
-
-               
+           
+                
+            }
+            else if (!firstEntry){
+                for (File subFile : filteredFiles)
+                {
+                    System.out.println("LENGTH " + subFile.length());
+                    if (subFile.length() == getLength())
+                    {
+                        subFiles.add(subFile);
+                    }
+                    
+                    
+                }
+            }
                 break;
 
             case "NEQ":
-                if (filteredFiles != null) {
-                    for (File subFile : filteredFiles) {
-
-                        if (subFile.length() != length) {
-                            subFiles.add(subFile);
-                        }
+            subFiles = new ArrayList<>();
+            if (firstEntry){
+                  
+                for (File subFile : filteredFiles)
+                {
+                    System.out.println("LENGTH " + subFile.length());
+                    if (subFile.length() != getLength())
+                    {
+                        subFiles.add(subFile);
                     }
+                    
+                    
                 }
+                
+            }
+
+            else if (!firstEntry){
+                for (File subFile : filteredFiles)
+                {
+                    System.out.println("LENGTH " + subFile.length());
+                    if (subFile.length() != getLength())
+                    {
+                        subFiles.add(subFile);
+                    }
+                    
+                    
+                }
+            }
                 break;
 
             case "GT":
-                if (filteredFiles != null) {
-                    for (File subFile : filteredFiles) {
-
-                        if (subFile.length() > length) {
-                            subFiles.add(subFile);
-                        }
-                    }
+            subFiles = new ArrayList<>();
+            if (firstEntry){
+                  
+                for (File subFile : filteredFiles)
+                {
+                    System.out.println("LENGTH " + subFile.length());
+                    if (subFile.length() > getLength())
+                    {
+                        subFiles.add(subFile);
+                    }     
                 }
+                
+            } else if (!firstEntry){
+                for (File subFile : filteredFiles)
+                {
+                    System.out.println("LENGTH " + subFile.length());
+                    if (subFile.length() > getLength())
+                    {
+                        subFiles.add(subFile);
+                    }     
+                }
+            }
                 break;
 
             case "GTE":
-                if (filteredFiles != null) {
-                    for (File subFile : filteredFiles) {
-
-                        if (subFile.length() >= length) {
-                            subFiles.add(subFile);
-                        }
-                    }
-                }
-                break;
-
-            case "LT":
-                if (filteredFiles != null) {
-                    for (File subFile : filteredFiles) {
-
-                        if (subFile.length() < length) {
-                            subFiles.add(subFile);
-                        }
-                    }
-                }
-                    
-                break;
-
-            case "LTE":
-                if (filteredFiles != null) {
-                    for (File subFile : filteredFiles) {
-
-                        if (subFile.length() <= length) {
-                            subFiles.add(subFile);
-                        }
-                    }
-                }
-                break;
-
-            default:
-            
-              if (filteredFiles != null ) {
-                    System.out.println("Operator does not exist, all files outputted.");
-                    for (File subFile : filteredFiles) {
+            subFiles = new ArrayList<>();
+            if (firstEntry)
+            { 
+                for (File subFile : filteredFiles)
+                {
+                    System.out.println("LENGTH " + subFile.length());
+                    if (subFile.length() >= getLength())
+                    {
                         subFiles.add(subFile);
                     }
                 }
-             
+                
+            }
+            else if (!firstEntry){
+                for (File subFile : filteredFiles)
+                {
+                    System.out.println("LENGTH " + subFile.length());
+                    if (subFile.length() >= getLength())
+                    {
+                        subFiles.add(subFile);
+                    }
+                }
+            }
+            
+
                 break;
 
-        }
+            case "LT":    
+            subFiles = new ArrayList<>();
+                if (firstEntry)
+                {    
+                    for (File subFile : filteredFiles)
+                    {
+                        System.out.println("LENGTH " + subFile.length());
+                        if (subFile.length() < getLength())
+                        {
+                            subFiles.add(subFile);
+                        }                
+                    }     
+                }
+                else if (!firstEntry){
+                    for (File subFile : filteredFiles)
+                    {
+                        System.out.println("LENGTH " + subFile.length());
+                        if (subFile.length() < getLength())
+                        {
+                            subFiles.add(subFile);
+                        }
+                    }
+                }
 
-    }
-    
-    @Override
-    public void outputs() {
-        if (subFiles != null){
-            for (File printFile : subFiles) {
-                System.out.println(printFile.getName());
+                break;
+
+            case "LTE":
+            subFiles = new ArrayList<>();
+            if (firstEntry)
+            {
+                  
+                for (File subFile : filteredFiles)
+                {
+                    System.out.println("LENGTH " + subFile.length());
+                    if (subFile.length() <= getLength())
+                    {
+                        subFiles.add(subFile);
+                    }
+                    
+                    
+                }
+                
+            }
+            else if (!firstEntry){
+                for (File subFile : filteredFiles)
+                {
+                    System.out.println("LENGTH " + subFile.length());
+                    if (subFile.length() <= getLength())
+                    {
+                        subFiles.add(subFile);
+                    }
+                }
+            }
+
+                break;
+
+            default:
+                subFiles = new ArrayList<>();
+                System.out.println("Operator does not exist, all files outtputted");
+
+                      for (File subFile : filteredFiles)
+                      {
+                        subFiles.add(subFile);           
+                      }
+                
+                break;
+
             }
         }
-        else{
-            System.out.println("No Files found");
+    
+    
+
+    @Override
+    public void outputs()
+    {
+
+        if (subFiles != null){
+            for (File printFiles: subFiles){
+                System.out.println("FILES FILTERED: " + printFiles.getName());
+            }
+            
+            System.out.println("if no files were outputted requirements were not met or no past entries");
         }
-        
+        else{
+            System.out.println("No files found.");
+        }
     }
-
+ 
 }
-
