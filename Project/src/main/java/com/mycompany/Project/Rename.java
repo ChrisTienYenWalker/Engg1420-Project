@@ -9,13 +9,17 @@ public class Rename extends Processing_elements {
     ArrayList<String> entries;
     //constructor
     public Rename(ArrayList<String> inputValue, ArrayList<String> pastEntries) {
-        //if there's no entries use past entries
-        entries = pastEntries;
         for(String text: inputValue){
             if(text.contains("Suffix") || text.contains("suffix")){
                 suffix = text.replaceAll("suffix", "").replaceAll(" ", "").replaceAll("", "");
             }
         }
+        
+        for (String files : pastEntries) {
+            inputValue.add(files);
+        }
+        
+        loopEntries(inputValue);
     }
 
     //define these functions

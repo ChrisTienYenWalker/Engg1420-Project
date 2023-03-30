@@ -39,50 +39,25 @@ public class LengthFilter extends Processing_elements{
     
 
     public LengthFilter(ArrayList<String> inputs, ArrayList<String> entries){
-        String tempstr = null;
 
-      
+        for (String text : inputs) {
+            System.out.println(text);
 
-        for (String str : inputs){
-             System.out.println(str);
-
-
-             //check if local or remte (implement rmte case)
-             if (str.contains("local"))
-            {
-                tempstr = str.replace("type", " ").replace(":", " ").strip();
-                
+            if (text.contains("value") || text.contains("Value")) {
+                this.length = Long.parseLong((text.replaceAll("value", "").replaceAll(" ", "").replaceAll(":", "")));
             }
+            if (text.contains("value") || text.contains("value")) {
+                this.Operator = text.replaceAll("value", "").replaceAll(" ", "").replaceAll(":", "");
+            }
+        }
+        for (String files : entries) {
+            inputs.add(files);
+        }
+        
+        loopEntries(inputs);
 
-            //if local getPath
-            if(str.contains("path") && tempstr.equals("local"))
-            {
-                localPath = str.replace("path :", " ").strip();           
-            }
-            //get length value
-            if(str.contains("Length"))
-            {
-                tempstr = str.replace("name", " ").replace(":", " ").strip();                  
-            }
-            //parse length value to integer
-            if (str.contains("value") && tempstr.equals("Length"))
-            {
-                tempstr = str.replace("value", " ").replace(":", " ").strip();
-                setLength(Integer.parseInt(tempstr));
-                
-            }          
-            //Operator found
-            if (str.contains("Operator"))
-            {
-                tempstr = str.replace("name", " ").replace(":", " ").strip();              
-            }          
-            //set operator 
-            if (str.contains("value") && tempstr.equals("Operator"))
-            {
-                tempstr = str.replace("value", " ").replace(":", " ").strip();
-                setOperator(tempstr);
-            }
-
+        for (String text : data) { // use data arrayList to
+            System.out.println(text);
         }
         //OUTPUTS
         System.out.println("EXTRACTED CONTENT");

@@ -5,63 +5,38 @@ import java.util.ArrayList;
 
 public class ContentFilter extends Processing_elements {
 
-    private String key;
-    private String repoID = null;
-    private String entryID = null;
-    private String path = null;
-    private boolean local = false;
+
     private boolean localScenario = false;
     private ArrayList<String> outputValues = new ArrayList<String>();
-    private ArrayList<File> fileList = new ArrayList<File>();
     private ArrayList<File> outputFileList = new ArrayList<File>();
     private ArrayList<File> outputValuesFile = new ArrayList<File>();
+    private String key;
 
     public ContentFilter(ArrayList<String> inputValues, ArrayList<String> pastEntries) {
-        int remote = 0;
-
-        for (String filePath : pastEntries) {
-            File newFile = new File(filePath);
-            fileList.add(newFile);
-        }
 
         for (String text : inputValues) {
-            System.out.println(text);
-
             if (text.contains("value") || text.contains("Value")) {
                 key = text.replaceAll("value", "").replaceAll(" ", "").replaceAll(":", "");
             }
-            if (text.contains("type") && text.contains("local"))
-                local = true;
-
-            if (local) {
-                if (text.contains("path")) {
-                    path = text.replaceAll("path", "").replaceAll(" ", "").replaceAll(":", "");
-                }
-            }
-            if (text.contains("type") && text.contains("remote")) {
-                remote = 2;
-            }
-            if (remote > 0) {
-                if (text.contains("repoId") || text.contains("value")) {
-                    repoID = text.replaceAll("repoId", "").replaceAll(" ", "").replaceAll(":", "");
-                }
-                if (text.contains("entryId") || text.contains("value")) {
-                    entryID = text.replaceAll("entryId", "").replaceAll(" ", "").replaceAll(":", "");
-                }
-                remote--;
-            }
-        }
-        try {
-            getEntriesRemoteFileNames(26);
-        } catch (Exception e) {
-            // System.out.println(e);
         }
 
-        try {
-            getEntriesLocal(path);
-        } catch (Exception e) {
-            // System.out.println(e);
+        for (String files : pastEntries) {
+            inputValues.add(files);
         }
+        
+        loopEntries(inputValues);
+
+        // try {
+        //     getEntriesRemoteFileName();
+        // } catch (Exception e) {
+        //     // System.out.println(e);
+        // }
+
+        // try {
+        //     getEntriesLocal(path);
+        // } catch (Exception e) {
+            // System.out.println(e);
+        // }
         /* 
         for (String text : data) { // Data arrayList contains the file contents of that entry
             System.out.println(text);
@@ -77,30 +52,27 @@ public class ContentFilter extends Processing_elements {
         if (local == false) { // If content filter is first case scenario read from pastEntries
                               // Add files that contain key to outputFileList ArrayList
             boolean hasKey = true;
-            String line;
             try {
-                for (int i = 0; i < fileList.size(); i++) {
-                    BufferedReader br = new BufferedReader(new FileReader(fileList.get(i)));
-                                                                //idk why I am getting a bracket syntax error for br
-                    while ((line = br.readLine()) != null) {
-                        if (!line.contains(key)) {
-                            hasKey = false;
-                            break;
-                        }
-                    }
-                    if (hasKey == true) {
-                        outputFileList.add(fileList.get(i));
+
+                File filename = new File(this.path);
+                readfile(filename);
+
+                for(String line: data){
+                    System.out.println(line);
+                    if (!line.contains(key)) {
+                        hasKey = false;
+                        break;
                     }
                 }
-
-            } catch (FileNotFoundException ex) {
-                System.out.println(ex);
-            } catch (IOException ex) {
+                if (hasKey == true) {
+                    addFileToList();
+                }
+            } catch (Exception ex) {
                 System.out.println(ex);
             }   
-            
-        } 
         
+        } 
+
         else { // Read from single file contents whose path was extracted from inputValues
                  // ArrayList
             if (ifDirectory(path)) {

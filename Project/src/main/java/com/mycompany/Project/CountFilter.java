@@ -4,70 +4,32 @@ import java.util.ArrayList;
 import java.io.*;
 import java.util.List;
 
-public class CountFilter extends Processing_elements
-{
+public class CountFilter extends Processing_elements {
 
+    private ArrayList<File> pastEntries = new ArrayList<>();
+    ArrayList<File> outputList = new ArrayList<>();
     private String key;
     private int min;
-    private ArrayList<File> pastEntries = new ArrayList<>();
-    private String repoID = null;
-    private String entryID = null;
-    private String path = null;
-    private Boolean local = false;
-    ArrayList <File> fileList = new ArrayList<>();
-    ArrayList <File> outputList = new ArrayList<>();
 
     public CountFilter(ArrayList<String> inputValues, ArrayList<String> pastEntries) {
         
-        int remote = 0;
-        
-        for(String filePath : pastEntries){
-            File newFile = new File(filePath);
-            fileList.add(newFile);
-        }
-
         for (String text : inputValues) {
             System.out.println(text);
-  
+
             if (text.contains("value") || text.contains("Value")) {
                 key = text.replaceAll("value", "").replaceAll(" ", "").replaceAll(":", "");
             }
-            if (text.contains("value") || text.contains("value")){
+            if (text.contains("value") || text.contains("value")) {
                 min = Integer.parseInt(text.replaceAll("value", "").replaceAll(" ", "").replaceAll(":", ""));
             }
-            if(text.contains("type") && text.contains("local"))
-                local = true;
-            
-            if(local){
-                if (text.contains("path")) {
-                    path = text.replaceAll("path", "").replaceAll(" ", "").replaceAll(":", "");
-                }
-            }
-            if (text.contains("type") && text.contains("remote")) {
-                remote = 2;
-            }
-            if(remote > 0){
-                if (text.contains("repoId") || text.contains("value")) {
-                    repoID = text.replaceAll("repoId", "").replaceAll(" ", "").replaceAll(":", "");
-                }
-                if (text.contains("entryId") || text.contains("value")) {
-                    entryID = text.replaceAll("entryId", "").replaceAll(" ", "").replaceAll(":", "");
-                }
-                remote--;
-            }
         }
-        try{
-            getEntriesRemoteFileNames(26);
-        }catch(Exception e){
-            // System.out.println(e);
+        for (String files : pastEntries) {
+            inputValues.add(files);
         }
+        
+        loopEntries(inputValues);
 
-        try{
-            getEntriesLocal(path);
-        }catch(Exception e){
-            // System.out.println(e);
-        }
-        for(String text: data){   // use data arrayList to 
+        for (String text : data) { // use data arrayList to
             System.out.println(text);
         }
     }
@@ -85,14 +47,15 @@ public class CountFilter extends Processing_elements
     @Override
     public void operations() {
         Boolean totalKey = true;
-    
+
         if (local == false) {
             try {
-                for (int i = 0; i < fileList.size(); i++) {
-                    try (BufferedReader br = new BufferedReader(new FileReader(fileList.get(i)))) {
-                        String line;
+                File filename = new File(path);
+                readfile(filename);
+
+                for(String line: data){
+                    System.out.println(line);
                         int count = 0;
-                        while ((line = br.readLine()) != null) {
                             if (line.contains(key)) {
                                 count++;
                                 if (count < min) {
@@ -102,11 +65,10 @@ public class CountFilter extends Processing_elements
                             }
                         }
                         if (totalKey == true) {
-                            outputList.add(fileList.get(i));
+                            addFileToList();
                         }
                     }
-                }
-            } catch (IOException e) {
+            catch (Exception e) {
                 System.out.println(e);
             }
         } else {
@@ -133,8 +95,8 @@ public class CountFilter extends Processing_elements
     }
 
     @Override
-    public void outputs(){ 
-       
+    public void outputs() {
+
     }
 
 }

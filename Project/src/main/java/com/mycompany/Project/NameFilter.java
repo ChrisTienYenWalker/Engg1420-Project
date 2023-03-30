@@ -14,9 +14,20 @@ public class NameFilter extends Processing_elements
     
     public NameFilter(ArrayList<String> inputValue, ArrayList<String> pastEntries) 
     {
-        this.inputValues = inputValue;
-        this.pastEntries = pastEntries;
-    }
+        for (String text : inputValue) {
+            System.out.println(text);
+
+            if (text.contains("value") || text.contains("Value")) {
+                this.key = (text.replaceAll("value", "").replaceAll(" ", "").replaceAll(":", ""));
+            }
+
+        }
+        for (String files : pastEntries) {
+            inputValue.add(files);
+        }
+        
+        loopEntries(inputValue);
+   }
     
     
     
@@ -24,6 +35,17 @@ public class NameFilter extends Processing_elements
     @Override
     public void operations()
     {
+
+        if(local){
+            //if it's a directorty 
+        }
+        else{
+            //remote
+            String name = getEntriesRemoteFileName();
+        }
+
+        //if it's true use this function below: 
+        //addFileToList()
            for (String entry : inputValues) 
            {
             if (entry.contains("name")) 
