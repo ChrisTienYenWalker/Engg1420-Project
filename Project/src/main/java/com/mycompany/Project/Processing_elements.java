@@ -25,6 +25,7 @@ abstract class Processing_elements {
     // array list for information
     ArrayList<String> data = new ArrayList<String>();
     ArrayList<String> outputList = new ArrayList<String>(); 
+    private String repoID;
 
     // classes that will need to be defined
     public abstract void operations();
@@ -85,7 +86,7 @@ abstract class Processing_elements {
         }
     }
 
-    public void getEntriesRemoteFileNames(String repoId, int entryId) {
+    public void getEntriesRemoteFileNames(int entryId) {
         String servicePrincipalKey = "x0BmysMxlH_XfLoc69Kk";
         String accessKeyBase64 = "ewoJImN1c3RvbWVySWQiOiAiMTQwMTM1OTIzOCIsCgkiY2xpZW50SWQiOiAiOGFkZTZjNTctZDIxNS00ZmYyLThkOTctOTE1YjRiYWUyZWIzIiwKCSJkb21haW4iOiAibGFzZXJmaWNoZS5jYSIsCgkiandrIjogewoJCSJrdHkiOiAiRUMiLAoJCSJjcnYiOiAiUC0yNTYiLAoJCSJ1c2UiOiAic2lnIiwKCQkia2lkIjogImNCeWdXYnh6YU9jRHZVcUdBU1RfcURTY0plcWw3aU9Ya19SZVFleUpiTzQiLAoJCSJ4IjogIjZNSXNuODRLanFtMEpTUmhmS2tHUTRzbGhkcldCbVNMWk9nMW5oWjhubFkiLAoJCSJ5IjogIlpkZ1M1YWIxdU0yaVdaWHVpdmpBc2VacC11LWlJUlc4MjFwZWhENVJ5bUkiLAoJCSJkIjogIldjN091cDFYV3FudjlEVFVzQWZIYmxGTDFqU3UwRWJRY3g0LXNqbG0xRmMiLAoJCSJpYXQiOiAxNjc3Mjk3NTU0Cgl9Cn0=";
         AccessKey accessKey = AccessKey.createFromBase64EncodedAccessKey(accessKeyBase64);
@@ -93,7 +94,7 @@ abstract class Processing_elements {
                 servicePrincipalKey, accessKey);
         ODataValueContextOfIListOfEntry result = client
                 .getEntriesClient()
-                .getEntryListing(repoId, entryId, true, null, null, null, null, null, "name", null, null,
+                .getEntryListing(this.repoID, entryId, true, null, null, null, null, null, "name", null, null,
                         null)
                 .join();
         List<Entry> RemoteEntries = result.getValue();
