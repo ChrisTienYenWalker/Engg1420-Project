@@ -52,7 +52,7 @@ public class ContentFilter extends Processing_elements {
             }
         }
         try {
-            getEntriesRemoteFileNames("r-0001d410ba56", 26);
+            getEntriesRemoteFileNames(26);
         } catch (Exception e) {
             // System.out.println(e);
         }

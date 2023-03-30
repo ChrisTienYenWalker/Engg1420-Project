@@ -38,7 +38,7 @@ public class LengthFilter extends Processing_elements{
 
     
 
-    public LengthFilter2(ArrayList<String> inputs, ArrayList<String> entries){
+    public LengthFilter(ArrayList<String> inputs, ArrayList<String> entries){
         String tempstr = null;
 
       
