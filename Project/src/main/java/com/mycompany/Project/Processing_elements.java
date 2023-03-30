@@ -18,7 +18,7 @@ import com.laserfiche.repository.api.clients.AttributesClient;
 import com.laserfiche.repository.api.clients.EntriesClient;
 import com.laserfiche.repository.api.clients.impl.model.Entry;
 import com.laserfiche.repository.api.clients.impl.model.ODataValueContextOfIListOfEntry;
-import com.laserfiche.repository.api.clients.impl.model.Folder;
+import com.laserfiche.repository.api.clients.impl.model.Folder;    
 
 abstract class Processing_elements {
 
@@ -34,19 +34,21 @@ abstract class Processing_elements {
     // classes that will need to be defined
     public abstract void operations();
 
-    public abstract void outputs();
+    public ArrayList<String>  outputs() {
+        return outputList;
+    };    
     
     public void addFileToList(){
         if(local == true && path != null){
-            generateLocalJson();
+            generateLocalJson(this.path);
         }
         else if(remote == 0 && entryID != null && repoID != null){
             generateRemoteJson();
         }
     }
-    public void generateLocalJson(){
+    public void generateLocalJson(String path){
         outputList.add("type: local");
-        outputList.add("path: " + this.path);
+        outputList.add("path: " + path);
     };
 
     public void generateRemoteJson(){
@@ -169,6 +171,28 @@ abstract class Processing_elements {
         Entry entry = client.getEntriesClient().getEntry(this.repoID, Integer.parseInt(this.entryID), null).join();
 
         return entry.getName();
+    }
+
+    public String getEntriesAbsolutePath() {
+        String servicePrincipalKey = "x0BmysMxlH_XfLoc69Kk";
+        String accessKeyBase64 = "ewoJImN1c3RvbWVySWQiOiAiMTQwMTM1OTIzOCIsCgkiY2xpZW50SWQiOiAiOGFkZTZjNTctZDIxNS00ZmYyLThkOTctOTE1YjRiYWUyZWIzIiwKCSJkb21haW4iOiAibGFzZXJmaWNoZS5jYSIsCgkiandrIjogewoJCSJrdHkiOiAiRUMiLAoJCSJjcnYiOiAiUC0yNTYiLAoJCSJ1c2UiOiAic2lnIiwKCQkia2lkIjogImNCeWdXYnh6YU9jRHZVcUdBU1RfcURTY0plcWw3aU9Ya19SZVFleUpiTzQiLAoJCSJ4IjogIjZNSXNuODRLanFtMEpTUmhmS2tHUTRzbGhkcldCbVNMWk9nMW5oWjhubFkiLAoJCSJ5IjogIlpkZ1M1YWIxdU0yaVdaWHVpdmpBc2VacC11LWlJUlc4MjFwZWhENVJ5bUkiLAoJCSJkIjogIldjN091cDFYV3FudjlEVFVzQWZIYmxGTDFqU3UwRWJRY3g0LXNqbG0xRmMiLAoJCSJpYXQiOiAxNjc3Mjk3NTU0Cgl9Cn0=";
+        AccessKey accessKey = AccessKey.createFromBase64EncodedAccessKey(accessKeyBase64);
+        RepositoryApiClient client = RepositoryApiClientImpl.createFromAccessKey(
+                servicePrincipalKey, accessKey);
+        Entry entry = client.getEntriesClient().getEntry(this.repoID, Integer.parseInt(this.entryID), null).join();
+
+        return entry.getFullPath();
+    }
+
+    public String getEntriesLength() {
+        String servicePrincipalKey = "x0BmysMxlH_XfLoc69Kk";
+        String accessKeyBase64 = "ewoJImN1c3RvbWVySWQiOiAiMTQwMTM1OTIzOCIsCgkiY2xpZW50SWQiOiAiOGFkZTZjNTctZDIxNS00ZmYyLThkOTctOTE1YjRiYWUyZWIzIiwKCSJkb21haW4iOiAibGFzZXJmaWNoZS5jYSIsCgkiandrIjogewoJCSJrdHkiOiAiRUMiLAoJCSJjcnYiOiAiUC0yNTYiLAoJCSJ1c2UiOiAic2lnIiwKCQkia2lkIjogImNCeWdXYnh6YU9jRHZVcUdBU1RfcURTY0plcWw3aU9Ya19SZVFleUpiTzQiLAoJCSJ4IjogIjZNSXNuODRLanFtMEpTUmhmS2tHUTRzbGhkcldCbVNMWk9nMW5oWjhubFkiLAoJCSJ5IjogIlpkZ1M1YWIxdU0yaVdaWHVpdmpBc2VacC11LWlJUlc4MjFwZWhENVJ5bUkiLAoJCSJkIjogIldjN091cDFYV3FudjlEVFVzQWZIYmxGTDFqU3UwRWJRY3g0LXNqbG0xRmMiLAoJCSJpYXQiOiAxNjc3Mjk3NTU0Cgl9Cn0=";
+        AccessKey accessKey = AccessKey.createFromBase64EncodedAccessKey(accessKeyBase64);
+        RepositoryApiClient client = RepositoryApiClientImpl.createFromAccessKey(
+                servicePrincipalKey, accessKey);
+        Entry entry = client.getEntriesClient().getEntry(this.repoID, Integer.parseInt(this.entryID), null).join();
+
+        return entry.getVolumeName();
     }
 
     public void getEntriesRemote(Integer entryId) {

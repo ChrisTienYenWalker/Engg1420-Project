@@ -3,6 +3,7 @@ package com.mycompany.Project;
 import java.io.File;
 import java.util.ArrayList;
 
+
 public class Rename extends Processing_elements {
 
     private String suffix;
@@ -24,20 +25,42 @@ public class Rename extends Processing_elements {
 
     //define these functions
     public void operations(){
-        for(int i = 0; i < entries.size(); i++){
-            File file = new File(entries.get(i));
+        if(local){
+            File file = new File(path);
             if(file.isFile()){
-                String temp = entries.get(i);
+                String temp = path;
                 temp = temp.substring(0,temp.length()-4);
                 temp = temp.concat(suffix);
-                entries.add(i, temp);
+                generateLocalJson(temp);
             }
             else{
-                entries.add(i, entries.get(i).concat(suffix));
+                generateLocalJson(path.concat(suffix));
             }
+            generateLocalJson(path);
+        }
+        else{
+            //if it's remote we create a file from the remote with the suffix.
+            String temp = getEntriesRemoteFileName();
+            if(temp.contains("txt")){
+                temp = temp.substring(0,temp.length()-4);
+                temp = temp.concat(suffix);
+                generateLocalJson(temp);
+            }
+            else{
+                generateLocalJson(path.concat(suffix));
+            }
+
+            generateRemoteJson();
         }
     };
-    public void outputs() {
-        //return entries;
-    };
+    
+    // public Processing_elements(ArrayList<String> inputValue,
+    // ArrayList<Processing_elements> pastEntries){
+
+    // }
+
+    // constructors will have 2 parameters; an arraylist of the past entries and an
+    // arraylist of the information
+
 }
+

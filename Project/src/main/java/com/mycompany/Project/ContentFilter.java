@@ -108,20 +108,20 @@ public class ContentFilter extends Processing_elements {
         }
     }
 
-    @Override
-    public void outputs() { // return new string entries arraylist with file paths that contained key
-                            // return file arraylist that contains each file with contents containing key
-        if (local == false){
-            //return outputFileList;
-        }
-        else{
-            if(localScenario){ // need to convert data into file ArrayList and return the single file element
-                //return data;
+    // @Override
+    // public void outputs() { // return new string entries arraylist with file paths that contained key
+    //                         // return file arraylist that contains each file with contents containing key
+    //     if (local == false){
+    //         //return outputFileList;
+    //     }
+    //     else{
+    //         if(localScenario){ // need to convert data into file ArrayList and return the single file element
+    //             //return data;
 
-            }
-        }
+    //         }
+    //     }
 
-    }
+    // }
 
     public static boolean ifFile(String filePath) {
         File file = new File(filePath);

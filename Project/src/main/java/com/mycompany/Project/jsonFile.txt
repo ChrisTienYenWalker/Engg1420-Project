@@ -6,7 +6,7 @@
 "input_entries": [
 {
 "type": "local",
-"path" : "Project\src\main\java\com\mycompany\Project\LoremIpsum2.txt",
+"path": "Project\src\main\java\com\mycompany\Project\LoremIpsum2.txt",
 }
 ],
 "parameters": [

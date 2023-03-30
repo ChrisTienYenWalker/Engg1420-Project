@@ -14,6 +14,5 @@ public class List extends Processing_elements {
     public void operations(){
 
     };
-    public void outputs() {
-    };
+
 }

@@ -61,20 +61,20 @@ public class NameFilter extends Processing_elements
     
     
     
-    @Override
-    public void outputs() 
-    {
-        System.out.println("Output:");
-        for (String entry : outputValues) 
-        {
-            System.out.println(entry);
-        }
-    };
+    // @Override
+    // public void outputs() 
+    // {
+    //     System.out.println("Output:");
+    //     for (String entry : outputValues) 
+    //     {
+    //         System.out.println(entry);
+    //     }
+    // };
     
-    public void setKey(String key) 
-    {
-        this.key = key;
-    }
+    // public void setKey(String key) 
+    // {
+    //     this.key = key;
+    // }
     
     
 }

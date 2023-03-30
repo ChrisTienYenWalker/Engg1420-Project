@@ -311,20 +311,20 @@ public class LengthFilter extends Processing_elements{
     
     
 
-    @Override
-    public void outputs()
-    {
+    // @Override
+    // public void outputs()
+    // {
 
-        if (subFiles != null){
-            for (File printFiles: subFiles){
-                System.out.println("FILES FILTERED: " + printFiles.getName());
-            }
+    //     if (subFiles != null){
+    //         for (File printFiles: subFiles){
+    //             System.out.println("FILES FILTERED: " + printFiles.getName());
+    //         }
             
-            System.out.println("if no files were outputted requirements were not met or no past entries");
-        }
-        else{
-            System.out.println("No files found.");
-        }
-    }
+    //         System.out.println("if no files were outputted requirements were not met or no past entries");
+    //     }
+    //     else{
+    //         System.out.println("No files found.");
+    //     }
+    // }
  
 }

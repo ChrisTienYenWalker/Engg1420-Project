@@ -94,9 +94,6 @@ public class CountFilter extends Processing_elements {
         }
     }
 
-    @Override
-    public void outputs() {
 
-    }
 
 }
