@@ -62,9 +62,11 @@ public class ContentFilter extends Processing_elements {
         } catch (Exception e) {
             // System.out.println(e);
         }
+        /* 
         for (String text : data) { // Data arrayList contains the file contents of that entry
             System.out.println(text);
         }
+        */
     }
 
     @Override
