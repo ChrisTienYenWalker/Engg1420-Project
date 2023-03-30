@@ -60,7 +60,7 @@ public class NameFilter extends Processing_elements
     };
     
     
-    
+   
     // @Override
     // public void outputs() 
     // {
