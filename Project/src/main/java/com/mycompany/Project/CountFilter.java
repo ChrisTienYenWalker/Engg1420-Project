@@ -1,11 +1,10 @@
 package com.mycompany.Project;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.io.*;
 import java.util.List;
 
-public abstract class CountFilter extends Processing_elements
+public class CountFilter extends Processing_elements
 {
 
     private String key;
@@ -83,7 +82,8 @@ public abstract class CountFilter extends Processing_elements
         return file.isDirectory();
     }
 
-    public void opertaions() {
+    @Override
+    public void operations() {
         Boolean totalKey = true;
     
         if (local == false) {
@@ -132,6 +132,7 @@ public abstract class CountFilter extends Processing_elements
         }
     }
 
+    @Override
     public void outputs(){ 
        
     }
