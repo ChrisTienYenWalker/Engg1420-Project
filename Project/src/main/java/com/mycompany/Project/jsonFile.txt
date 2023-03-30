@@ -6,7 +6,7 @@
 "input_entries": [
 {
 "type": "local",
-"path" : "Project\src\main\java\com\mycompany\Project\LoremIpsum2.txt",
+"path": "Project\src\main\java\com\mycompany\Project\LoremIpsum2.txt",
 }
 ],
 "parameters": [
@@ -39,6 +39,32 @@
 "type": "Print",
 "input_entries": [],
 "parameters": []
+}
+{
+"type": "Split",
+"input_entries": [
+{
+"type": "local",
+"path": "c:\\sample\\text_files"
+}
+]
+{
+"name": "Lines",
+"value": "4"
+}
+}
+{
+"type": "List",
+"input_entries": [
+{
+"type": "local",
+"path": "c:\\sample\\text_files"
+}
+]
+{
+"name": "Max",
+"value": "20"  
+}
 }
 ]
 }
