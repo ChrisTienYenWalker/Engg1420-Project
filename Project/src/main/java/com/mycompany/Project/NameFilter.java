@@ -9,9 +9,6 @@ public class NameFilter extends Processing_elements
     private ArrayList<String> outputValues = new ArrayList<String>();
     private String key;
     
-    //hello
-    
-    
     
     public NameFilter(ArrayList<String> inputValue, ArrayList<String> pastEntries) 
     {
@@ -61,7 +58,6 @@ public class NameFilter extends Processing_elements
     };
     
     
-   
     // @Override
     // public void outputs() 
     // {
