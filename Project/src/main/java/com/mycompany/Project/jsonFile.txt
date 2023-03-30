@@ -17,21 +17,21 @@
 ]
 },
 {
-"type": "LengthFilter",
+"type": "CountFilter",
 "input_entries": [
 {
 "type": "local",
-"path": "c:\\sample\\text_files"
+"path": "Project\src\main\java\com\mycompany\Project\SampleCityNamesInCanada.txt"
 }
 ],
 "parameters": [
 {
-"name": "Length",
-"value": "1024"
+"name": "Key",
+"value": "Lorem"
 },
 {
-"name": "Operator",
-"value": "GTE"
+"name": "Min",
+"value": "1"
 }
 ]
 },
