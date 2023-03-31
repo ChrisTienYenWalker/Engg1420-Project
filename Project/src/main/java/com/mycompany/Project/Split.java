@@ -32,7 +32,7 @@ public class Split extends Processing_elements {
             if (new File(localPath).isFile()) {
                 splitFiles = new ArrayList<File>();
                 splitFiles.add(new File(localPath));
-                this.split();
+                this.operations();
             } else {
                 // print a message to indicate localPath is a directory
                 System.out.println("localPath is a directory, ignoring.");
@@ -47,12 +47,12 @@ public class Split extends Processing_elements {
                     splitFiles.add(file);
                 }
             }
-            this.split();
+            this.operations();
         }
     }
 
     // method to split each file in splitFiles into parts and write them to new files
-    private void split() {
+    public void operations() {
         if (splitFiles != null) {
             // create a new ArrayList for splitFile
             splitFile = new ArrayList<File>();
@@ -103,8 +103,4 @@ public class Split extends Processing_elements {
         }
     }
 
-    // return the output files
-    public ArrayList<File> outputs() {
-        return splitFile;
-    }
 }
