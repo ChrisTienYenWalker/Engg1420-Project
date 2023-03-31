@@ -19,21 +19,21 @@
 ]
 },
 {
-"type": "LengthFilter",
+"type": "CountFilter",
 "input_entries": [
 {
 "type": "local",
-"path": "c:\\sample\\text_files"
+"path": "Project\src\main\java\com\mycompany\Project\SampleCityNamesInCanada.txt"
 }
 ],
 "parameters": [
 {
-"name": "Length",
-"value": "1024"
+"name": "Key",
+"value": "Lorem"
 },
 {
-"name": "Operator",
-"value": "GTE"
+"name": "Min",
+"value": "1"
 }
 ]
 },
@@ -41,6 +41,32 @@
 "type": "Print",
 "input_entries": [],
 "parameters": []
+}
+{
+"type": "Split",
+"input_entries": [
+{
+"type": "local",
+"path": "c:\\sample\\text_files"
+}
+]
+{
+"name": "Lines",
+"value": "4"
+}
+}
+{
+"type": "List",
+"input_entries": [
+{
+"type": "local",
+"path": "c:\\sample\\text_files"
+}
+]
+{
+"name": "Max",
+"value": "20"  
+}
 }
 ]
 }

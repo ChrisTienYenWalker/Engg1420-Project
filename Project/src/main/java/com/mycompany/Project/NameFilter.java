@@ -10,8 +10,6 @@ public class NameFilter extends Processing_elements
     private String key;
     
     
-    
-    
     public NameFilter(ArrayList<String> inputValue, ArrayList<String> pastEntries) 
     {
         for (String text : inputValue) {
@@ -36,10 +34,12 @@ public class NameFilter extends Processing_elements
     public void operations()
     {
 
-        if(local){
+        if(local)
+        {
             //if it's a directorty 
         }
-        else{
+        else
+        {
             //remote
             String name = getEntriesRemoteFileName();
         }
@@ -55,10 +55,10 @@ public class NameFilter extends Processing_elements
                 {
                     outputValues.add(entry);
                 }
+                addFileToList();
             }
         }
     };
-    
     
     
     // @Override

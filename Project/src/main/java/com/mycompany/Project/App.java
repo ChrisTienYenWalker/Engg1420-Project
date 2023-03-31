@@ -131,24 +131,24 @@ public class App {
         //then create the new object and add it to the arraylist of past filters
         switch(type.stripIndent()){
             case "List":    
-                List list = new List(inputValues, pastEntries);
+                //List list = new List(inputValues, pastEntries);
                 break;
             case "LengthFilter":    
                 // LengthFilter lengthfilter = new LengthFilter(inputValues, pastEntries);
                 // LengthFilter lengthfilter = new LengthFilter(inputValues, pastEntries);
-                System.out.println("passed"); 
+                //System.out.println("passed"); 
                 break;
             case "NameFilter":    
-                NameFilter namefilter = new NameFilter(inputValues, pastEntries);
+                //NameFilter namefilter = new NameFilter(inputValues, pastEntries);
                 break;
             case "ContentFilter":    
-                ContentFilter contentfilter = new ContentFilter(inputValues, pastEntries);
+                //ContentFilter contentfilter = new ContentFilter(inputValues, pastEntries);
                 break;
             case "CountFilter":    
-                // CountFilter countfilter = new CountFilter(inputValues, pastEntries);
+                CountFilter countfilter = new CountFilter(inputValues, pastEntries);
                 break;
             case "Split":    
-                Split split = new Split(inputValues, pastEntries);
+                //Split split = new Split(inputValues, pastEntries);
                 break;
             case "Rename":    
                 Rename rename = new Rename(inputValues, pastEntries);
@@ -159,7 +159,7 @@ public class App {
                 
                 break;
             case "Print":    
-                Print print = new Print(inputValues, pastEntries);
+                //Print print = new Print(inputValues, pastEntries);
                 break;
 
             default:
