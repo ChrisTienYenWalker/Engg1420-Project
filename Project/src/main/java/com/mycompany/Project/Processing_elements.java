@@ -66,7 +66,6 @@ abstract class Processing_elements {
             if (local) {
                 if (text.contains("path")) {
                     path = text.replaceAll("path", "").replaceAll(" ", "").replaceAll(":", "");
-   
                     operations();
                     local = false;
                     path = null;

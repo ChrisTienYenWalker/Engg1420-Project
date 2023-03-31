@@ -151,7 +151,12 @@ public class App {
                 Split split = new Split(inputValues, pastEntries);
                 break;
             case "Rename":    
-                // Rename rename = new Rename(inputValues, pastEntries);
+                Rename rename = new Rename(inputValues, pastEntries);
+                pastEntries = rename.outputList;
+                for(String text: pastEntries){
+                    System.out.println(text);
+                }
+                
                 break;
             case "Print":    
                 Print print = new Print(inputValues, pastEntries);

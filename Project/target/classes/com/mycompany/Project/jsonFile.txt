@@ -2,17 +2,19 @@
 "name": "First Scenario",
 "processing_elements": [
 {
-"type": "ContentFilter",
+"type": "Rename",
 "input_entries": [
 {
 "type": "local",
 "path": "Project\src\main\java\com\mycompany\Project\LoremIpsum2.txt",
+"type": "local",
+"path": "Project\src\main\java\com\mycompany\Project\SampleCityNamesInCanada.txt",
 }
 ],
 "parameters": [
 {
-"name": "Key",
-"value": "100"
+    "name" : "suffix",
+    "value": "hi"
 }
 ]
 },

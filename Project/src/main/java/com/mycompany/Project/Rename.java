@@ -1,7 +1,15 @@
 package com.mycompany.Project;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
+
+import javax.xml.crypto.Data;
 
 
 public class Rename extends Processing_elements {
@@ -21,17 +29,36 @@ public class Rename extends Processing_elements {
         }
         
         loopEntries(inputValue);
+
+        System.out.println("\n");
+
+        // for(String text: outputList){
+        //     System.out.println(text);
+        // }
     }
 
     //define these functions
     public void operations(){
         if(local){
             File file = new File(path);
+
             if(file.isFile()){
+                System.out.println("works");
                 String temp = path;
+                System.out.println(suffix);
                 temp = temp.substring(0,temp.length()-4);
-                temp = temp.concat(suffix);
+                temp = temp.concat(suffix).concat(".txt");
+                System.out.println(temp);
                 generateLocalJson(temp);
+                readfile(file);
+                File newfile = new File(temp);
+                try {
+                    System.out.println("hi");
+                    copyFileUsingStream(newfile);
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
             }
             else{
                 generateLocalJson(path.concat(suffix));
@@ -41,10 +68,12 @@ public class Rename extends Processing_elements {
         else{
             //if it's remote we create a file from the remote with the suffix.
             String temp = getEntriesRemoteFileName();
+
             if(temp.contains("txt")){
                 temp = temp.substring(0,temp.length()-4);
-                temp = temp.concat(suffix);
+                temp = temp.concat(suffix).concat(".txt");
                 generateLocalJson(temp);
+
             }
             else{
                 generateLocalJson(path.concat(suffix));
@@ -61,6 +90,19 @@ public class Rename extends Processing_elements {
 
     // constructors will have 2 parameters; an arraylist of the past entries and an
     // arraylist of the information
+
+    public void copyFileUsingStream(File dest)  {
+         try {
+            FileWriter myWriter = new FileWriter(dest);
+            for(String text: data){
+                System.out.println(text);
+                myWriter.write(text);
+            }
+            myWriter.close();
+        } catch(Exception e) {
+            
+        }
+    }
 
 }
 
