@@ -59,6 +59,7 @@ abstract class Processing_elements {
     public void loopEntries(ArrayList<String> inputValues){
         for (String text : inputValues) {
             System.out.println(text);
+            data.removeAll(data);
 
             if (text.contains("type") && text.contains("local"))
                 local = true;
@@ -76,10 +77,10 @@ abstract class Processing_elements {
                 remote = 2;
             }
             if (remote > 0) {
-                if (text.contains("repoId") || text.contains("value")) {
+                if (text.contains("repoId")) {
                     repoID = text.replaceAll("repoId", "").replaceAll(" ", "").replaceAll(":", "");
                 }
-                if (text.contains("entryId") || text.contains("value")) {
+                if (text.contains("entryId")) {
                     entryID = text.replaceAll("entryId", "").replaceAll(" ", "").replaceAll(":", "");
                 }
                 remote--;

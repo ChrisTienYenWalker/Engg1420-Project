@@ -27,7 +27,8 @@ public class Rename extends Processing_elements {
         for (String files : pastEntries) {
             inputValue.add(files);
         }
-        
+        suffix = "hi";
+
         loopEntries(inputValue);
 
         System.out.println("\n");
@@ -53,7 +54,6 @@ public class Rename extends Processing_elements {
                 readfile(file);
                 File newfile = new File(temp);
                 try {
-                    System.out.println("hi");
                     copyFileUsingStream(newfile);
                 } catch (Exception e) {
                     // TODO Auto-generated catch block
@@ -95,8 +95,7 @@ public class Rename extends Processing_elements {
          try {
             FileWriter myWriter = new FileWriter(dest);
             for(String text: data){
-                System.out.println(text);
-                myWriter.write(text);
+                myWriter.write(text + "\n");
             }
             myWriter.close();
         } catch(Exception e) {
