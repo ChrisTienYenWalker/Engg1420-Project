@@ -141,10 +141,15 @@ public class App {
                 break;
             case "NameFilter":    
                 NameFilter namefilter = new NameFilter(inputValues, pastEntries);
-                System.out.println("\nresults:\n");
-                for(String text: namefilter.outputs()){
-                    System.out.println(text);
-                }
+                System.out.println("\nFiles containing key:\n");
+                for (String text: namefilter.outputs())
+                    {
+                        System.out.println(text);
+                    }
+                    if (namefilter.outputs().size() == 0)
+                    {
+                        System.out.println("None");
+                    }
                 break;
             case "ContentFilter":    
                 //ContentFilter contentfilter = new ContentFilter(inputValues, pastEntries);

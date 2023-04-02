@@ -14,18 +14,18 @@ public class NameFilter extends Processing_elements
     private ArrayList<String> outputValues = new ArrayList<String>();
     private String key;
 
-    public NameFilter(ArrayList<String> inputValue, ArrayList<String> pastEntries) {
-        for (String text : inputValue) {
-            System.out.println(text);
-
+    public NameFilter(ArrayList<String> inputValue, ArrayList<String> pastEntries) 
+    {
+        for (String text : inputValue) 
+        {
             if (text.contains("value") || text.contains("Value")) 
             {
                 this.key = (text.replaceAll("value", "").replaceAll(" ", "").replaceAll(":", ""));
             }
 
         }
-        for (String files : pastEntries) 
-        {
+        for (String files : pastEntries)
+         {
             inputValue.add(files);
 
         }
@@ -37,26 +37,21 @@ public class NameFilter extends Processing_elements
     public void operations() 
     {
 
-            //if it is local
+        // if it is local
         if (local == true) 
         {
             File file = new File(path);
 
-            //checking for if it is a single file
+            // checking for if it is a single file
             if (file.isFile()) 
             {
 
                 if (file.getName().contains(key)) 
                 {
-                    System.out.println("entries contain key");
                     addFileToList();
-                } 
-                else 
-                {
-                    System.out.println("No entries contain key");
                 }
-            } 
-            
+            }
+
             else 
             {
 
@@ -68,30 +63,23 @@ public class NameFilter extends Processing_elements
                 else 
                 {
                     File folder = new File(path);
-                    System.out.println(path);
-                    System.out.println(folder.exists());
 
                     getEntriesLocalFileNames(path);
 
-                    for (String text : data) 
-                    {
+                    for (String text : data)
+                     {
                         File subFiles = new File(text);
-                        System.out.println(subFiles.getName());
-                        if (subFiles.getName().contains(key))
+                        if (subFiles.getName().contains(key)) 
                         {
-                            generateLocalJson(path);
+                            generateLocalJson(subFiles.getAbsolutePath());
                         } 
-                        else 
-                        {
-                            System.out.println("No entries contain key");
-                        }
                     }
                 }
             }
-
         }
 
-        else 
+        else if (local == false)
+
         {
 
             // getEntriesRemoteFileNamesDIR will give the file id for remote
@@ -107,30 +95,8 @@ public class NameFilter extends Processing_elements
             }
         }
 
-        if(local)
-        {
-            //if it's a directorty 
-        }
-        else
-        {
-            //remote
-            String name = getEntriesRemoteFileName();
-        }
+   
 
-        //if it's true use this function below: 
-        //addFileToList()
-           for (String entry : inputValues) 
-           {
-            if (entry.contains("name")) 
-            {
-                String name = entry.split(":")[1].trim();
-                if (name.contains(key)) 
-                {
-                    outputValues.add(entry);
-                }
-                addFileToList();
-            }
-        }
     };
 
     // @Override
