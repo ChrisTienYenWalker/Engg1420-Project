@@ -6,6 +6,7 @@ import java.io.*;
 
 public class App {
 
+    
     //arraylist for the past filters
     public static ArrayList<String> pastEntries = new ArrayList<String>();
     public static void main(String[] args) throws Exception {
@@ -101,11 +102,11 @@ public class App {
                 }
 
                 //and details from each line as long as it is not a curly bracket line
-                if(newfilter == true && !(s.strip().contains("{")|| s.strip().contains("}"))){
+                if(newfilter == true && !(s.strip().contains("{")|| s.strip().contains("}")||s.strip().contains("[")|| s.strip().contains("]") )){
 
 
                     //help clean up text to make it easier to use
-                    filterDetails.add(s.replace("\"", " ").replace(",", ""));
+                    filterDetails.add(s.replace("\"", " ").replace(",", "").trim());
                     
                     //identify which type of scenario it is
                     if(s.contains("type") && type == null){
@@ -139,7 +140,11 @@ public class App {
                 //System.out.println("passed"); 
                 break;
             case "NameFilter":    
-                //NameFilter namefilter = new NameFilter(inputValues, pastEntries);
+                NameFilter namefilter = new NameFilter(inputValues, pastEntries);
+                System.out.println("\nresults:\n");
+                for(String text: namefilter.outputs()){
+                    System.out.println(text);
+                }
                 break;
             case "ContentFilter":    
                 //ContentFilter contentfilter = new ContentFilter(inputValues, pastEntries);
@@ -155,10 +160,15 @@ public class App {
                 //Split split = new Split(inputValues, pastEntries);
                 break;
             case "Rename":    
-                // Rename rename = new Rename(inputValues, pastEntries);
+                Rename rename = new Rename(inputValues, pastEntries);
+                pastEntries = rename.outputs();
+                for(String text: pastEntries){
+                    System.out.println(text);
+                }
+                
                 break;
             case "Print":    
-                //Print print = new Print(inputValues, pastEntries);
+                // Print print = new Print(inputValues, pastEntries);
                 break;
 
             default:

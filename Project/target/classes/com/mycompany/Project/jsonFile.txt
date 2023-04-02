@@ -2,37 +2,60 @@
 "name": "First Scenario",
 "processing_elements": [
 {
-"type": "ContentFilter",
+"type": "NameFilter",
 "input_entries": [
 {
+<<<<<<< HEAD
 "type": "local",
-"path": "Project\src\main\java\com\mycompany\Project\LoremIpsum2.txt",
+<<<<<<< HEAD
+"path": "Project\src\main\java\com\mycompany\Project\testfolder",
+=======
+"path": "C:\Users\walke\OneDrive\Documents\GitHub\Engg1420-Project\GeoNamespenguin",
+=======
+"type": "remote",
+"repoId": "r-0001d410ba56",
+"entryId": "15",
+>>>>>>> 039fe5373cd92db8ef57a83ac7fd0832265e7817
+>>>>>>> bb6e049c2062f7e063097ba9d8eb271fc54c1e13
 }
 ],
 "parameters": [
 {
-"name": "Key",
-"value": "100"
+    "name" : "Key",
+    "value": "Can"
 }
 ]
 },
+<<<<<<< HEAD
+
+		{
+			"type": "Print",
+			"input_entries": [],
+			"parameters": []
+		}
+=======
 {
-"type": "CountFilter",
+"type": "LengthFilter",
 "input_entries": [
 {
+<<<<<<< HEAD
 "type": "remote",
 "repoId": "r-0001d410ba56",
 "entryId: "15",
+=======
+"type": "local",
+"path": "Project\src\main\java\com\mycompany\Project\LoremIpsum2.txt"
+>>>>>>> acd83f1a9d7e7eb6c3f731b93fb83398fa6bf3bf
 }
 ],
 "parameters": [
 {
-"name": "Key",
-"value": "Lorem"
+"name": "Length",
+"value": "1024"
 },
 {
-"name": "Min",
-"value": "1"
+"name": "Operator",
+"value": "GTE"
 }
 ]
 },
@@ -41,31 +64,6 @@
 "input_entries": [],
 "parameters": []
 }
-{
-"type": "Split",
-"input_entries": [
-{
-"type": "local",
-"path": "c:\\sample\\text_files"
-}
-]
-{
-"name": "Lines",
-"value": "4"
-}
-}
-{
-"type": "List",
-"input_entries": [
-{
-"type": "local",
-"path": "c:\\sample\\text_files"
-}
-]
-{
-"name": "Max",
-"value": "20"  
-}
-}
+>>>>>>> 039fe5373cd92db8ef57a83ac7fd0832265e7817
 ]
 }
