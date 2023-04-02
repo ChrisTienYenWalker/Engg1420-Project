@@ -1,107 +1,150 @@
 package com.mycompany.Project;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 public class ContentFilter extends Processing_elements {
 
-    private String key;
-    private String pastEntries;
-    private ArrayList<String> inputValues;
+    private boolean localScenario = false;
     private ArrayList<String> outputValues = new ArrayList<String>();
+    private ArrayList<File> outputFileList = new ArrayList<File>();
+    private ArrayList<File> outputValuesFile = new ArrayList<File>();
+    private String key;
 
-    ContentFilter(ArrayList<String> inputValues, ArrayList<String> pastEntries) {
-        String repoID = null; 
-        String entryID = null; 
-        String path = null;
-        int remote = 0;
-        boolean local = false;
+    public ContentFilter(ArrayList<String> inputValues, ArrayList<String> pastEntries) {
 
-        for (String text : inputValues) {
-            System.out.println(text);
-  
-            if (text.contains("value") || text.contains("value")) {
+        for (String text : inputValues) { // Extracts key from inputValues
+            if (text.contains("value") || text.contains("Value")) {
                 key = text.replaceAll("value", "").replaceAll(" ", "").replaceAll(":", "");
             }
-            if(text.contains("type") && text.contains("local"))
-                local = true;
-            if(local){
-                if (text.contains("path")) {
-                    path = text.replaceAll("path", "").replaceAll(" ", "").replaceAll(":", "");
-                }
-            }
-            if (text.contains("type") && text.contains("remote")) {
-                remote = 2;
-            }
-            if(remote > 0){
-                if (text.contains("repoId") || text.contains("value")) {
-                    repoID = text.replaceAll("repoId", "").replaceAll(" ", "").replaceAll(":", "");
-                }
-                if (text.contains("entryId") || text.contains("value")) {
-                    entryID = text.replaceAll("entryId", "").replaceAll(" ", "").replaceAll(":", "");
-                }
-                remote--;
-            }
-        }
-        try{
-            getEntriesRemoteFileNames("r-0001d410ba56", 26);
-        }catch(Exception e){
-            // System.out.println(e);
         }
 
-        try{
-            getEntriesLocal(path);
-        }catch(Exception e){
-            // System.out.println(e);
-        }
-        for(String text: data){   // use data arrayList
-            System.out.println(text);
+        for (String files : pastEntries) { // Merge pastEntries with inputValues
+            inputValues.add(files);
         }
 
+        loopEntries(inputValues); // Loop through and print each line from input values
+                                  // If local, extract path
+                                  // If remote, extract entryID and repoID
     }
-    public void setPastEntries(String pastEntries) {
-        this.pastEntries = pastEntries;
-    } // doesn't matter
+
+
     
+    @Override
+    public void operations() { // *Assume operations only requires one instance of key in each file for it to be passed on to next filter*
+                            
 
-    public void operations(){
+        if (local == false) { // *SCENARIO FOR REMOTE ENTRIES*
 
-        for (String element : data) {
+            boolean hasKey = false; // hasKey false by default
 
-            try (BufferedReader reader = new BufferedReader(new FileReader(element))) {
+            if (true) { // If remote entry is a single document
 
-                String line;
+                getEntriesRemote(Integer.parseInt(entryID)); // Parse entryID as an int and create instance of remote client with getEntriesRemote method.
+                                                             // If remote entry is single document, create local instance of document with custom filepath and read that file.
+                                                             // After successful, close client.
 
-                while ((line = reader.readLine()) != null) {
+                for (String element : data) { // Iterate through each line of the local file that was just created from the remote client.
 
-                    if (!line.contains(key)) {
-                        System.err.println("Key is not found in each line");   // May have to fix logic so program doesn't break when no key is found
-                       
+                    if (element.contains(key)) {
+                        hasKey = true;
+                        break;
+                    }
+                }
+                                          // *REMOTE OUTPUT*
+                if (hasKey) {             // If document contains the key print message and generateRemoteJson method.
+                    generateRemoteJson(); // Method will add type, entryID, repoID to output ArrayList.
+                    System.out.println("Key has been found in the contents of the file.");
+
+                } else { // Otherwise, message will be prompted and the document will not be passed to the next filter.
+                    System.out.println("Key is not found in the contents of the entry.");
+                }
+            } else {
+                // If remote entry is a directory
+            }
+
+        }
+
+        else { // *SCENARIO FOR LOCAL ENTRY*
+               // Read from single file contents whose path was extracted from inputValues ArrayList.
+
+            if (ifDirectory(path)) { // *SCENARIO IF LOCAL ENTRY IS A DIRECTORY*
+
+                getEntriesLocalFileNames(path);
+
+                ArrayList<String> test = new ArrayList<String>(data); // New ArrayList to hold each file in folder path
+
+                for (String text : test) {
+                    data.clear();
+
+                    boolean hasKey = false;          // hasKey false by default
+                    File newFile = new File(text);   // Create new local file with the extracted path to hold contents of file.
+
+                    readfile(newFile);
+                    for (String element : data) {    // Read contents of file line by line.
+
+                        if (element.contains(key)) { // Check if key is in contents of the file.
+                            hasKey = true;
+                            break;
+                        }
                     }
 
+                    if (hasKey) {
+                        localScenario = true;          
+                        System.out.println("Key has been found in the contents of this file within the directory."); 
+                        // Print message for every file that contains the key. 
+                        // Set localScenario to true
+                 
+                    } else {
+                        System.out.println("Key has not been found in the contents of this file within the directory.");
+                        localScenario = false;
+                        // Print message for every file that doesn't contain key.
+                        // Set localScenario to false
+                    }
                 }
-
-                outputValues.add(element);
-
-                reader.close();
-
-            } catch (FileNotFoundException ex) {
-                System.out.println(ex);
-
-            } catch (IOException ex) {
-                System.out.println(ex);
             }
 
+            if (ifFile(path)) { // *SCENARIO IF LOCAL ENTRY IS A SINGLE FILE*
+                boolean hasKey = false; // hasKey false by default
+                File newFile = new File(path); // Create new local file with the extracted path to hold contents of
+                                               // file.
+                readfile(newFile);
+                for (String element : data) { // Read contents of file line by line.
+
+                    if (element.contains(key)) { // Check if key is in contents of the file.
+                        hasKey = true;
+                        break;
+                    }
+                }
+
+                if (hasKey) {
+                    localScenario = true;
+                    System.out.println("Key has been found in the contents of the file."); // If key is found, print prompt that key has been found and set localScenario boolean to true.
+
+                } else {
+                    System.out.println("Key is not found in the contents of the file.");  // If key is not found, prompt that key is not found and it will not be passed on.
+                }
+
+
+            } 
+
+                                         // *LOCAL OUTPUT*
+            if (localScenario) {         // If localScenario it true, generateLocalJson method.
+                generateLocalJson(path); // Method will add type and successful file path to the output ArrayList.
+                System.out.println("The Key has been found in the contents of the individual file or each file in the directory and passed to next filter.");
+            }
         }
     }
 
-    @Override
-    public void outputs() {
-        // return outputValues;
+
+
+    public static boolean ifFile(String filePath) { // Method that checks if entry is a file
+        File file = new File(filePath);
+        return file.isFile();
     }
 
+    public static boolean ifDirectory(String filePath) { // Method that checks if entry is a directory
+        File file = new File(filePath);
+        return file.isDirectory();
+    }
 }
-

@@ -5,8 +5,9 @@
 "type": "ContentFilter",
 "input_entries": [
 {
-"type": "local",
-"path" : "Project\src\main\java\com\mycompany\Project\LoremIpsum2.txt",
+"type": "remote",
+"repoId": "r-0001d410ba56",
+"entryId": "15",
 }
 ],
 "parameters": [
@@ -21,7 +22,7 @@
 "input_entries": [
 {
 "type": "local",
-"path": "c:\\sample\\text_files"
+"path": "Project\src\main\java\com\mycompany\Project\LoremIpsum2.txt"
 }
 ],
 "parameters": [
