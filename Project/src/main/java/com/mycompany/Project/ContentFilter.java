@@ -6,9 +6,6 @@ import java.util.ArrayList;
 public class ContentFilter extends Processing_elements {
 
     private boolean localScenario = false;
-    private ArrayList<String> outputValues = new ArrayList<String>();
-    private ArrayList<File> outputFileList = new ArrayList<File>();
-    private ArrayList<File> outputValuesFile = new ArrayList<File>();
     private String key;
 
     public ContentFilter(ArrayList<String> inputValues, ArrayList<String> pastEntries) {
@@ -32,13 +29,17 @@ public class ContentFilter extends Processing_elements {
     
     @Override
     public void operations() { // *Assume operations only requires one instance of key in each file for it to be passed on to next filter*
+                               // *Assume operations is not required to check for keys in remote directories*
                             
 
         if (local == false) { // *SCENARIO FOR REMOTE ENTRIES*
 
             boolean hasKey = false; // hasKey false by default
 
-            if (true) { // If remote entry is a single document
+            if (isRemoteDIR(this.entryID)) { 
+                System.out.println("Please use valid file path"); // *Operations does not deal with remote directories*
+
+            }else{  // *If remote entry is a single document*
 
                 getEntriesRemote(Integer.parseInt(entryID)); // Parse entryID as an int and create instance of remote client with getEntriesRemote method.
                                                              // If remote entry is single document, create local instance of document with custom filepath and read that file.
@@ -54,18 +55,16 @@ public class ContentFilter extends Processing_elements {
                                           // *REMOTE OUTPUT*
                 if (hasKey) {             // If document contains the key print message and generateRemoteJson method.
                     generateRemoteJson(); // Method will add type, entryID, repoID to output ArrayList.
-                    System.out.println("Key has been found in the contents of the file.");
+                    System.out.println("Key has been found in the contents of the remote file entry and passed to the next filter.");
 
                 } else { // Otherwise, message will be prompted and the document will not be passed to the next filter.
                     System.out.println("Key is not found in the contents of the entry.");
                 }
-            } else {
-                // If remote entry is a directory
             }
-
         }
 
-        else { // *SCENARIO FOR LOCAL ENTRY*
+
+        else { // *SCENARIO FOR LOCAL DIRECTORY ENTRY*
                // Read from single file contents whose path was extracted from inputValues ArrayList.
 
             if (ifDirectory(path)) { // *SCENARIO IF LOCAL ENTRY IS A DIRECTORY*
@@ -79,17 +78,16 @@ public class ContentFilter extends Processing_elements {
 
                     boolean hasKey = false;          // hasKey false by default
                     File newFile = new File(text);   // Create new local file with the extracted path to hold contents of file.
-
                     readfile(newFile);
                     for (String element : data) {    // Read contents of file line by line.
 
                         if (element.contains(key)) { // Check if key is in contents of the file.
-                            hasKey = true;
+                            hasKey = true;           // *ASSUME IF ATLEAST 1 FILE CONTAINS KEYWORD, ENTIRE FOLDER WILL BE PASSED TO NEXT FILTER* 
                             break;
                         }
                     }
 
-                    if (hasKey) {
+                    if (hasKey) {    
                         localScenario = true;          
                         System.out.println("Key has been found in the contents of this file within the directory."); 
                         // Print message for every file that contains the key. 
@@ -124,14 +122,12 @@ public class ContentFilter extends Processing_elements {
                 } else {
                     System.out.println("Key is not found in the contents of the file.");  // If key is not found, prompt that key is not found and it will not be passed on.
                 }
-
-
             } 
 
                                          // *LOCAL OUTPUT*
             if (localScenario) {         // If localScenario it true, generateLocalJson method.
                 generateLocalJson(path); // Method will add type and successful file path to the output ArrayList.
-                System.out.println("The Key has been found in the contents of the individual file or each file in the directory and passed to next filter.");
+                System.out.println("The Key has been found in the contents of the individual file or atleast 1 file in the directory and passed to next filter.");
             }
         }
     }
@@ -148,3 +144,4 @@ public class ContentFilter extends Processing_elements {
         return file.isDirectory();
     }
 }
+
