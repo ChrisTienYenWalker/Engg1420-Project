@@ -1,20 +1,19 @@
 package com.mycompany.Project;
 
-<<<<<<< HEAD
 import java.util.ArrayList;
 import java.io.*;
-=======
-import java.util.ArrayList;
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
->>>>>>> bc7be48409077741d1a29c4cb9fc18b3d5f55a55
+
+
+
+import java.util.function.Consumer;
+
+import com.laserfiche.api.client.model.AccessKey;
+import com.laserfiche.repository.api.RepositoryApiClient;
+import com.laserfiche.repository.api.RepositoryApiClientImpl;
 
 public class LengthFilter extends Processing_elements{
     private long length;
     private String Operator;
-    private String localPath = "empty";
-    private boolean firstEntry = false;
     private ArrayList<File>filteredFiles = null;
     private ArrayList<File>subFiles = null;
 
@@ -34,32 +33,37 @@ public class LengthFilter extends Processing_elements{
         return this.length;
     }
 
-    public void setLocalPath(String localPath){
-        this.localPath = localPath;
-    }
-
-    public String getLocalPath(){
-        return this.localPath;
-    }
+    
 
 
     
 
     public LengthFilter(ArrayList<String> inputs, ArrayList<String> entries){
-
+        String tempstr = "";
         for (String text : inputs) {
             System.out.println(text);
 
-            if (text.contains("value") || text.contains("Value")) {
-                this.length = Long.parseLong((text.replaceAll("value", "").replaceAll(" ", "").replaceAll(":", "")));
+
+            if (text.contains("Length")){
+                tempstr = "Length";
             }
-            if (text.contains("value") || text.contains("value")) {
-                this.Operator = text.replaceAll("value", "").replaceAll(" ", "").replaceAll(":", "");
+
+            if (text.contains("Operator")){
+                tempstr = "Operator";
+            }
+
+            if ((text.contains("value") || text.contains("Value")) && tempstr.equals("Length")) {
+                this.length = Long.parseLong((text.replaceAll("value", "").replaceAll(" ", "").replaceAll(":", ""))); 
+            }
+            if ((text.contains("value") || text.contains("Value")) && tempstr.equals("Operator")) {
+                this.Operator = text.replaceAll("value", "").replaceAll(" ", "").replaceAll(":" , ""); 
             }
         }
+
         for (String files : entries) {
             inputs.add(files);
         }
+
         
         loopEntries(inputs);
 
@@ -69,7 +73,6 @@ public class LengthFilter extends Processing_elements{
         //OUTPUTS
         System.out.println("EXTRACTED CONTENT");
         System.out.println(getOperator());
-        System.out.println(getLocalPath());
         System.out.println(getLength());
 
 
@@ -80,48 +83,60 @@ public class LengthFilter extends Processing_elements{
          * 2. I am taking away from previous entries.
          */
 
-         if (getLocalPath() != null){
-            firstEntry = true;
-         }
-         System.out.println(firstEntry);
+        
 
 
-         if (firstEntry = true && new File(getLocalPath()).exists())
+         if (local == true && new File(path).isDirectory() == false)
          {
             filteredFiles = new ArrayList<File>();
-            File file = new File(getLocalPath());     
-            filteredFiles.add(file);
 
-            this.operations();
-            this.outputs();
+            if (new File(path).exists()){
+                File file = new File(path);     
+                filteredFiles.add(file);
+                this.operations();
+            }    
          }
-
          else{
-            if (!localPath.equals("empty"))
-            System.out.println("File does not exist or is directory");
+            System.out.println("File does not exist or is directory (SIZE 0)");
          }
 
-         if (localPath.equals("empty")){
-            System.out.println("PASSED");
+         ///////    THIS IS FINE    //////////////
+
+         if (local == false && inputs == null){
+            filteredFiles = new ArrayList<File>();
+            this.operations();
+            this.length = getRemoteFileSize();           
+         }
+
+         if(inputs != null){
             filteredFiles = new ArrayList<>();
 
-            for (String filePath : entries){
-                if (new File (filePath).exists()){
-                    File file = (new File (filePath));
-                    filteredFiles.add(file);
+             for (String filePath : inputs){
+                 if (new File (filePath).exists() && new File(filePath).isDirectory() == false){
+                   File file = (new File (filePath));
+                  filteredFiles.add(file);
                 }
 
             }
 
-            this.operations();
-            this.outputs();
+             this.operations();
          }
 
 
+              
 
 
 
+    }
 
+
+    public boolean isDirectory(File file){
+        if (file.isDirectory()){
+            return true;
+        }
+        else{
+            return false;
+        }  
     }
 
     @Override
@@ -133,14 +148,14 @@ public class LengthFilter extends Processing_elements{
 
             case "EQ":
             subFiles = new ArrayList<>();
-            if (firstEntry){
+            if (local){
                   
                 for (File subFile : filteredFiles)
                 {
                     System.out.println("LENGTH " + subFile.length());
                     if (subFile.length() == getLength())
                     {
-                        subFiles.add(subFile);
+                        addFileToList();
                     }
                     
                     
@@ -148,13 +163,13 @@ public class LengthFilter extends Processing_elements{
            
                 
             }
-            else if (!firstEntry){
+            else if (!local){
                 for (File subFile : filteredFiles)
                 {
                     System.out.println("LENGTH " + subFile.length());
                     if (subFile.length() == getLength())
                     {
-                        subFiles.add(subFile);
+                        addFileToList();
                     }
                     
                     
@@ -164,14 +179,14 @@ public class LengthFilter extends Processing_elements{
 
             case "NEQ":
             subFiles = new ArrayList<>();
-            if (firstEntry){
+            if (local){
                   
                 for (File subFile : filteredFiles)
                 {
                     System.out.println("LENGTH " + subFile.length());
                     if (subFile.length() != getLength())
                     {
-                        subFiles.add(subFile);
+                        addFileToList();
                     }
                     
                     
@@ -179,13 +194,13 @@ public class LengthFilter extends Processing_elements{
                 
             }
 
-            else if (!firstEntry){
+            else if (!local){
                 for (File subFile : filteredFiles)
                 {
                     System.out.println("LENGTH " + subFile.length());
                     if (subFile.length() != getLength())
                     {
-                        subFiles.add(subFile);
+                        addFileToList();
                     }
                     
                     
@@ -195,24 +210,24 @@ public class LengthFilter extends Processing_elements{
 
             case "GT":
             subFiles = new ArrayList<>();
-            if (firstEntry){
+            if (local){
                   
                 for (File subFile : filteredFiles)
                 {
                     System.out.println("LENGTH " + subFile.length());
                     if (subFile.length() > getLength())
                     {
-                        subFiles.add(subFile);
+                        addFileToList();
                     }     
                 }
                 
-            } else if (!firstEntry){
+            } else if (!local){
                 for (File subFile : filteredFiles)
                 {
                     System.out.println("LENGTH " + subFile.length());
                     if (subFile.length() > getLength())
                     {
-                        subFiles.add(subFile);
+                        addFileToList();
                     }     
                 }
             }
@@ -220,25 +235,25 @@ public class LengthFilter extends Processing_elements{
 
             case "GTE":
             subFiles = new ArrayList<>();
-            if (firstEntry)
+            if (local)
             { 
                 for (File subFile : filteredFiles)
                 {
                     System.out.println("LENGTH " + subFile.length());
                     if (subFile.length() >= getLength())
                     {
-                        subFiles.add(subFile);
+                        addFileToList();
                     }
                 }
                 
             }
-            else if (!firstEntry){
+            else if (!local){
                 for (File subFile : filteredFiles)
                 {
                     System.out.println("LENGTH " + subFile.length());
                     if (subFile.length() >= getLength())
                     {
-                        subFiles.add(subFile);
+                        addFileToList();
                     }
                 }
             }
@@ -248,24 +263,24 @@ public class LengthFilter extends Processing_elements{
 
             case "LT":    
             subFiles = new ArrayList<>();
-                if (firstEntry)
+                if (local)
                 {    
                     for (File subFile : filteredFiles)
                     {
                         System.out.println("LENGTH " + subFile.length());
                         if (subFile.length() < getLength())
                         {
-                            subFiles.add(subFile);
+                            addFileToList();
                         }                
                     }     
                 }
-                else if (!firstEntry){
+                else if (!local){
                     for (File subFile : filteredFiles)
                     {
                         System.out.println("LENGTH " + subFile.length());
                         if (subFile.length() < getLength())
                         {
-                            subFiles.add(subFile);
+                            addFileToList();
                         }
                     }
                 }
@@ -274,7 +289,7 @@ public class LengthFilter extends Processing_elements{
 
             case "LTE":
             subFiles = new ArrayList<>();
-            if (firstEntry)
+            if (local)
             {
                   
                 for (File subFile : filteredFiles)
@@ -282,20 +297,20 @@ public class LengthFilter extends Processing_elements{
                     System.out.println("LENGTH " + subFile.length());
                     if (subFile.length() <= getLength())
                     {
-                        subFiles.add(subFile);
+                        addFileToList();
                     }
                     
                     
                 }
                 
             }
-            else if (!firstEntry){
+            else if (!local){
                 for (File subFile : filteredFiles)
                 {
                     System.out.println("LENGTH " + subFile.length());
                     if (subFile.length() <= getLength())
                     {
-                        subFiles.add(subFile);
+                        addFileToList();
                     }
                 }
             }
@@ -306,32 +321,59 @@ public class LengthFilter extends Processing_elements{
                 subFiles = new ArrayList<>();
                 System.out.println("Operator does not exist, all files outtputted");
 
-                      for (File subFile : filteredFiles)
-                      {
-                        subFiles.add(subFile);           
-                      }
+                     for(int i = 0; i < filteredFiles.size(); i++){
+                        addFileToList();
+                     }
                 
                 break;
 
             }
         }
-    
-    
 
-    // @Override
-    // public void outputs()
-    // {
+        public long getRemoteFileSize() {
 
-    //     if (subFiles != null){
-    //         for (File printFiles: subFiles){
-    //             System.out.println("FILES FILTERED: " + printFiles.getName());
-    //         }
-            
-    //         System.out.println("if no files were outputted requirements were not met or no past entries");
-    //     }
-    //     else{
-    //         System.out.println("No files found.");
-    //     }
-    // }
- 
+            String servicePrincipalKey = "x0BmysMxlH_XfLoc69Kk";
+            String accessKeyBase64 = "ewoJImN1c3RvbWVySWQiOiAiMTQwMTM1OTIzOCIsCgkiY2xpZW50SWQiOiAiOGFkZTZjNTctZDIxNS00ZmYyLThkOTctOTE1YjRiYWUyZWIzIiwKCSJkb21haW4iOiAibGFzZXJmaWNoZS5jYSIsCgkiandrIjogewoJCSJrdHkiOiAiRUMiLAoJCSJjcnYiOiAiUC0yNTYiLAoJCSJ1c2UiOiAic2lnIiwKCQkia2lkIjogImNCeWdXYnh6YU9jRHZVcUdBU1RfcURTY0plcWw3aU9Ya19SZVFleUpiTzQiLAoJCSJ4IjogIjZNSXNuODRLanFtMEpTUmhmS2tHUTRzbGhkcldCbVNMWk9nMW5oWjhubFkiLAoJCSJ5IjogIlpkZ1M1YWIxdU0yaVdaWHVpdmpBc2VacC11LWlJUlc4MjFwZWhENVJ5bUkiLAoJCSJkIjogIldjN091cDFYV3FudjlEVFVzQWZIYmxGTDFqU3UwRWJRY3g0LXNqbG0xRmMiLAoJCSJpYXQiOiAxNjc3Mjk3NTU0Cgl9Cn0=";
+            AccessKey accessKey = AccessKey.createFromBase64EncodedAccessKey(accessKeyBase64);
+    
+            RepositoryApiClient client = RepositoryApiClientImpl.createFromAccessKey(
+                    servicePrincipalKey, accessKey);
+            // create a new file and store the remote file in a new local file
+    
+            // delete old file
+            File deleteFile = new File("Project\\remoteFile.txt");
+            deleteFile.delete();
+    
+            // create new file
+            final String FILE_NAME = "Project\\remoteFile.txt";
+            Consumer<InputStream> consumer = inputStream -> {
+                File exportedFile = new File(FILE_NAME);
+                try (FileOutputStream outputStream = new FileOutputStream(exportedFile)) {
+                    byte[] buffer = new byte[1024];
+                    while (true) {
+                        int length = inputStream.read(buffer);
+                        if (length == -1) {
+                            break;
+                        }
+                        outputStream.write(buffer, 0, length);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        inputStream.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+    
+            // get the file details
+            client.getEntriesClient()
+                    .exportDocument(this.repoID, Integer.parseInt(this.entryID), null, consumer)
+                    .join();
+            File remotefile = new File("Project\remoteFile.txt");
+            return remotefile.length();
+        }
+
 }
