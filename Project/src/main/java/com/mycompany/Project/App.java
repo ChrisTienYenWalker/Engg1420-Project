@@ -141,7 +141,7 @@ public class App {
                 break;
             case "NameFilter":    
                 NameFilter namefilter = new NameFilter(inputValues, pastEntries);
-                System.out.println("\n:results");
+                System.out.println("\nresults:\n");
                 for(String text: namefilter.outputs()){
                     System.out.println(text);
                 }

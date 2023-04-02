@@ -7,7 +7,8 @@ import javax.sound.sampled.SourceDataLine;
 
 import org.apache.http.impl.io.SocketOutputBuffer;
 
-public class NameFilter extends Processing_elements {
+public class NameFilter extends Processing_elements 
+{
     private ArrayList<String> inputValues;
     private ArrayList<String> pastEntries;
     private ArrayList<String> outputValues = new ArrayList<String>();
@@ -17,12 +18,14 @@ public class NameFilter extends Processing_elements {
         for (String text : inputValue) {
             System.out.println(text);
 
-            if (text.contains("value") || text.contains("Value")) {
+            if (text.contains("value") || text.contains("Value")) 
+            {
                 this.key = (text.replaceAll("value", "").replaceAll(" ", "").replaceAll(":", ""));
             }
 
         }
-        for (String files : pastEntries) {
+        for (String files : pastEntries) 
+        {
             inputValue.add(files);
 
         }
@@ -34,9 +37,12 @@ public class NameFilter extends Processing_elements {
     public void operations() 
     {
 
+            //if it is local
         if (local == true) 
         {
             File file = new File(path);
+
+            //checking for if it is a single file
             if (file.isFile()) 
             {
 
@@ -49,7 +55,10 @@ public class NameFilter extends Processing_elements {
                 {
                     System.out.println("No entries contain key");
                 }
-            } else {
+            } 
+            
+            else 
+            {
 
                 // if directory
                 if (file.getName().contains(key)) 
@@ -87,7 +96,8 @@ public class NameFilter extends Processing_elements {
             getEntriesRemoteFileNamesDIR();
 
             String name = getEntriesRemoteFileName(entryID);
-            if (name.contains(key)) {
+            if (name.contains(key)) 
+            {
                 addFileToList();
             }
         }

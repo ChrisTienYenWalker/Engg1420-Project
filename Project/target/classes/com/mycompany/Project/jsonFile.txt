@@ -6,13 +6,13 @@
 "input_entries": [
 {
 "type": "local",
-"path": "C:\Users\ryant\OneDrive\Documents\UofGSem2\ENGG1420new\Engg1420-Project\Project\src\main\java\com\mycompany\Project\testfolder",
+"path": "Project\src\main\java\com\mycompany\Project\testfolder",
 }
 ],
 "parameters": [
 {
     "name" : "Key",
-    "value": "part"
+    "value": "Can"
 }
 ]
 },
