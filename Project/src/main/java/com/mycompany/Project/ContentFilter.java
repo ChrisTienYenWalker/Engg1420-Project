@@ -106,6 +106,11 @@ public class ContentFilter extends Processing_elements {
             }
 
         }
+
+        if (localScenario){
+            generateLocalJson(path);
+        }
+
     }
 
     // @Override
@@ -122,6 +127,11 @@ public class ContentFilter extends Processing_elements {
     //     }
 
     // }
+
+
+    // outputs();
+
+
 
     public static boolean ifFile(String filePath) {
         File file = new File(filePath);

@@ -2,69 +2,24 @@
 "name": "First Scenario",
 "processing_elements": [
 {
-"type": "ContentFilter",
+"type": "Rename",
 "input_entries": [
 {
 "type": "local",
 "path": "Project\src\main\java\com\mycompany\Project\LoremIpsum2.txt",
+"type": "remote",
+"repoId": "r-0001d410ba56",
+"entryId": "23",
 }
 ],
 "parameters": [
 {
-"name": "Key",
-"value": "100"
+    "name" : "suffix",
+    "value": "hi"
 }
 ]
 },
-{
-"type": "LengthFilter",
-"input_entries": [
-{
-"type": "local",
-"path": "c:\\sample\\text_files"
-}
-],
-"parameters": [
-{
-"name": "Length",
-"value": "1024"
-},
-{
-"name": "Operator",
-"value": "GTE"
-}
-]
-},
-{
-"type": "Print",
-"input_entries": [],
-"parameters": []
-}
-{
-"type": "Split",
-"input_entries": [
-{
-"type": "local",
-"path": "c:\\sample\\text_files"
-}
-]
-{
-"name": "Lines",
-"value": "4"
-}
-}
-{
-"type": "List",
-"input_entries": [
-{
-"type": "local",
-"path": "c:\\sample\\text_files"
-}
-]
-{
-"name": "Max",
-"value": "20"  
-}
-}
+
+
 ]
 }

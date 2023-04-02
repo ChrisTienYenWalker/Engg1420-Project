@@ -62,7 +62,7 @@ public class Print extends Processing_elements {
         } else {
 
             // remote:
-            String name = getEntriesRemoteFileName();
+            String name = getEntriesRemoteFileName(this.entryID);
 
             String absolute = getEntriesAbsolutePath();
 

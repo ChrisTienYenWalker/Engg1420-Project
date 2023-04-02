@@ -2,6 +2,8 @@ package com.mycompany.Project;
 
 import java.util.ArrayList;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class LengthFilter extends Processing_elements{
     private long length;
