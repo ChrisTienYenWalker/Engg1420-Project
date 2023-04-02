@@ -2,7 +2,7 @@
 "name": "First Scenario",
 "processing_elements": [
 {
-"type": "ContentFilter",
+"type": "NameFilter",
 "input_entries": [
 {
 "type": "remote",
@@ -12,8 +12,8 @@
 ],
 "parameters": [
 {
-"name": "Key",
-"value": "100"
+    "name" : "Key",
+    "value": "part"
 }
 ]
 },

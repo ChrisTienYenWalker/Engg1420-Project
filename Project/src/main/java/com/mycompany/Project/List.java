@@ -82,12 +82,5 @@ public class List extends Processing_elements {
         }
     }
 
-    // define the outputs function to display the output list
 
-
-//     public void outputs() {
-//         for (String str : outputList) {
-//             System.out.println(str);
-//         }
-//     }
 }

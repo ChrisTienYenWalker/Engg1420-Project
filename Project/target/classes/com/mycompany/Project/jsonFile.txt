@@ -2,21 +2,27 @@
 "name": "First Scenario",
 "processing_elements": [
 {
-"type": "ContentFilter",
+"type": "NameFilter",
 "input_entries": [
 {
+<<<<<<< HEAD
 "type": "remote",
 "repoId": "r-0001d410ba56",
 "entryId": "15",
+=======
+"type": "local",
+"path": "C:\Users\ryant\OneDrive\Documents\UofGSem2\ENGG1420new\Engg1420-Project\Project\src\main\java\com\mycompany\Project\testfolder",
+>>>>>>> bc7be48409077741d1a29c4cb9fc18b3d5f55a55
 }
 ],
 "parameters": [
 {
-"name": "Key",
-"value": "100"
+    "name" : "Key",
+    "value": "part"
 }
 ]
 },
+<<<<<<< HEAD
 {
 "type": "LengthFilter",
 "input_entries": [
@@ -41,5 +47,9 @@
 "input_entries": [],
 "parameters": []
 }
+=======
+
+
+>>>>>>> bc7be48409077741d1a29c4cb9fc18b3d5f55a55
 ]
 }

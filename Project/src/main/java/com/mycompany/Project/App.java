@@ -6,6 +6,7 @@ import java.io.*;
 
 public class App {
 
+    
     //arraylist for the past filters
     public static ArrayList<String> pastEntries = new ArrayList<String>();
     public static void main(String[] args) throws Exception {
@@ -131,35 +132,36 @@ public class App {
         //then create the new object and add it to the arraylist of past filters
         switch(type.stripIndent()){
             case "List":    
-                // List list = new List(inputValues, pastEntries);
+                //List list = new List(inputValues, pastEntries);
                 break;
             case "LengthFilter":    
                 // LengthFilter lengthfilter = new LengthFilter(inputValues, pastEntries);
                 // LengthFilter lengthfilter = new LengthFilter(inputValues, pastEntries);
-                System.out.println("passed"); 
+                //System.out.println("passed"); 
                 break;
             case "NameFilter":    
-                // NameFilter namefilter = new NameFilter(inputValues, pastEntries);
-                break;
-            case "ContentFilter":    
-                ContentFilter contentfilter = new ContentFilter(inputValues, pastEntries);
-                pastEntries = contentfilter.outputList;
-                for(String text: pastEntries){
+                NameFilter namefilter = new NameFilter(inputValues, pastEntries);
+                System.out.println("\n:results");
+                for(String text: namefilter.outputs()){
                     System.out.println(text);
                 }
                 break;
+            case "ContentFilter":    
+                //ContentFilter contentfilter = new ContentFilter(inputValues, pastEntries);
+                break;
             case "CountFilter":    
-                //  CountFilter countfilter = new CountFilter(inputValues, pastEntries);
-                //  pastEntries = countfilter.outputList;
-                //  for(String text: pastEntries){
-                //     System.out.println(text);
-                // }
+                CountFilter countfilter = new CountFilter(inputValues, pastEntries);
                 break;
             case "Split":    
-                // Split split = new Split(inputValues, pastEntries);
+                //Split split = new Split(inputValues, pastEntries);
                 break;
             case "Rename":    
-                // Rename rename = new Rename(inputValues, pastEntries);
+                Rename rename = new Rename(inputValues, pastEntries);
+                pastEntries = rename.outputList;
+                for(String text: pastEntries){
+                    System.out.println(text);
+                }
+                
                 break;
             case "Print":    
                 // Print print = new Print(inputValues, pastEntries);
