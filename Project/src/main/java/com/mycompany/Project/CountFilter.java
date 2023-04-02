@@ -61,6 +61,9 @@ public class CountFilter extends Processing_elements {
         
 
         if (local == false) { //If it is remote enter loop
+            if (isRemoteDIR(this.entryID)) { //checks if it is a directory, if so it will not accept it
+                System.out.println("Please use valid file path");
+            } else {
             Boolean totalKey = false; //Sets totalkey to false
 
             getEntriesRemote(Integer.parseInt(entryID)); //Uses the getEtriesRemote function in processing elements and parses the entry ID
@@ -68,24 +71,24 @@ public class CountFilter extends Processing_elements {
             // try {
             //     File filename = new File(path); //gets the filename
             //     readfile(filename);
+            int count = 0; //Set the count value to zero
 
+            
                 for(String line: data){ //Reads through each line of the data
-                        int count = 0; //Set the count value to zero
-                            if (line.contains(key)) { //if the key is found in the line, count increases
-                                count++; 
-                                if (count < min) { //if count is less than the minimum amount of instances of the keyword, totalkey is false.
-                                    totalKey = false; 
-                                    break;
-                                }
-                            }
-                        }
-                        if (totalKey == true) { //if totalkey is equal to true, it will generate a remoteJson 
+                        if (line.contains(key)){ //if the key is found in the line, count increases
+                            count++;
+                        } 
+                    }
+                        if (count < min) { //if count is less than the minimum amount of instances of the keyword, totalkey is false.
+                            totalKey = false; 
+                            System.out.println("The key " + key + " is not found at least " + min + " times");
+                        } else {
+                            totalKey = true;
                             addFileToList();
-                           System.out.println(":(");
+                            System.out.println("The Key " + key + " is found at least " + min + " times");
                         }
-                        else{
-                            System.out.println("The Key is not found the min number of times.");
-                        }
+            }
+
         } else {
             if (ifDirectory(path)) { //checks if it is a directory, if so it will not accept it
                 System.out.println("Please use valid file path");
@@ -112,6 +115,7 @@ public class CountFilter extends Processing_elements {
             } else {
                 System.out.println("File path not found");
             }
+        
         }
     }
 }

@@ -6,6 +6,7 @@
 "input_entries": [
 {
 "type": "local",
+<<<<<<< HEAD
 "path": "C:\Users\walke\OneDrive\Documents\GitHub\Engg1420-Project\Project\src\main\java\com\mycompany\Project\testfolder",
 "type": "local",
 "path": "C:\Users\walke\OneDrive\Documents\GitHub\Engg1420-Project\Project\src\main\java\com\mycompany\Project\LoremIpsum2.txt",
@@ -16,12 +17,29 @@
 "entryId": "18",
 "repoId": " r-0001d410ba56",
 
+=======
+<<<<<<< HEAD
+"path": "Project\src\main\java\com\mycompany\Project\testfolder",
+=======
+"path": "C:\Users\walke\OneDrive\Documents\GitHub\Engg1420-Project\GeoNamespenguin",
+=======
+"type": "remote",
+"repoId": "r-0001d410ba56",
+"entryId": "15",
+>>>>>>> 039fe5373cd92db8ef57a83ac7fd0832265e7817
+>>>>>>> bb6e049c2062f7e063097ba9d8eb271fc54c1e13
+>>>>>>> de4cda02238d38e12f3760c5004d86334a1c0ae0
 }
 ],
 "parameters": [
 {
+<<<<<<< HEAD
     "name" : "suffix",
     "value": "_coppied"
+=======
+    "name" : "Key",
+    "value": "Can"
+>>>>>>> de4cda02238d38e12f3760c5004d86334a1c0ae0
 }
 ]
 },
@@ -30,5 +48,40 @@
 			"input_entries": [],
 			"parameters": []
 		}
+<<<<<<< HEAD
+=======
+=======
+{
+"type": "LengthFilter",
+"input_entries": [
+{
+<<<<<<< HEAD
+"type": "remote",
+"repoId": "r-0001d410ba56",
+"entryId: "15",
+=======
+"type": "local",
+"path": "Project\src\main\java\com\mycompany\Project\LoremIpsum2.txt"
+>>>>>>> acd83f1a9d7e7eb6c3f731b93fb83398fa6bf3bf
+}
+],
+"parameters": [
+{
+"name": "Length",
+"value": "1024"
+},
+{
+"name": "Operator",
+"value": "GTE"
+}
+]
+},
+{
+"type": "Print",
+"input_entries": [],
+"parameters": []
+}
+>>>>>>> 039fe5373cd92db8ef57a83ac7fd0832265e7817
+>>>>>>> de4cda02238d38e12f3760c5004d86334a1c0ae0
 ]
 }
