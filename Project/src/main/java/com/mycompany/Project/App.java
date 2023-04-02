@@ -152,14 +152,14 @@ public class App {
                 break;
             case "Rename":    
                 Rename rename = new Rename(inputValues, pastEntries);
-                pastEntries = rename.outputList;
+                pastEntries = rename.outputs();
                 for(String text: pastEntries){
                     System.out.println(text);
                 }
                 
                 break;
             case "Print":    
-                //Print print = new Print(inputValues, pastEntries);
+                Print print = new Print(inputValues, pastEntries);
                 break;
 
             default:

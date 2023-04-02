@@ -11,11 +11,9 @@ import com.laserfiche.repository.api.RepositoryApiClient;
 import com.laserfiche.repository.api.RepositoryApiClientImpl;
 
 public class Print extends Processing_elements {
-    ArrayList<String> entries;
-    private String outputString = "";
 
     // constructor
-    public Print(ArrayList<String> inputValue, ArrayList<String> pastEntries) {
+    protected Print(ArrayList<String> inputValue, ArrayList<String> pastEntries) {
 
         for (String files : pastEntries) {
             inputValue.add(files);
@@ -23,10 +21,11 @@ public class Print extends Processing_elements {
 
         loopEntries(inputValue);
 
+
     }
 
     // define these functions
-    public void operations() {
+    protected void operations() {
 
         if (local) {
             try {
@@ -39,10 +38,9 @@ public class Print extends Processing_elements {
 
                     long length = file.length();
 
-                    String[] split = path.split("\\");
+                    String[] split = path.split("\\\\");
 
-                    outputString = "Path: " + absolute + ", length: " + length + ", name: " + split[split.length - 1]
-                            + "\n";
+                    System.out.println("Path: " + absolute + "\nLength: " + Long.toString(length) + "\nName: " + split[split.length - 1] + "\n");
                 }
 
                 // if remote
@@ -51,32 +49,37 @@ public class Print extends Processing_elements {
 
                     long length = getFolderSize(file);// length function in processing elements;
 
-                    String[] split = path.split("\\");
+                    String[] split = path.split("\\\\");
 
-                    outputString = "Path: " + absolute + ", length: " + length + ", name: " + split[split.length - 1]
-                            + "\n";
+                    System.out.println("Path: " + absolute + "\nLength: " + Long.toString(length) + "\nName: " + split[split.length - 1] + "\n");
                 }
             } catch (Exception e) {
                 System.out.println(e);
             }
         } else {
-
+            System.out.println("reading Remote");
             // remote:
             String name = getEntriesRemoteFileName(this.entryID);
 
             String absolute = getEntriesAbsolutePath();
 
-            long length = getRemoteFileSize();// length function in processing elements;
+            long length = 0;
+            if(true){
+                getEntriesRemoteFileNamesDIR();
+                for(String childFile: data){
+                    length += getRemoteFileSize(childFile);// length function in processing elements;
+                }
+            }else{
+                length = getRemoteFileSize(this.entryID);// length function in processing elements;
+            }
 
-            String[] split = name.split("\\");
-
-            outputString = "Path: " + absolute + ", length: " + length + ", name: " + split[split.length - 1];
+            System.out.println("Path: " + absolute + "\nLength: " + Long.toString(length) + "\nName: " + name + "\n");
 
         }
 
     };
 
-    public long getFolderSize(File folder) {
+    protected long getFolderSize(File folder) {
         long length = 0;
 
         // listFiles() is used to list the
@@ -96,7 +99,7 @@ public class Print extends Processing_elements {
         return length;
     }
 
-    public long getRemoteFileSize() {
+    protected long getRemoteFileSize(String entryID) {
 
         String servicePrincipalKey = "x0BmysMxlH_XfLoc69Kk";
         String accessKeyBase64 = "ewoJImN1c3RvbWVySWQiOiAiMTQwMTM1OTIzOCIsCgkiY2xpZW50SWQiOiAiOGFkZTZjNTctZDIxNS00ZmYyLThkOTctOTE1YjRiYWUyZWIzIiwKCSJkb21haW4iOiAibGFzZXJmaWNoZS5jYSIsCgkiandrIjogewoJCSJrdHkiOiAiRUMiLAoJCSJjcnYiOiAiUC0yNTYiLAoJCSJ1c2UiOiAic2lnIiwKCQkia2lkIjogImNCeWdXYnh6YU9jRHZVcUdBU1RfcURTY0plcWw3aU9Ya19SZVFleUpiTzQiLAoJCSJ4IjogIjZNSXNuODRLanFtMEpTUmhmS2tHUTRzbGhkcldCbVNMWk9nMW5oWjhubFkiLAoJCSJ5IjogIlpkZ1M1YWIxdU0yaVdaWHVpdmpBc2VacC11LWlJUlc4MjFwZWhENVJ5bUkiLAoJCSJkIjogIldjN091cDFYV3FudjlEVFVzQWZIYmxGTDFqU3UwRWJRY3g0LXNqbG0xRmMiLAoJCSJpYXQiOiAxNjc3Mjk3NTU0Cgl9Cn0=";
@@ -108,7 +111,6 @@ public class Print extends Processing_elements {
 
         // delete old file
         File deleteFile = new File("Project\\remoteFile.txt");
-        deleteFile.delete();
 
         // create new file
         final String FILE_NAME = "Project\\remoteFile.txt";
@@ -136,10 +138,11 @@ public class Print extends Processing_elements {
 
         // get the file details
         client.getEntriesClient()
-                .exportDocument(this.repoID, Integer.parseInt(this.entryID), null, consumer)
+                .exportDocument(this.repoID, Integer.parseInt(entryID), null, consumer)
                 .join();
-        File remotefile = new File("Project\remoteFile.txt");
-        return remotefile.length();
+        long length = deleteFile.length();
+        deleteFile.delete();
+        return length;
     }
 
 }

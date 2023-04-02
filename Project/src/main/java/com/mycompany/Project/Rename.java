@@ -17,7 +17,6 @@ import org.apache.commons.io.FileUtils;
 public class Rename extends Processing_elements {
 
     private String suffix;
-    ArrayList<String> entries;
 
     // constructor
     public Rename(ArrayList<String> inputValue, ArrayList<String> pastEntries) {
@@ -42,14 +41,13 @@ public class Rename extends Processing_elements {
     }
 
     // define these functions
-    public void operations() {
+    protected void operations() {
         if (local) {
             File file = new File(path);
 
             if (file.isFile()) {
                 System.out.println("works");
                 String temp = path;
-                System.out.println(suffix);
                 temp = temp.substring(0, temp.length() - 4);
                 temp = temp.concat(suffix).concat(".txt");
                 generateLocalJson(temp);
@@ -103,8 +101,7 @@ public class Rename extends Processing_elements {
                 //create folder
                 //create files in folder
             }
-
-            getEntriesRemoteFileNamesDIR();
+            generateRemoteJson();
         }
     };
 
@@ -116,7 +113,7 @@ public class Rename extends Processing_elements {
     // constructors will have 2 parameters; an arraylist of the past entries and an
     // arraylist of the information
 
-    public void copyFileUsingStream(File dest) {
+    private void copyFileUsingStream(File dest) {
         try {
             FileWriter myWriter = new FileWriter(dest);
             for (String text : data) {
