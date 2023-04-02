@@ -20,8 +20,9 @@
 "type": "CountFilter",
 "input_entries": [
 {
-"type": "local",
-"path": "Project\src\main\java\com\mycompany\Project\SampleCityNamesInCanada.txt"
+"type": "remote",
+"repoId": "r-0001d410ba56",
+"entryId: "15",
 }
 ],
 "parameters": [
