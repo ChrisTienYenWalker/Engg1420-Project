@@ -2,20 +2,17 @@
 "name": "First Scenario",
 "processing_elements": [
 {
-"type": "Rename",
+"type": "NameFilter",
 "input_entries": [
 {
 "type": "local",
-"path": "Project\src\main\java\com\mycompany\Project\LoremIpsum2.txt",
-"type": "remote",
-"repoId": "r-0001d410ba56",
-"entryId": "23",
+"path": "C:\Users\ryant\OneDrive\Documents\UofGSem2\ENGG1420new\Engg1420-Project\Project\src\main\java\com\mycompany\Project\testfolder",
 }
 ],
 "parameters": [
 {
-    "name" : "suffix",
-    "value": "hi"
+    "name" : "Key",
+    "value": "part"
 }
 ]
 },
