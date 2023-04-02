@@ -1,17 +1,19 @@
 package com.mycompany.Project;
 
+import java.io.File;
 import java.util.ArrayList;
 
-public class NameFilter extends Processing_elements 
-{
+import javax.sound.sampled.SourceDataLine;
+
+import org.apache.http.impl.io.SocketOutputBuffer;
+
+public class NameFilter extends Processing_elements {
     private ArrayList<String> inputValues;
     private ArrayList<String> pastEntries;
     private ArrayList<String> outputValues = new ArrayList<String>();
     private String key;
-    
-    
-    public NameFilter(ArrayList<String> inputValue, ArrayList<String> pastEntries) 
-    {
+
+    public NameFilter(ArrayList<String> inputValue, ArrayList<String> pastEntries) {
         for (String text : inputValue) {
             System.out.println(text);
 
@@ -22,59 +24,89 @@ public class NameFilter extends Processing_elements
         }
         for (String files : pastEntries) {
             inputValue.add(files);
+
         }
-        
+
         loopEntries(inputValue);
-   }
-    
-    
-    
+    }
 
     @Override
-    public void operations()
+    public void operations() 
     {
 
-        if(local)
+        if (local == true) 
         {
-            //if it's a directorty 
-        }
-        else
-        {
-            //remote
-            String name = getEntriesRemoteFileName(this.entryID);
+            File file = new File(path);
+            if (file.isFile()) 
+            {
+
+                if (file.getName().contains(key)) 
+                {
+                    System.out.println("entries contain key");
+                    addFileToList();
+                } 
+                else 
+                {
+                    System.out.println("No entries contain key");
+                }
+            } else {
+
+                // if directory
+                if (file.getName().contains(key)) 
+                {
+                    generateLocalJson(path);
+                } 
+                else 
+                {
+                    getEntriesLocalFileNames(path);
+                    for (String text : data) 
+                    {
+                        File subFiles = new File(text);
+                        System.out.println(subFiles.getName());
+                        if (subFiles.getName().contains(key))
+                        {
+                            generateLocalJson(path);
+                        } 
+                        else 
+                        {
+                            System.out.println("No entries contain key");
+                        }
+                    }
+                }
+            }
+
         }
 
-        //if it's true use this function below: 
-        //addFileToList()
-           for (String entry : inputValues) 
-           {
-            if (entry.contains("name")) 
-            {
-                String name = entry.split(":")[1].trim();
-                if (name.contains(key)) 
-                {
-                    outputValues.add(entry);
-                }
+        else 
+        {
+
+            // getEntriesRemoteFileNamesDIR will give the file id for remote
+            // getEntriesRemoteFileName will give file names based on id
+            // remote
+
+            getEntriesRemoteFileNamesDIR();
+
+            String name = getEntriesRemoteFileName(entryID);
+            if (name.contains(key)) {
                 addFileToList();
             }
         }
+
     };
-    
-    
+
     // @Override
-    // public void outputs() 
+    // public void outputs()
     // {
-    //     System.out.println("Output:");
-    //     for (String entry : outputValues) 
-    //     {
-    //         System.out.println(entry);
-    //     }
-    // };
-    
-    // public void setKey(String key) 
+    // System.out.println("Output:");
+    // for (String entry : outputValues)
     // {
-    //     this.key = key;
+    // System.out.println(entry);
     // }
-    
-    
+    // };
+
+    // public void setKey(String key)
+    // {
+    // this.key = key;
+    // }
+
 }

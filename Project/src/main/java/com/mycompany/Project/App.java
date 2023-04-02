@@ -6,6 +6,7 @@ import java.io.*;
 
 public class App {
 
+    
     //arraylist for the past filters
     public static ArrayList<String> pastEntries = new ArrayList<String>();
     public static void main(String[] args) throws Exception {
@@ -139,7 +140,11 @@ public class App {
                 //System.out.println("passed"); 
                 break;
             case "NameFilter":    
-                //NameFilter namefilter = new NameFilter(inputValues, pastEntries);
+                NameFilter namefilter = new NameFilter(inputValues, pastEntries);
+                System.out.println("\n:results");
+                for(String text: namefilter.outputs()){
+                    System.out.println(text);
+                }
                 break;
             case "ContentFilter":    
                 //ContentFilter contentfilter = new ContentFilter(inputValues, pastEntries);

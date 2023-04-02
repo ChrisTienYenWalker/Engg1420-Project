@@ -98,9 +98,10 @@ abstract class Processing_elements {
     }
     protected void getEntriesLocalFileNames(String filename) {
         File folder = new File(filename);
+        System.out.println(folder.isDirectory());
         File[] listOfFiles = folder.listFiles();
         for (int i = 0; i < listOfFiles.length; i++) {
-            data.add(listOfFiles[i].toString());
+            data.add(listOfFiles[i].getName());
         }
     }
 
