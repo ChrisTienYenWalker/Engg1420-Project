@@ -63,7 +63,7 @@ public class CountFilter extends Processing_elements {
         if (local == false) { //If it is remote enter loop
             Boolean totalKey = false; //Sets totalkey to false
 
-            getEntriesRemote(Integer.parseInt(entryID));
+            getEntriesRemote(Integer.parseInt(entryID)); //Uses the getEtriesRemote function in processing elements and parses the entry ID
 
             // try {
             //     File filename = new File(path); //gets the filename
@@ -71,15 +71,15 @@ public class CountFilter extends Processing_elements {
 
                 for(String line: data){ //Reads through each line of the data
                         int count = 0; //Set the count value to zero
-                            if (line.contains(key)) {
-                                count++;
-                                if (count < min) {
-                                    totalKey = false;
+                            if (line.contains(key)) { //if the key is found in the line, count increases
+                                count++; 
+                                if (count < min) { //if count is less than the minimum amount of instances of the keyword, totalkey is false.
+                                    totalKey = false; 
                                     break;
                                 }
                             }
                         }
-                        if (totalKey == true) {
+                        if (totalKey == true) { //if totalkey is equal to true, it will generate a remoteJson 
                             addFileToList();
                            System.out.println(":(");
                         }
@@ -87,35 +87,28 @@ public class CountFilter extends Processing_elements {
                             System.out.println("The Key is not found the min number of times.");
                         }
         } else {
-            if (ifDirectory(path)) {
+            if (ifDirectory(path)) { //checks if it is a directory, if so it will not accept it
                 System.out.println("Please use valid file path");
-            } else if (ifFile(path)) {
-                Boolean totalKey = false; //Sets totalkey to true
+            } else if (ifFile(path)) { //enter loop if the entry is a file
+                Boolean totalKey = false; //Sets totalkey to false
 
-                File newFile = new File(path);
+                File newFile = new File(path); //Create a new file with the filepath and read it in the next line
                 readfile(newFile);
 
-                int count = 0;
-                for (String line : data) {
-                    if (line.contains(key)) {
+                int count = 0; //set count to 0
+                for (String line : data) { //Read through each line in the file
+                    if (line.contains(key)) { //If the key is found increasse the count
                         count++;
                     }
                 }
-                    if (count < min) {
+                    if (count < min) { //Case for when the count is less than the min instances of the keyword
                         totalKey = false;
                         System.out.println("The key " + key + " is not found at least " + min + " times in the file");
-                    } else {
+                    } else { //Case for when the keyword is found equal to or greater the min instances of the keyword
                         totalKey = true;
                         System.out.println("The Key " + key + " is found at least " + min + " times in the file");
-                        outputList.add(path);
+                        outputList.add(path); //Adds the path to the outputList
                     }
-                
-                    
-                
-                // if (totalKey == true) {
-                //     System.out.println("The key " + key + " is found at least " + min + " times in the file");
-                //     outputList.add(path);
-                // }
             } else {
                 System.out.println("File path not found");
             }
