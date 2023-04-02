@@ -61,9 +61,9 @@ public class CountFilter extends Processing_elements {
         
 
         if (local == false) { //If it is remote enter loop
-            if (ifDirectory(path)) { //checks if it is a directory, if so it will not accept it
+            if (isRemoteDIR(this.entryID)) { //checks if it is a directory, if so it will not accept it
                 System.out.println("Please use valid file path");
-            } else if (ifFile(path)) {
+            } else {
             Boolean totalKey = false; //Sets totalkey to false
 
             getEntriesRemote(Integer.parseInt(entryID)); //Uses the getEtriesRemote function in processing elements and parses the entry ID
@@ -81,13 +81,14 @@ public class CountFilter extends Processing_elements {
                     }
                         if (count < min) { //if count is less than the minimum amount of instances of the keyword, totalkey is false.
                             totalKey = false; 
-                            System.out.println("The key " + key + " is not found at least " + min + "times");
+                            System.out.println("The key " + key + " is not found at least " + min + " times");
                         } else {
                             totalKey = true;
                             addFileToList();
-                            System.out.println("The Key " + key + " is gound at least " + min + "times");
+                            System.out.println("The Key " + key + " is found at least " + min + " times");
                         }
             }
+
         } else {
             if (ifDirectory(path)) { //checks if it is a directory, if so it will not accept it
                 System.out.println("Please use valid file path");
