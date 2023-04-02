@@ -58,7 +58,12 @@ public class NameFilter extends Processing_elements {
                 } 
                 else 
                 {
+                    File folder = new File(path);
+                    System.out.println(path);
+                    System.out.println(folder.exists());
+
                     getEntriesLocalFileNames(path);
+
                     for (String text : data) 
                     {
                         File subFiles = new File(text);

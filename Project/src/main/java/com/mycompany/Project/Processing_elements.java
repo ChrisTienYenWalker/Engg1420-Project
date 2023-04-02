@@ -70,7 +70,8 @@ abstract class Processing_elements {
 
             if (local) {
                 if (text.contains("path")) {
-                    path = text.replaceAll("path", "").replaceAll(" ", "").replaceAll(":", "");
+                    String[] splitText = text.split(" ");
+                    path = splitText[3].trim();
                     operations();
                     local = false;
                     path = null;
@@ -98,7 +99,6 @@ abstract class Processing_elements {
     }
     protected void getEntriesLocalFileNames(String filename) {
         File folder = new File(filename);
-        System.out.println(folder.isDirectory());
         File[] listOfFiles = folder.listFiles();
         for (int i = 0; i < listOfFiles.length; i++) {
             data.add(listOfFiles[i].getName());

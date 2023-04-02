@@ -2,22 +2,17 @@
 "name": "First Scenario",
 "processing_elements": [
 {
-"type": "Rename",
+"type": "NameFilter",
 "input_entries": [
 {
 "type": "local",
-"path": "Project\src\main\java\com\mycompany\Project\LoremIpsum2.txt",
-"type": "local",
-"path": "Project\src\main\java\com\mycompany\Project\testfolder",
-"type": "remote",
-"repoId": "r-0001d410ba56",
-"entryId": "15",
+"path": "C:\Users\walke\OneDrive\Documents\GitHub\Engg1420-Project\GeoNamespenguin",
 }
 ],
 "parameters": [
 {
-    "name" : "suffix",
-    "value": "penguin"
+    "name" : "Key",
+    "value": "part"
 }
 ]
 },
