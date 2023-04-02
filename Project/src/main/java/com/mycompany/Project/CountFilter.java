@@ -4,25 +4,37 @@ import java.util.ArrayList;
 import java.io.*;
 import java.util.List;
 
+import javax.swing.plaf.basic.BasicSplitPaneUI.KeyboardDownRightHandler;
+
 public class CountFilter extends Processing_elements {
 
     private ArrayList<File> pastEntries = new ArrayList<>();
-    ArrayList<File> outputList = new ArrayList<>();
+    ArrayList<String> outputList = new ArrayList<>();
     private String key;
     private int min;
 
     public CountFilter(ArrayList<String> inputValues, ArrayList<String> pastEntries) {
         
+        Boolean keyBool = false;
+        Boolean minBool = false;
         for (String text : inputValues) {
-            System.out.println(text);
-
-            if (text.contains("value") || text.contains("Value")) {
-                key = text.replaceAll("value", "").replaceAll(" ", "").replaceAll(":", "");
+            if(text.contains("Key")){
+                keyBool = true;
             }
-            if (text.contains("value") || text.contains("value")) {
+            if(text.contains("Min")){
+                minBool = true;
+            }
+            if (text.contains("value") && keyBool) {
+                key = text.replaceAll("value", "").replaceAll(" ", "").replaceAll(":", "");
+                keyBool = false;
+            }
+            if (text.contains("value") && minBool) {
                 min = Integer.parseInt(text.replaceAll("value", "").replaceAll(" ", "").replaceAll(":", ""));
+                minBool = false;
             }
         }
+        System.out.println("data " + min);
+        System.out.println(key);
         for (String files : pastEntries) {
             inputValues.add(files);
         }
@@ -67,6 +79,9 @@ public class CountFilter extends Processing_elements {
                         if (totalKey == true) {
                             addFileToList();
                         }
+                        else{
+                            System.out.println("The Key is not found the min number of times.");
+                        }
                     }
             catch (Exception e) {
                 System.out.println(e);
@@ -86,7 +101,8 @@ public class CountFilter extends Processing_elements {
                     }
                 }
                 if (totalKey == true) {
-                    outputList.add(new File(path));
+                    outputList.add(path);
+                    System.out.println("This is a test");
                 }
             } else {
                 System.out.println("File path not found");
