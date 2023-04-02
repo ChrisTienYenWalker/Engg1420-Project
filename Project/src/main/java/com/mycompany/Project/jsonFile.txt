@@ -2,58 +2,33 @@
 "name": "First Scenario",
 "processing_elements": [
 {
-"type": "NameFilter",
+"type": "Rename",
 "input_entries": [
 {
-<<<<<<< HEAD
 "type": "local",
-"path": "C:\Users\walke\OneDrive\Documents\GitHub\Engg1420-Project\GeoNamespenguin",
-=======
+"path": "C:\Users\walke\OneDrive\Documents\GitHub\Engg1420-Project\Project\src\main\java\com\mycompany\Project\testfolder",
+"type": "local",
+"path": "C:\Users\walke\OneDrive\Documents\GitHub\Engg1420-Project\Project\src\main\java\com\mycompany\Project\LoremIpsum2.txt",
 "type": "remote",
-"repoId": "r-0001d410ba56",
-"entryId": "15",
->>>>>>> 039fe5373cd92db8ef57a83ac7fd0832265e7817
+"repoId": " r-0001d410ba56",
+"entryId": "11",
+"type": "remote",
+"entryId": "18",
+"repoId": " r-0001d410ba56",
+
 }
 ],
 "parameters": [
 {
-    "name" : "Key",
-    "value": "part"
+    "name" : "suffix",
+    "value": "_coppied"
 }
 ]
 },
-<<<<<<< HEAD
-
 		{
 			"type": "Print",
 			"input_entries": [],
 			"parameters": []
 		}
-=======
-{
-"type": "LengthFilter",
-"input_entries": [
-{
-"type": "local",
-"path": "Project\src\main\java\com\mycompany\Project\LoremIpsum2.txt"
-}
-],
-"parameters": [
-{
-"name": "Length",
-"value": "1024"
-},
-{
-"name": "Operator",
-"value": "GTE"
-}
-]
-},
-{
-"type": "Print",
-"input_entries": [],
-"parameters": []
-}
->>>>>>> 039fe5373cd92db8ef57a83ac7fd0832265e7817
 ]
 }

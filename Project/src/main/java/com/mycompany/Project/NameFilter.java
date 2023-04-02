@@ -104,7 +104,7 @@ public class NameFilter extends Processing_elements {
         else
         {
             //remote
-            String name = getEntriesRemoteFileName();
+            // String name = getEntriesRemoteFileName();
         }
 
         //if it's true use this function below: 

@@ -70,8 +70,9 @@ abstract class Processing_elements {
 
             if (local) {
                 if (text.contains("path")) {
-                    String[] splitText = text.split(" ");
-                    path = splitText[3].trim();
+                    text.replaceAll((" "), "");
+                    String[] splitText = text.split(":");
+                    path = splitText[1].trim();
                     operations();
                     local = false;
                     path = null;
@@ -82,6 +83,7 @@ abstract class Processing_elements {
                 remote = 3;
             }
             if (remote > 0) {
+                
                 if (text.contains("repoId")) {
                     repoID = text.replaceAll("repoId", "").replaceAll(" ", "").replaceAll(":", "");
                 }
