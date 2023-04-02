@@ -97,6 +97,30 @@ public class NameFilter extends Processing_elements {
             }
         }
 
+        if(local)
+        {
+            //if it's a directorty 
+        }
+        else
+        {
+            //remote
+            String name = getEntriesRemoteFileName();
+        }
+
+        //if it's true use this function below: 
+        //addFileToList()
+           for (String entry : inputValues) 
+           {
+            if (entry.contains("name")) 
+            {
+                String name = entry.split(":")[1].trim();
+                if (name.contains(key)) 
+                {
+                    outputValues.add(entry);
+                }
+                addFileToList();
+            }
+        }
     };
 
     // @Override
