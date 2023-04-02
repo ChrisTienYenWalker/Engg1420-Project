@@ -74,7 +74,7 @@ abstract class Processing_elements {
                 }
             }
             if (text.contains("type") && text.contains("remote")) {
-                remote = 2;
+                remote = 3;
             }
             if (remote > 0) {
                 if (text.contains("repoId")) {
@@ -84,10 +84,11 @@ abstract class Processing_elements {
                     entryID = text.replaceAll("entryId", "").replaceAll(" ", "").replaceAll(":", "");
                 }
                 remote--;
-
-                operations();
-                repoID = null;
-                entryID = null;
+                if(entryID != null && repoID != null){
+                    operations();
+                    repoID = null;
+                    entryID = null;
+                }
             }
         }
     }
@@ -158,17 +159,17 @@ abstract class Processing_elements {
                 .join();
         List<Entry> RemoteEntries = result.getValue();
         for (Entry childEntry : RemoteEntries) {
-            data.add(childEntry.getName());
+            data.add(Integer.toString(childEntry.getId()));
         }
     }
 
-    public String getEntriesRemoteFileName() {
+    public String getEntriesRemoteFileName(String entryID) {
         String servicePrincipalKey = "x0BmysMxlH_XfLoc69Kk";
         String accessKeyBase64 = "ewoJImN1c3RvbWVySWQiOiAiMTQwMTM1OTIzOCIsCgkiY2xpZW50SWQiOiAiOGFkZTZjNTctZDIxNS00ZmYyLThkOTctOTE1YjRiYWUyZWIzIiwKCSJkb21haW4iOiAibGFzZXJmaWNoZS5jYSIsCgkiandrIjogewoJCSJrdHkiOiAiRUMiLAoJCSJjcnYiOiAiUC0yNTYiLAoJCSJ1c2UiOiAic2lnIiwKCQkia2lkIjogImNCeWdXYnh6YU9jRHZVcUdBU1RfcURTY0plcWw3aU9Ya19SZVFleUpiTzQiLAoJCSJ4IjogIjZNSXNuODRLanFtMEpTUmhmS2tHUTRzbGhkcldCbVNMWk9nMW5oWjhubFkiLAoJCSJ5IjogIlpkZ1M1YWIxdU0yaVdaWHVpdmpBc2VacC11LWlJUlc4MjFwZWhENVJ5bUkiLAoJCSJkIjogIldjN091cDFYV3FudjlEVFVzQWZIYmxGTDFqU3UwRWJRY3g0LXNqbG0xRmMiLAoJCSJpYXQiOiAxNjc3Mjk3NTU0Cgl9Cn0=";
         AccessKey accessKey = AccessKey.createFromBase64EncodedAccessKey(accessKeyBase64);
         RepositoryApiClient client = RepositoryApiClientImpl.createFromAccessKey(
                 servicePrincipalKey, accessKey);
-        Entry entry = client.getEntriesClient().getEntry(this.repoID, Integer.parseInt(this.entryID), null).join();
+        Entry entry = client.getEntriesClient().getEntry(this.repoID, Integer.parseInt(entryID), null).join();
 
         return entry.getName();
     }
@@ -215,10 +216,13 @@ abstract class Processing_elements {
             // place file information in arraylist
             File file = new File("Project\\remoteFile.txt");
             readfile(file);
+
+            File deleteFile = new File("Project\\remoteFile.txt");
+            deleteFile.delete();
         }
 
         // if the entryID type is a folder
-        if (entry.getEntryType().toString() == "Folder") {
+        else if (entry.getEntryType().toString() == "Folder") {
             ODataValueContextOfIListOfEntry result = client
                     .getEntriesClient()
                     .getEntryListing(this.repoID, Integer.parseInt(this.entryID), true, null, null, null, null, null, "name", null, null, null)

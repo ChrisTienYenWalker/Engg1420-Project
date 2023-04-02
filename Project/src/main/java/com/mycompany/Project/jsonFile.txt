@@ -7,8 +7,9 @@
 {
 "type": "local",
 "path": "Project\src\main\java\com\mycompany\Project\LoremIpsum2.txt",
-"type": "local",
-"path": "Project\src\main\java\com\mycompany\Project\SampleCityNamesInCanada.txt",
+"type": "remote",
+"repoId": "r-0001d410ba56",
+"entryId": "23",
 }
 ],
 "parameters": [
@@ -18,55 +19,7 @@
 }
 ]
 },
-{
-"type": "CountFilter",
-"input_entries": [
-{
-"type": "local",
-"path": "Project\src\main\java\com\mycompany\Project\SampleCityNamesInCanada.txt"
-}
-],
-"parameters": [
-{
-"name": "Key",
-"value": "Lorem"
-},
-{
-"name": "Min",
-"value": "1"
-}
-]
-},
-{
-"type": "Print",
-"input_entries": [],
-"parameters": []
-}
-{
-"type": "Split",
-"input_entries": [
-{
-"type": "local",
-"path": "c:\\sample\\text_files"
-}
-]
-{
-"name": "Lines",
-"value": "4"
-}
-}
-{
-"type": "List",
-"input_entries": [
-{
-"type": "local",
-"path": "c:\\sample\\text_files"
-}
-]
-{
-"name": "Max",
-"value": "20"  
-}
-}
+
+
 ]
 }
