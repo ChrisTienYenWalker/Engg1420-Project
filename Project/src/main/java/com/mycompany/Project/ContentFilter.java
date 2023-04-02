@@ -51,7 +51,7 @@ public class ContentFilter extends Processing_elements {
 
         if (local == false) { // If content filter is first case scenario read from pastEntries
                               // Add files that contain key to outputFileList ArrayList
-            boolean hasKey = true;
+            boolean hasKey = false;
             try {
 
                 File filename = new File(this.path);
@@ -59,12 +59,13 @@ public class ContentFilter extends Processing_elements {
 
                 for(String line: data){
                     System.out.println(line);
-                    if (!line.contains(key)) {
-                        hasKey = false;
+                    if (line.contains(key)) {
+                        hasKey = true;
                         break;
                     }
                 }
                 if (hasKey == true) {
+                    System.out.println("Key has been found in the content of the file.");
                     addFileToList();
                 }
             } catch (Exception ex) {
@@ -87,17 +88,16 @@ public class ContentFilter extends Processing_elements {
                     // for (String line : lines){
                     if (element.contains(key)) {
                         hasKey = true;
-                    } else {
-                        hasKey = false;
                         break;
-                    }
+                    } 
                 }
 
-                if (hasKey) {
+                if (hasKey == true) {
                     localScenario = true;
-                    //outputValuesFile
+                    System.out.println("Key has been found in the content of the file.");
+                    
                 } else {
-                    System.out.println("Key is not found in every line of file");
+                    System.out.println("Key is not found in the content of the entry.");
                 }
 
 
