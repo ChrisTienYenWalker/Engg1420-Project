@@ -14,11 +14,11 @@ public class Print extends Processing_elements {
 
     // constructor
     protected Print(ArrayList<String> inputValue, ArrayList<String> pastEntries) {
+            
+        //add the past entries to the new entries 
+        inputValue.addAll(pastEntries);
 
-        for (String files : pastEntries) {
-            inputValue.add(files);
-        }
-
+        //goes through all the entries and calls operations
         loopEntries(inputValue);
 
 
@@ -27,58 +27,84 @@ public class Print extends Processing_elements {
     // define these functions
     protected void operations() {
 
+        //if local 
         if (local) {
             try {
+
+                //check if file is local
                 File file = new File(path);
 
-                // if local
                 if (file.isFile()) {
 
+
+                    //get the absolute path
                     String absolute = file.getAbsolutePath();
 
+                    //get the file length
                     long length = file.length();
 
-                    String[] split = path.split("\\\\");
+                    //get the file name 
+                    String[] split = absolute.split("\\\\");
 
+                    //print out the information
                     System.out.println("Path: " + absolute + "\nLength: " + Long.toString(length) + "\nName: " + split[split.length - 1] + "\n");
                 }
 
-                // if remote
+                // if a directory 
                 else {
+
+                    //get the absolute path
                     String absolute = file.getAbsolutePath();
 
+                    // get the length of all the files in side the folder and add them up
                     long length = getFolderSize(file);// length function in processing elements;
 
+                    //get the folder name
                     String[] split = path.split("\\\\");
 
+                    //print the information
                     System.out.println("Path: " + absolute + "\nLength: " + Long.toString(length) + "\nName: " + split[split.length - 1] + "\n");
                 }
             } catch (Exception e) {
                 System.out.println(e);
             }
+
+            //if it's remote
         } else {
-            System.out.println("reading Remote");
-            // remote:
+
+            //get file name
             String name = getEntriesRemoteFileName(this.entryID);
 
+            //get file path
             String absolute = getEntriesAbsolutePath();
 
             long length = 0;
-            if(true){
+
+            //if it's a folder 
+            //add all the lengths of files inside
+            if(!isRemoteDIR(this.entryID)){
+
+                //get the childern entries
                 getEntriesRemoteFileNamesDIR();
                 for(String childFile: data){
+
+                    //add length
                     length += getRemoteFileSize(childFile);// length function in processing elements;
                 }
             }else{
+            
+                //set length 
                 length = getRemoteFileSize(this.entryID);// length function in processing elements;
             }
 
+            //print out details
             System.out.println("Path: " + absolute + "\nLength: " + Long.toString(length) + "\nName: " + name + "\n");
 
         }
 
     };
 
+    //gets the numbers of bytes in the folder
     protected long getFolderSize(File folder) {
         long length = 0;
 
@@ -96,6 +122,8 @@ public class Print extends Processing_elements {
                 length += getFolderSize(files[i]);
             }
         }
+
+        //once it sums up all the files in the folder it returns the total size of the folder
         return length;
     }
 
@@ -107,7 +135,7 @@ public class Print extends Processing_elements {
 
         RepositoryApiClient client = RepositoryApiClientImpl.createFromAccessKey(
                 servicePrincipalKey, accessKey);
-        // create a new file and store the remote file in a new local file
+        // create a new file and store the remote file in a new local file  
 
         // delete old file
         File deleteFile = new File("Project\\remoteFile.txt");

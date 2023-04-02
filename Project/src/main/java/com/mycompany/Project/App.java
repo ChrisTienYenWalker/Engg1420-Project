@@ -156,6 +156,10 @@ public class App {
                 break;
             case "CountFilter":    
                 CountFilter countfilter = new CountFilter(inputValues, pastEntries);
+                pastEntries = countfilter.outputList;
+                for(String text: pastEntries){
+                    System.out.println(text);
+                }
                 break;
             case "Split":    
                 //Split split = new Split(inputValues, pastEntries);

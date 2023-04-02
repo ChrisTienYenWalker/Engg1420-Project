@@ -95,7 +95,15 @@ public class NameFilter extends Processing_elements
             }
         }
 
-   
+        if(local)
+        {
+            //if it's a directorty 
+        }
+        else
+        {
+            //remote
+            // String name = getEntriesRemoteFileName();
+        }
 
     };
 
