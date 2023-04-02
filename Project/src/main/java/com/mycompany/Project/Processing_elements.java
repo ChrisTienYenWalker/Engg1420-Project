@@ -34,6 +34,10 @@ abstract class Processing_elements {
     // classes that will need to be defined
     protected abstract void operations();
 
+    protected void addPastEntries(ArrayList<String> pastEntries){
+        outputList = pastEntries;
+    }
+
     public ArrayList<String>  outputs() {
         return outputList;
     };    
@@ -160,6 +164,35 @@ abstract class Processing_elements {
         List<Entry> RemoteEntries = result.getValue();
         for (Entry childEntry : RemoteEntries) {
             data.add(Integer.toString(childEntry.getId()));
+        }
+    }
+    
+    protected boolean isRemoteDIR(String entryId){
+        String servicePrincipalKey = "x0BmysMxlH_XfLoc69Kk";
+        String accessKeyBase64 = "ewoJImN1c3RvbWVySWQiOiAiMTQwMTM1OTIzOCIsCgkiY2xpZW50SWQiOiAiOGFkZTZjNTctZDIxNS00ZmYyLThkOTctOTE1YjRiYWUyZWIzIiwKCSJkb21haW4iOiAibGFzZXJmaWNoZS5jYSIsCgkiandrIjogewoJCSJrdHkiOiAiRUMiLAoJCSJjcnYiOiAiUC0yNTYiLAoJCSJ1c2UiOiAic2lnIiwKCQkia2lkIjogImNCeWdXYnh6YU9jRHZVcUdBU1RfcURTY0plcWw3aU9Ya19SZVFleUpiTzQiLAoJCSJ4IjogIjZNSXNuODRLanFtMEpTUmhmS2tHUTRzbGhkcldCbVNMWk9nMW5oWjhubFkiLAoJCSJ5IjogIlpkZ1M1YWIxdU0yaVdaWHVpdmpBc2VacC11LWlJUlc4MjFwZWhENVJ5bUkiLAoJCSJkIjogIldjN091cDFYV3FudjlEVFVzQWZIYmxGTDFqU3UwRWJRY3g0LXNqbG0xRmMiLAoJCSJpYXQiOiAxNjc3Mjk3NTU0Cgl9Cn0=";
+        AccessKey accessKey = AccessKey.createFromBase64EncodedAccessKey(accessKeyBase64);
+
+        // open client
+        RepositoryApiClient client = RepositoryApiClientImpl.createFromAccessKey(
+                servicePrincipalKey, accessKey);
+
+        // create instance of the client/open file location
+        Entry entry = client.getEntriesClient().getEntry(this.repoID, Integer.parseInt(entryId), null).join();
+
+        // if the entry is a file
+        if (entry.getEntryType().toString() == "Document") {
+            client.close();
+            return false;
+        }
+
+        // if the entryID type is a folder
+        else if (entry.getEntryType().toString() == "Folder") {
+            client.close();
+            return true;
+        } else {
+            System.out.println("Error occured");
+            client.close();
+            return false;
         }
     }
 

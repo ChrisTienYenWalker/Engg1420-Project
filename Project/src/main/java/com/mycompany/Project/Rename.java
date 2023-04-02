@@ -16,37 +16,67 @@ import org.apache.commons.io.FileUtils;
 
 public class Rename extends Processing_elements {
 
-    private String suffix;
+    private String suffix = "";
 
     // constructor
     public Rename(ArrayList<String> inputValue, ArrayList<String> pastEntries) {
+
+        //boolean value to help read in suffix value since they are on different lines
+        boolean suffixBool = false;
+
+        //loops through the inputValues since it will contain the suffix value
         for (String text : inputValue) {
-            if (text.contains("Suffix") || text.contains("suffix")) {
-                suffix = text.replaceAll("suffix", "").replaceAll(" ", "").replaceAll("", "");
+
+            // it the line contauns the name value of suffix  
+            //the following line should conatin the value for the suffix
+            if (text.contains("suffix") || text.contains("Suffix")) {
+
+                //set the suffix boolean to true
+                suffixBool = true;
+            }
+            String subtext = text.substring(0,6).toLowerCase();
+            System.out.println(subtext);
+            
+            //if the next line contains the word value and the suffix boolean is true(one of the lines before contained the word sufffix)
+            if (subtext.contains("value") && suffixBool == true) {
+
+                //gets rid of non relatvent information like value and : 
+                suffix = text.replace("value", "").replace(".", "").replace(":", "").trim();
+                suffixBool = false;
+                break;
             }
         }
 
-        for (String files : pastEntries) {
-            inputValue.add(files);
+        //if there was no suffix
+        if(suffix == ""){
+            
+            //return the past entry list
+            addPastEntries(pastEntries);
+
         }
-        suffix = "hi";
+        else{
+            
+            //add the past entries to the new entries 
+            inputValue.addAll(pastEntries);
 
-        loopEntries(inputValue);
-
-        System.out.println("\n");
+            //go through each entry 
+            loopEntries(inputValue);
+        }
 
         // for(String text: outputList){
         // System.out.println(text);
         // }
     }
 
-    // define these functions
     protected void operations() {
-        if (local) {
-            File file = new File(path);
 
+        //if statement for if it's local or remote
+        if (local) {
+
+            //checks if it's a file or a folder
+            File file = new File(path);
             if (file.isFile()) {
-                System.out.println("works");
+
                 String temp = path;
                 temp = temp.substring(0, temp.length() - 4);
                 temp = temp.concat(suffix).concat(".txt");
@@ -63,6 +93,8 @@ public class Rename extends Processing_elements {
                 generateLocalJson(path.concat(suffix));
                 File src = new File(path);
                 File desFile = new File(path.concat(suffix));
+
+                desFile.mkdir();
 
                 try {
                     FileUtils.copyDirectory(src, desFile);

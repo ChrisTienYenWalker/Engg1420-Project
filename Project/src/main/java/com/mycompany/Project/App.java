@@ -101,11 +101,11 @@ public class App {
                 }
 
                 //and details from each line as long as it is not a curly bracket line
-                if(newfilter == true && !(s.strip().contains("{")|| s.strip().contains("}"))){
+                if(newfilter == true && !(s.strip().contains("{")|| s.strip().contains("}")||s.strip().contains("[")|| s.strip().contains("]") )){
 
 
                     //help clean up text to make it easier to use
-                    filterDetails.add(s.replace("\"", " ").replace(",", ""));
+                    filterDetails.add(s.replace("\"", " ").replace(",", "").trim());
                     
                     //identify which type of scenario it is
                     if(s.contains("type") && type == null){

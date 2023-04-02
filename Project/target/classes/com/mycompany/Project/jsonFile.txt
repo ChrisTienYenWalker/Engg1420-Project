@@ -7,15 +7,17 @@
 {
 "type": "local",
 "path": "Project\src\main\java\com\mycompany\Project\LoremIpsum2.txt",
+"type": "local",
+"path": "Project\src\main\java\com\mycompany\Project\testfolder",
 "type": "remote",
 "repoId": "r-0001d410ba56",
-"entryId": "23",
+"entryId": "15",
 }
 ],
 "parameters": [
 {
     "name" : "suffix",
-    "value": "hi"
+    "value": "penguin"
 }
 ]
 },
