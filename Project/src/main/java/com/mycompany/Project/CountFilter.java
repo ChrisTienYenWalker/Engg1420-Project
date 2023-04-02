@@ -102,7 +102,6 @@ public class CountFilter extends Processing_elements {
                 }
                 if (totalKey == true) {
                     outputList.add(path);
-                    System.out.println("This is a test");
                 }
             } else {
                 System.out.println("File path not found");
