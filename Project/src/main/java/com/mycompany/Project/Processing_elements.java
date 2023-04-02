@@ -24,7 +24,7 @@ abstract class Processing_elements {
 
     // array list for information
     ArrayList<String> data = new ArrayList<String>();
-    ArrayList<String> outputList = new ArrayList<String>(); 
+    private ArrayList<String> outputList = new ArrayList<String>(); 
     protected String repoID = null;
     protected String entryID = null;
     protected String path = null;
@@ -32,13 +32,17 @@ abstract class Processing_elements {
     protected int remote = 0;
 
     // classes that will need to be defined
-    public abstract void operations();
+    protected abstract void operations();
+
+    protected void addPastEntries(ArrayList<String> pastEntries){
+        outputList = pastEntries;
+    }
 
     public ArrayList<String>  outputs() {
         return outputList;
     };    
     
-    public void addFileToList(){
+    protected void addFileToList(){
         if(local == true && path != null){
             generateLocalJson(this.path);
         }
@@ -46,17 +50,17 @@ abstract class Processing_elements {
             generateRemoteJson();
         }
     }
-    public void generateLocalJson(String path){
+    protected void generateLocalJson(String path){
         outputList.add("type: local");
         outputList.add("path: " + path);
     };
 
-    public void generateRemoteJson(){
-        outputList.add("type: Remote");
-        outputList.add("repoID: " + this.repoID);
-        outputList.add("entryID: " + this.entryID);
+    protected void generateRemoteJson(){
+        outputList.add("type: remote");
+        outputList.add("repoId: " + this.repoID);
+        outputList.add("entryId: " + this.entryID);
     }
-    public void loopEntries(ArrayList<String> inputValues){
+    protected void loopEntries(ArrayList<String> inputValues){
         for (String text : inputValues) {
             System.out.println(text);
             data.removeAll(data);
@@ -66,7 +70,8 @@ abstract class Processing_elements {
 
             if (local) {
                 if (text.contains("path")) {
-                    path = text.replaceAll("path", "").replaceAll(" ", "").replaceAll(":", "");
+                    String[] splitText = text.split(" ");
+                    path = splitText[3].trim();
                     operations();
                     local = false;
                     path = null;
@@ -92,9 +97,8 @@ abstract class Processing_elements {
             }
         }
     }
-    public void getEntriesLocalFileNames(String filename) {
+    protected void getEntriesLocalFileNames(String filename) {
         File folder = new File(filename);
-        System.out.println(folder.isDirectory());
         File[] listOfFiles = folder.listFiles();
         for (int i = 0; i < listOfFiles.length; i++) {
             data.add(listOfFiles[i].getName());
@@ -103,7 +107,7 @@ abstract class Processing_elements {
 
     // generates all information based on file location
     // places information in entries array
-    public void getEntriesLocal(String filename) {
+    protected void getEntriesLocal(String filename) {
 
         // checks if it's a txt file or a directory
         if (filename.contains("txt")) {
@@ -129,7 +133,7 @@ abstract class Processing_elements {
     }
 
     // read file line by line and store in entries array
-    public void readfile(File filename) {
+    protected void readfile(File filename) {
 
         // try catch, just in case there's an error
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
@@ -147,7 +151,7 @@ abstract class Processing_elements {
         }
     }
 
-    public void getEntriesRemoteFileNamesDIR() {
+    protected void getEntriesRemoteFileNamesDIR() {
         String servicePrincipalKey = "x0BmysMxlH_XfLoc69Kk";
         String accessKeyBase64 = "ewoJImN1c3RvbWVySWQiOiAiMTQwMTM1OTIzOCIsCgkiY2xpZW50SWQiOiAiOGFkZTZjNTctZDIxNS00ZmYyLThkOTctOTE1YjRiYWUyZWIzIiwKCSJkb21haW4iOiAibGFzZXJmaWNoZS5jYSIsCgkiandrIjogewoJCSJrdHkiOiAiRUMiLAoJCSJjcnYiOiAiUC0yNTYiLAoJCSJ1c2UiOiAic2lnIiwKCQkia2lkIjogImNCeWdXYnh6YU9jRHZVcUdBU1RfcURTY0plcWw3aU9Ya19SZVFleUpiTzQiLAoJCSJ4IjogIjZNSXNuODRLanFtMEpTUmhmS2tHUTRzbGhkcldCbVNMWk9nMW5oWjhubFkiLAoJCSJ5IjogIlpkZ1M1YWIxdU0yaVdaWHVpdmpBc2VacC11LWlJUlc4MjFwZWhENVJ5bUkiLAoJCSJkIjogIldjN091cDFYV3FudjlEVFVzQWZIYmxGTDFqU3UwRWJRY3g0LXNqbG0xRmMiLAoJCSJpYXQiOiAxNjc3Mjk3NTU0Cgl9Cn0=";
         AccessKey accessKey = AccessKey.createFromBase64EncodedAccessKey(accessKeyBase64);
@@ -163,8 +167,37 @@ abstract class Processing_elements {
             data.add(Integer.toString(childEntry.getId()));
         }
     }
+    
+    protected boolean isRemoteDIR(String entryId){
+        String servicePrincipalKey = "x0BmysMxlH_XfLoc69Kk";
+        String accessKeyBase64 = "ewoJImN1c3RvbWVySWQiOiAiMTQwMTM1OTIzOCIsCgkiY2xpZW50SWQiOiAiOGFkZTZjNTctZDIxNS00ZmYyLThkOTctOTE1YjRiYWUyZWIzIiwKCSJkb21haW4iOiAibGFzZXJmaWNoZS5jYSIsCgkiandrIjogewoJCSJrdHkiOiAiRUMiLAoJCSJjcnYiOiAiUC0yNTYiLAoJCSJ1c2UiOiAic2lnIiwKCQkia2lkIjogImNCeWdXYnh6YU9jRHZVcUdBU1RfcURTY0plcWw3aU9Ya19SZVFleUpiTzQiLAoJCSJ4IjogIjZNSXNuODRLanFtMEpTUmhmS2tHUTRzbGhkcldCbVNMWk9nMW5oWjhubFkiLAoJCSJ5IjogIlpkZ1M1YWIxdU0yaVdaWHVpdmpBc2VacC11LWlJUlc4MjFwZWhENVJ5bUkiLAoJCSJkIjogIldjN091cDFYV3FudjlEVFVzQWZIYmxGTDFqU3UwRWJRY3g0LXNqbG0xRmMiLAoJCSJpYXQiOiAxNjc3Mjk3NTU0Cgl9Cn0=";
+        AccessKey accessKey = AccessKey.createFromBase64EncodedAccessKey(accessKeyBase64);
 
-    public String getEntriesRemoteFileName(String entryID) {
+        // open client
+        RepositoryApiClient client = RepositoryApiClientImpl.createFromAccessKey(
+                servicePrincipalKey, accessKey);
+
+        // create instance of the client/open file location
+        Entry entry = client.getEntriesClient().getEntry(this.repoID, Integer.parseInt(entryId), null).join();
+
+        // if the entry is a file
+        if (entry.getEntryType().toString() == "Document") {
+            client.close();
+            return false;
+        }
+
+        // if the entryID type is a folder
+        else if (entry.getEntryType().toString() == "Folder") {
+            client.close();
+            return true;
+        } else {
+            System.out.println("Error occured");
+            client.close();
+            return false;
+        }
+    }
+
+    protected String getEntriesRemoteFileName(String entryID) {
         String servicePrincipalKey = "x0BmysMxlH_XfLoc69Kk";
         String accessKeyBase64 = "ewoJImN1c3RvbWVySWQiOiAiMTQwMTM1OTIzOCIsCgkiY2xpZW50SWQiOiAiOGFkZTZjNTctZDIxNS00ZmYyLThkOTctOTE1YjRiYWUyZWIzIiwKCSJkb21haW4iOiAibGFzZXJmaWNoZS5jYSIsCgkiandrIjogewoJCSJrdHkiOiAiRUMiLAoJCSJjcnYiOiAiUC0yNTYiLAoJCSJ1c2UiOiAic2lnIiwKCQkia2lkIjogImNCeWdXYnh6YU9jRHZVcUdBU1RfcURTY0plcWw3aU9Ya19SZVFleUpiTzQiLAoJCSJ4IjogIjZNSXNuODRLanFtMEpTUmhmS2tHUTRzbGhkcldCbVNMWk9nMW5oWjhubFkiLAoJCSJ5IjogIlpkZ1M1YWIxdU0yaVdaWHVpdmpBc2VacC11LWlJUlc4MjFwZWhENVJ5bUkiLAoJCSJkIjogIldjN091cDFYV3FudjlEVFVzQWZIYmxGTDFqU3UwRWJRY3g0LXNqbG0xRmMiLAoJCSJpYXQiOiAxNjc3Mjk3NTU0Cgl9Cn0=";
         AccessKey accessKey = AccessKey.createFromBase64EncodedAccessKey(accessKeyBase64);
@@ -175,7 +208,7 @@ abstract class Processing_elements {
         return entry.getName();
     }
 
-    public String getEntriesAbsolutePath() {
+    protected String getEntriesAbsolutePath() {
         String servicePrincipalKey = "x0BmysMxlH_XfLoc69Kk";
         String accessKeyBase64 = "ewoJImN1c3RvbWVySWQiOiAiMTQwMTM1OTIzOCIsCgkiY2xpZW50SWQiOiAiOGFkZTZjNTctZDIxNS00ZmYyLThkOTctOTE1YjRiYWUyZWIzIiwKCSJkb21haW4iOiAibGFzZXJmaWNoZS5jYSIsCgkiandrIjogewoJCSJrdHkiOiAiRUMiLAoJCSJjcnYiOiAiUC0yNTYiLAoJCSJ1c2UiOiAic2lnIiwKCQkia2lkIjogImNCeWdXYnh6YU9jRHZVcUdBU1RfcURTY0plcWw3aU9Ya19SZVFleUpiTzQiLAoJCSJ4IjogIjZNSXNuODRLanFtMEpTUmhmS2tHUTRzbGhkcldCbVNMWk9nMW5oWjhubFkiLAoJCSJ5IjogIlpkZ1M1YWIxdU0yaVdaWHVpdmpBc2VacC11LWlJUlc4MjFwZWhENVJ5bUkiLAoJCSJkIjogIldjN091cDFYV3FudjlEVFVzQWZIYmxGTDFqU3UwRWJRY3g0LXNqbG0xRmMiLAoJCSJpYXQiOiAxNjc3Mjk3NTU0Cgl9Cn0=";
         AccessKey accessKey = AccessKey.createFromBase64EncodedAccessKey(accessKeyBase64);
@@ -186,7 +219,7 @@ abstract class Processing_elements {
         return entry.getFullPath();
     }
 
-    public String getEntriesLength() {
+    protected String getEntriesLength() {
         String servicePrincipalKey = "x0BmysMxlH_XfLoc69Kk";
         String accessKeyBase64 = "ewoJImN1c3RvbWVySWQiOiAiMTQwMTM1OTIzOCIsCgkiY2xpZW50SWQiOiAiOGFkZTZjNTctZDIxNS00ZmYyLThkOTctOTE1YjRiYWUyZWIzIiwKCSJkb21haW4iOiAibGFzZXJmaWNoZS5jYSIsCgkiandrIjogewoJCSJrdHkiOiAiRUMiLAoJCSJjcnYiOiAiUC0yNTYiLAoJCSJ1c2UiOiAic2lnIiwKCQkia2lkIjogImNCeWdXYnh6YU9jRHZVcUdBU1RfcURTY0plcWw3aU9Ya19SZVFleUpiTzQiLAoJCSJ4IjogIjZNSXNuODRLanFtMEpTUmhmS2tHUTRzbGhkcldCbVNMWk9nMW5oWjhubFkiLAoJCSJ5IjogIlpkZ1M1YWIxdU0yaVdaWHVpdmpBc2VacC11LWlJUlc4MjFwZWhENVJ5bUkiLAoJCSJkIjogIldjN091cDFYV3FudjlEVFVzQWZIYmxGTDFqU3UwRWJRY3g0LXNqbG0xRmMiLAoJCSJpYXQiOiAxNjc3Mjk3NTU0Cgl9Cn0=";
         AccessKey accessKey = AccessKey.createFromBase64EncodedAccessKey(accessKeyBase64);
@@ -197,7 +230,7 @@ abstract class Processing_elements {
         return entry.getVolumeName();
     }
 
-    public void getEntriesRemote(Integer entryId) {
+    protected void getEntriesRemote(Integer entryId) {
 
         // key details
         String servicePrincipalKey = "x0BmysMxlH_XfLoc69Kk";
@@ -239,7 +272,7 @@ abstract class Processing_elements {
         client.close();
     }
 
-    public void createFileFromRemote(RepositoryApiClient client, String repoId, int entryId) {
+    private void createFileFromRemote(RepositoryApiClient client, String repoId, int entryId) {
         // create a new file and store the remote file in a new local file
 
         // delete old file

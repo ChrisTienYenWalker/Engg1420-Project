@@ -5,8 +5,18 @@
 "type": "NameFilter",
 "input_entries": [
 {
+<<<<<<< HEAD
 "type": "local",
+<<<<<<< HEAD
 "path": "Project\src\main\java\com\mycompany\Project\testfolder",
+=======
+"path": "C:\Users\walke\OneDrive\Documents\GitHub\Engg1420-Project\GeoNamespenguin",
+=======
+"type": "remote",
+"repoId": "r-0001d410ba56",
+"entryId": "15",
+>>>>>>> 039fe5373cd92db8ef57a83ac7fd0832265e7817
+>>>>>>> bb6e049c2062f7e063097ba9d8eb271fc54c1e13
 }
 ],
 "parameters": [
@@ -16,7 +26,38 @@
 }
 ]
 },
+<<<<<<< HEAD
 
-
+		{
+			"type": "Print",
+			"input_entries": [],
+			"parameters": []
+		}
+=======
+{
+"type": "LengthFilter",
+"input_entries": [
+{
+"type": "local",
+"path": "Project\src\main\java\com\mycompany\Project\LoremIpsum2.txt"
+}
+],
+"parameters": [
+{
+"name": "Length",
+"value": "1024"
+},
+{
+"name": "Operator",
+"value": "GTE"
+}
+]
+},
+{
+"type": "Print",
+"input_entries": [],
+"parameters": []
+}
+>>>>>>> 039fe5373cd92db8ef57a83ac7fd0832265e7817
 ]
 }
