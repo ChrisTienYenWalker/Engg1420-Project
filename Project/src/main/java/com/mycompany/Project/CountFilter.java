@@ -83,7 +83,7 @@ public class CountFilter extends Processing_elements {
                             totalKey = false; 
                             System.out.println("The key " + key + " is not found at least " + min + " times");
                         } else {
-                            totalKey = true;
+                            totalKey = true; //if count is greater than the minimum amount of instances of the keyword, totalKey is true.
                             addFileToList();
                             System.out.println("The Key " + key + " is found at least " + min + " times");
                         }
@@ -100,7 +100,7 @@ public class CountFilter extends Processing_elements {
 
                 int count = 0; //set count to 0
                 for (String line : data) { //Read through each line in the file
-                    if (line.contains(key)) { //If the key is found increasse the count
+                    if (line.contains(key)) { //If the key is found increase the count
                         count++;
                     }
                 }
