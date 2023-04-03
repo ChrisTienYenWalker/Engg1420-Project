@@ -162,7 +162,11 @@ public class App {
                 }
                 break;
             case "Split":    
-                //Split split = new Split(inputValues, pastEntries);
+                 //     Split split = new Split(inputValues, pastEntries);
+                 //     pastEntries = split.outputList;
+                 //    for (String text : pastEntries){
+                 //     System.out.println(text);
+                 //    }
                 break;
             case "Rename":    
                 Rename rename = new Rename(inputValues, pastEntries);
