@@ -140,27 +140,31 @@ public class App {
                 //System.out.println("passed"); 
                 break;
             case "NameFilter":    
-                NameFilter namefilter = new NameFilter(inputValues, pastEntries);
-                System.out.println("\n:results");
-                for(String text: namefilter.outputs()){
+                // NameFilter namefilter = new NameFilter(inputValues, pastEntries);
+                // System.out.println("\n:results");
+                // for(String text: namefilter.outputs()){
+                //     System.out.println(text);
+                // }
+                break;
+            case "ContentFilter":    
+                ContentFilter contentfilter = new ContentFilter(inputValues, pastEntries);
+                pastEntries = contentfilter.outputList;
+                for(String text: pastEntries){
                     System.out.println(text);
                 }
                 break;
-            case "ContentFilter":    
-                //ContentFilter contentfilter = new ContentFilter(inputValues, pastEntries);
-                break;
             case "CountFilter":    
-                CountFilter countfilter = new CountFilter(inputValues, pastEntries);
+                // CountFilter countfilter = new CountFilter(inputValues, pastEntries);
                 break;
             case "Split":    
                 //Split split = new Split(inputValues, pastEntries);
                 break;
             case "Rename":    
-                Rename rename = new Rename(inputValues, pastEntries);
-                pastEntries = rename.outputList;
-                for(String text: pastEntries){
-                    System.out.println(text);
-                }
+                // Rename rename = new Rename(inputValues, pastEntries);
+                // pastEntries = rename.outputList;
+                // for(String text: pastEntries){
+                //     System.out.println(text);
+                // }
                 
                 break;
             case "Print":    

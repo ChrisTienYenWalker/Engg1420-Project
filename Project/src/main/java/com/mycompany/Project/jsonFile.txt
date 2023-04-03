@@ -2,18 +2,17 @@
 "name": "First Scenario",
 "processing_elements": [
 {
-"type": "NameFilter",
+"type": "ContentFilter",
 "input_entries": [
 {
-"type": "remote",
-"repoId": "r-0001d410ba56",
-"entryId": "15",
+"type": "local",
+"path" : "Project\src\main\java\com\mycompany\Project\LoremIpsum2.txt",
 }
 ],
 "parameters": [
 {
-    "name" : "Key",
-    "value": "part"
+"name": "Key",
+"value": "Integer"
 }
 ]
 },
