@@ -20,6 +20,32 @@
 ]
 },
 {
+"type": "Split",
+"input_entries": [
+{
+"type": "local",
+"path": "Project\src\main\java\com\mycompany\Project\LoremIpsum2.txt"
+}
+]
+{
+"name": "Lines",
+"value": "4"
+}
+}
+{
+"type": "List",
+"input_entries": [
+{
+"type": "local",
+"path": "Project\src\main\java\com\mycompany\Project\testfolder"
+}
+]
+{
+"name": "Max",
+"value": "20"  
+}
+},
+{
 "type": "Print",
 "input_entries": [],
 "parameters": []
