@@ -25,6 +25,9 @@
 {
 "type": "local",
 "path": "Project\src\main\java\com\mycompany\Project\LoremIpsum2.txt"
+"type": "remote",
+"repoId": "r-0001d410ba56"
+"entryId": "26"
 }
 ]
 {
@@ -38,6 +41,9 @@
 {
 "type": "local",
 "path": "Project\src\main\java\com\mycompany\Project\testfolder"
+"type": "remote",
+"repoId": "r-0001d410ba56"
+"entryId": "23"
 }
 ]
 {
