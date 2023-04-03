@@ -7,6 +7,7 @@ public class Split extends Processing_elements {
 
     public ArrayList<File> splitFile = null;
     private int lines;
+    public ArrayList<String> outputLists = new ArrayList<String>();
 
     // constructor that takes inputValue and entries as parameters
     public Split(ArrayList<String> inputValues, ArrayList<String> pastEntries) {
@@ -55,7 +56,7 @@ public class Split extends Processing_elements {
                         // add the new file to splitFile
                         splitFile.add(newFile);
                         System.out.println(newFile.getAbsolutePath()); 
-                        outputList.add(newFile.getAbsolutePath());
+                        outputLists.add(newFile.getAbsolutePath());
                         // clear lines and reset lineNumber
                         lines.clear();
                         lineNumber = 0;
@@ -73,7 +74,7 @@ public class Split extends Processing_elements {
                         }
                     }
                     splitFile.add(newFile); //Makes the new files
-                    outputList.add(fileName);//prints file directories
+                    outputLists.add(fileName);//prints file directories
                 }
             } catch (IOException e) {
                 e.printStackTrace(); // Handles IOException
@@ -86,63 +87,67 @@ public class Split extends Processing_elements {
             System.out.println("File does not exist or is directory.");
         }
         }
-        else if (!local)
+        else
         {
-            if (isRemoteDIR(entryID)){
-                System.out.println("File is a directory, please enter a file");
-            }
-            else if (!isRemoteDIR(entryID)){
-            File file = new File(getEntriesRemote(this.entryID));
-            splitFile = new ArrayList<File>();
+            //Remote is sending Error
+
+            // if (isRemoteDIR(this.entryID)){
+            //     System.out.println("File is a directory, please enter a file");
+            // }
+            // else if (!isRemoteDIR(this.entryID)){
+            // getEntriesRemoteFileNamesDIR();
+            // String temp = getEntriesRemoteFileName(this.entryID);
+            // File file = new File(temp);
+            // splitFile = new ArrayList<File>();
             
 
-            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                String line;
-                int lineNumber = 0;
-                int partNumber = 1;
-                ArrayList<String> lines = new ArrayList<String>(this.lines);
-                while ((line = reader.readLine()) != null) {
-                    System.out.println(line);
-                    lines.add(line);
-                    lineNumber++;
-                    if (lineNumber == this.lines) {
-                        // write lines to new file
-                        String fileName = editName(file) + ".part" + partNumber + ".txt";
-                        File newFile = new File(file.getParentFile(), fileName);
-                        try (BufferedWriter writer = new BufferedWriter(new FileWriter(newFile))) {
-                            // write each line to the new file
-                            for (String l : lines) {
-                                writer.write(l);
-                                writer.newLine();
-                            }
-                        }
-                        // add the new file to splitFile
-                        splitFile.add(newFile);
-                        System.out.println(newFile.getAbsolutePath()); 
-                        outputList.add(newFile.getAbsolutePath());
-                        // clear lines and reset lineNumber
-                        lines.clear();
-                        lineNumber = 0;
-                        partNumber++;
-                    }
-                }
-                // write remaining lines to new file
-                if (!lines.isEmpty()) {
-                    String fileName = editName(file) + ".part" + partNumber + ".txt";
-                    File newFile = new File(file.getParentFile(), fileName);
-                    try (BufferedWriter writer = new BufferedWriter(new FileWriter(newFile))) {
-                        for (String l : lines) {
-                            writer.write(l);
-                            writer.newLine();
-                        }
-                    }
-                    splitFile.add(newFile); //Makes the new files
-                    outputList.add(fileName);//prints file directories
-                }
-            } catch (IOException e) {
-                e.printStackTrace(); // Handles IOException
-            }
-            }
+            // try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            //     String line;
+            //     int lineNumber = 0;
+            //     int partNumber = 1;
+            //     ArrayList<String> lines = new ArrayList<String>(this.lines);
+            //     while ((line = reader.readLine()) != null) {
+            //         System.out.println(line);
+            //         lines.add(line);
+            //         lineNumber++;
+            //         if (lineNumber == this.lines) {
+            //             // write lines to new file
+            //             String fileName = editName(file) + ".part" + partNumber + ".txt";
+            //             File newFile = new File(file.getParentFile(), fileName);
+            //             try (BufferedWriter writer = new BufferedWriter(new FileWriter(newFile))) {
+            //                 // write each line to the new file
+            //                 for (String l : lines) {
+            //                     writer.write(l);
+            //                     writer.newLine();
+            //                 }
+            //             }
+            //             // add the new file to splitFile
+            //             splitFile.add(newFile);
+            //             System.out.println(newFile.getAbsolutePath()); 
+            //             outputLists.add(newFile.getAbsolutePath());
+            //             // clear lines and reset lineNumber
+            //             lines.clear();
+            //             lineNumber = 0;
+            //             partNumber++;
+            //         }
+            //     }
+            //     // write remaining lines to new file
+            //     if (!lines.isEmpty()) {
+            //         String fileName = editName(file) + ".part" + partNumber + ".txt";
+            //         File newFile = new File(file.getParentFile(), fileName);
+            //         try (BufferedWriter writer = new BufferedWriter(new FileWriter(newFile))) {
+            //             for (String l : lines) {
+            //                 writer.write(l);
+            //                 writer.newLine();
+            //             }
+            //         }
+            //         splitFile.add(newFile); //Makes the new files
+            //         outputLists.add(fileName);//prints file directories
+            //     }
+            // } catch (IOException e) {
+            //     e.printStackTrace(); // Handles IOException
+            // }
+            // }
 
         }
     }
