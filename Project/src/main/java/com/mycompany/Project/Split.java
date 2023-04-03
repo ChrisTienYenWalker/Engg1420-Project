@@ -5,102 +5,84 @@ import java.util.ArrayList;
 
 public class Split extends Processing_elements {
 
-    private ArrayList<File> splitFiles = null;
-    private ArrayList<File> splitFile = null;
+    public ArrayList<File> splitFile = null;
     private int lines;
-    private String localPath = "empty";
 
     // constructor that takes inputValue and entries as parameters
-    public Split(ArrayList<String> inputValue, ArrayList<String> entries) {
-        // process input values
-        for (String str : inputValue) {
-            // check if input value contains "Lines"
-            if (str.contains("Lines")) {
-                String[] parts = str.split(":");
-                // check number of lines and assign it to this.lines
-                this.lines = Integer.parseInt(parts[1].trim());
-            } else if (str.contains("local")) {
-                String[] parts = str.split(":");
-                // assign the local path to this.localPath
-                this.localPath = parts[1].trim();
+    public Split(ArrayList<String> inputValues, ArrayList<String> pastEntries) {
+        for (String text : inputValues) {
+            if (text.contains("value") || text.contains("Value")) {
+                lines = Integer.parseInt(text.replaceAll("value", "").replaceAll(" ", "").replaceAll(":", ""));
             }
         }
 
-        // check if localPath exists and process it
-        if (!localPath.equals("empty") && new File(localPath).exists()) {
-            // if localPath is a file, add it to splitFiles
-            if (new File(localPath).isFile()) {
-                splitFiles = new ArrayList<File>();
-                splitFiles.add(new File(localPath));
-                this.operations();
-            } else {
-                // print a message to indicate localPath is a directory
-                System.out.println("localPath is a directory, ignoring.");
-            }
-        } else {
-            // if localPath is not specified or does not exist, loop through entries and add files to splitFiles
-            splitFiles = new ArrayList<File>();
-            for (String entry : entries) {
-                // create a new File object from each entry and check if it exists and is a file
-                File file = new File(entry);
-                if (file.exists() && file.isFile()) {
-                    splitFiles.add(file);
-                }
-            }
-            this.operations();
+        for (String files : pastEntries) {
+            inputValues.add(files);
+            
         }
+
+        loopEntries(inputValues);
+        this.operations();
     }
-
-    // method to split each file in splitFiles into parts and write them to new files
     public void operations() {
-        if (splitFiles != null) {
+        if (local) {
             // create a new ArrayList for splitFile
+            System.out.println("test");
             splitFile = new ArrayList<File>();
-            for (File file : splitFiles) {
-                try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                    String line;
-                    int lineNumber = 0;
-                    int partNumber = 1;
-                    ArrayList<String> lines = new ArrayList<String>(this.lines);
-                    while ((line = reader.readLine()) != null) {
-                        lines.add(line);
-                        lineNumber++;
-                        if (lineNumber == this.lines) {
-                            // write lines to new file
-                            String fileName = file.getName() + ".part" + partNumber + ".txt";
-                            File newFile = new File(file.getParentFile(), fileName);
-                            try (BufferedWriter writer = new BufferedWriter(new FileWriter(newFile))) {
-                                // write each line to the new file
-                                for (String l : lines) {
-                                    writer.write(l);
-                                    writer.newLine();
-                                }
-                            }
-                            // add the new file to splitFile
-                            splitFile.add(newFile);
-                            // clear lines and reset lineNumber
-                            lines.clear();
-                            lineNumber = 0;
-                            partNumber++;
-                        }
-                    }
-                    // write remaining lines to new file
-                    if (!lines.isEmpty()) {
-                        String fileName = file.getName() + ".part" + partNumber + ".txt";
+            File file = new File(path);
+
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                String line;
+                int lineNumber = 0;
+                int partNumber = 1;
+                ArrayList<String> lines = new ArrayList<String>(this.lines);
+                while ((line = reader.readLine()) != null) {
+                    System.out.println(line);
+                    lines.add(line);
+                    lineNumber++;
+                    if (lineNumber == this.lines) {
+                        // write lines to new file
+                        String fileName = editName(file) + ".part" + partNumber + ".txt";
                         File newFile = new File(file.getParentFile(), fileName);
                         try (BufferedWriter writer = new BufferedWriter(new FileWriter(newFile))) {
+                            // write each line to the new file
                             for (String l : lines) {
                                 writer.write(l);
                                 writer.newLine();
                             }
                         }
+                        // add the new file to splitFile
                         splitFile.add(newFile);
+                        System.out.println(newFile.getAbsolutePath()); 
+                        outputList.add(newFile.getAbsolutePath());
+                        // clear lines and reset lineNumber
+                        lines.clear();
+                        lineNumber = 0;
+                        partNumber++;
                     }
-                } catch (IOException e) {
-                    e.printStackTrace(); //Handles IOException
                 }
+                // write remaining lines to new file
+                if (!lines.isEmpty()) {
+                    String fileName = editName(file) + ".part" + partNumber + ".txt";
+                    File newFile = new File(file.getParentFile(), fileName);
+                    try (BufferedWriter writer = new BufferedWriter(new FileWriter(newFile))) {
+                        for (String l : lines) {
+                            writer.write(l);
+                            writer.newLine();
+                        }
+                    }
+                    splitFile.add(newFile); //Makes the new files
+                    outputList.add(fileName);//prints file directories
+                }
+            } catch (IOException e) {
+                e.printStackTrace(); // Handles IOException
             }
+
         }
     }
-
+    private static String editName(File file) {
+        String fileNameWithoutExtension = file.getName().substring(0, file.getName().lastIndexOf('.'));
+        return fileNameWithoutExtension;
+    }
 }
+
