@@ -2,27 +2,18 @@
 "name": "First Scenario",
 "processing_elements": [
 {
-"type": "Content Filter",
+"type": "Split",
 "input_entries": [
 {
-"type": "local"
-"path": "C:\Users\walke\OneDrive\Documents\GitHub\Engg1420-Project\Project\src\main\java\com\mycompany\Project\LoremIpsum2.txt",
-"type": "remote",
-"repoId": "r-0001d410ba56"
-"entryId": "28"
+"type": "RemotE",
+"entryID": "26" 
+"repoid" : "r-0001d410ba56 " 
 }
-],
-"parameters": [
-{
-"name": "Key",
-"value": "frog"
-},
 ]
-},
 {
-"type": "Print",
-"input_entries": [],
-"parameters": []
+"name": "Lines",
+"value": "4"
+}
 }
 ]
 }

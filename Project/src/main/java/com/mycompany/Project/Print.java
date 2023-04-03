@@ -92,7 +92,7 @@ public class Print extends Processing_elements {
             }
 
             //print out details
-            System.out.println("Path: " + absolute + "\nLength: " + Long.toString(length) + "\nName: " + name + "\n");
+            System.out.println("EntryID: " + entryID + "\nPath: " + absolute + "\nLength: " + Long.toString(length) + "\nName: " + name + "\n");
 
         }
 

@@ -196,11 +196,11 @@ public class App {
                 break;
 
         }
-        // System.out.println("\n");
-        // for(String text: pastEntries){
-        //     System.out.println(text);
-        // }
-        // System.out.println("\n");
+        System.out.println("\n");
+        for(String text: pastEntries){
+            System.out.println(text);
+        }
+        System.out.println("\n");
     }
 
 }

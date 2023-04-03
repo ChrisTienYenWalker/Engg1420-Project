@@ -34,7 +34,6 @@ public class List extends Processing_elements {
         }
 
         loopEntries(inputValue);
-        operations();
     }
 
     // define the operations function to process the input directory and create
@@ -54,19 +53,23 @@ public class List extends Processing_elements {
             System.out.println("List of Files\n"+ outputList);
         }
         if (!local) {
-            // if (isRemoteDIR(this.entryID)) {
-            //     getEntriesRemoteFileNamesDIR();
-            //     String temp = getEntriesRemoteFileName(this.entryID);
-            //     //get directory path
-            //     File dir = new File(temp);
-            //     String absoluteDirPath = dir.getAbsolutePath();
-            //     ArrayList<String> dirList = listProcess(dir);
-            //     int num = Math.min(dirList.size(), getMax());
-            //     for (int i = 0; i < num; i++) {
-            //         outputList.add(dirList.get(i));
-            //     }
-            // }
-            //System.out.println("List of Files\n"+ outputList);
+            System.out.println(isRemoteDIR(this.entryID));
+            if (isRemoteDIR(this.entryID)) {
+                getEntriesRemoteFileNamesDIR();
+                // String temp = getEntriesRemoteFileName(this.entryID);
+                //get directory path
+                // File dir = new File(temp);
+                // String absoluteDirPath = dir.getAbsolutePath();
+                // ArrayList<String> dirList = listProcess(dir);
+                // int num = Math.min(dirList.size(), getMax());
+                if(data.size() < Max){
+                    Max = data.size();
+                }
+                for (int i = 0; i < Max; i++) {
+                    generateRemoteJson(repoID, data.get(i));
+                }
+            }
+            System.out.println("List of Files\n"+ outputList);
         }
     }
 

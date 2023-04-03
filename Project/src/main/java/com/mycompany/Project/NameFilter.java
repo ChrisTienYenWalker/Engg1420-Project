@@ -49,7 +49,7 @@ public class NameFilter extends Processing_elements {
                     generateLocalJson(path);
                 } else {
                     File folder = new File(path);
-
+                    System.out.println(path);
                     getEntriesLocalFileNames(path);
 
                     for (String text : data) {
