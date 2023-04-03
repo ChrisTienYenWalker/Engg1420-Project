@@ -15,8 +15,6 @@ public class NameFilter extends Processing_elements {
 
     public NameFilter(ArrayList<String> inputValue, ArrayList<String> pastEntries) {
         for (String text : inputValue) {
-            System.out.println(text);
-
             if (text.contains("value") || text.contains("Value")) {
                 this.key = (text.replaceAll("value", "").replaceAll(" ", "").replaceAll(":", ""));
             }
@@ -31,45 +29,33 @@ public class NameFilter extends Processing_elements {
     }
 
     @Override
-    public void operations() 
-    {
-
-        if (local == true) 
-        {
+    public void operations() {
+        // if it is local
+        if (local == true) {
             File file = new File(path);
-            if (file.isFile()) 
-            {
 
-                if (file.getName().contains(key)) 
-                {
-                    System.out.println("entries contain key");
+            // checking for if it is a single file
+            if (file.isFile()) {
+
+                if (file.getName().contains(key)) {
                     addFileToList();
-                } 
-                else 
-                {
-                    System.out.println("No entries contain key");
                 }
-            } else {
+            }
+
+            else {
 
                 // if directory
-                if (file.getName().contains(key)) 
-                {
+                if (file.getName().contains(key)) {
                     generateLocalJson(path);
-                } 
-                else 
-                {
+                } else {
+                    File folder = new File(path);
+                    System.out.println(path);
                     getEntriesLocalFileNames(path);
-                    for (String text : data) 
-                    {
+
+                    for (String text : data) {
                         File subFiles = new File(text);
-                        System.out.println(subFiles.getName());
-                        if (subFiles.getName().contains(key))
-                        {
-                            generateLocalJson(path);
-                        } 
-                        else 
-                        {
-                            System.out.println("No entries contain key");
+                        if (subFiles.getName().contains(key)) {
+                            generateLocalJson(subFiles.getAbsolutePath());
                         }
                     }
                 }
@@ -77,47 +63,37 @@ public class NameFilter extends Processing_elements {
 
         }
 
-        else 
+        else if (local == false)
+
         {
-
-            // getEntriesRemoteFileNamesDIR will give the file id for remote
-            // getEntriesRemoteFileName will give file names based on id
-            // remote
-
-            getEntriesRemoteFileNamesDIR();
-
-            String name = getEntriesRemoteFileName(entryID);
-            if (name.contains(key)) {
-                addFileToList();
-            }
-        }
-
-        if(local)
-        {
-            //if it's a directorty 
-        }
-        else
-        {
-            //remote
-            // String name = getEntriesRemoteFileName();
-        }
-
-        //if it's true use this function below: 
-        //addFileToList()
-           for (String entry : inputValues) 
-           {
-            if (entry.contains("name")) 
+            if (isRemoteDIR(entryID)) 
             {
-                String name = entry.split(":")[1].trim();
-                if (name.contains(key)) 
+                getEntriesRemoteFileNamesDIR();
+
+                ArrayList<String> childId = new ArrayList<String>(data);
+                data.clear();
+
+                for (String childFile : childId)
                 {
-                    outputValues.add(entry);
+                    if (childFile.contains(key))
+                    {
+                        System.out.println(childFile);         
+                    }
                 }
-                addFileToList();
             }
+            
+            else 
+            {
+                String remoteName = getEntriesRemoteFileName(entryID);
+                if (remoteName.contains(key)) 
+                {
+                    addFileToList();
+                }
+            }
+            
         }
     };
-
+}
     // @Override
     // public void outputs()
     // {
@@ -133,4 +109,4 @@ public class NameFilter extends Processing_elements {
     // this.key = key;
     // }
 
-}
+

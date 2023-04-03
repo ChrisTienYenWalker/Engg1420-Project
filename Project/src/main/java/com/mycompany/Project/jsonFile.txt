@@ -17,23 +17,36 @@
 ]
 },
 {
-"type": "LengthFilter",
+"type": "Split",
 "input_entries": [
 {
 "type": "local",
 "path": "Project\src\main\java\com\mycompany\Project\LoremIpsum2.txt"
-}
-],
-"parameters": [
-{
-"name": "Length",
-"value": "1024"
-},
-{
-"name": "Operator",
-"value": "GTE"
+"type": "remote",
+"repoId": "r-0001d410ba56"
+"entryId": "26"
 }
 ]
+{
+"name": "Lines",
+"value": "4"
+}
+}
+{
+"type": "List",
+"input_entries": [
+{
+"type": "local",
+"path": "Project\src\main\java\com\mycompany\Project\testfolder"
+"type": "remote",
+"repoId": "r-0001d410ba56"
+"entryId": "23"
+}
+]
+{
+"name": "Max",
+"value": "20"  
+}
 },
 {
 "type": "Print",

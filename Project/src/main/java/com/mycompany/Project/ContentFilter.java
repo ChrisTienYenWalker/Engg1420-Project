@@ -16,13 +16,19 @@ public class ContentFilter extends Processing_elements {
             }
         }
 
-        for (String files : pastEntries) { // Merge pastEntries with inputValues
-            inputValues.add(files);
+        if(key == null){
+            System.out.println("Parameters couldn't be found in JSON, check formatting");
         }
 
-        loopEntries(inputValues); // Loop through and print each line from input values
-                                  // If local, extract path
-                                  // If remote, extract entryID and repoID
+        //add this file into inputs arrayList
+        else
+        {
+            inputValues.addAll(pastEntries);
+
+            loopEntries(inputValues); // Loop through and print each line from input values
+                                      // If local, extract path
+                                      // If remote, extract entryID and repoID
+        }
     }
 
 
@@ -54,7 +60,7 @@ public class ContentFilter extends Processing_elements {
                 }
                                           // *REMOTE OUTPUT*
                 if (hasKey) {             // If document contains the key print message and generateRemoteJson method.
-                    generateRemoteJson(); // Method will add type, entryID, repoID to output ArrayList.
+                    generateRemoteJson(this.repoID, this.entryID);// Method will add type, entryID, repoID to output ArrayList.
                     System.out.println("Key has been found in the contents of the remote file entry and passed to the next filter.");
 
                 } else { // Otherwise, message will be prompted and the document will not be passed to the next filter.
@@ -90,6 +96,7 @@ public class ContentFilter extends Processing_elements {
                     if (hasKey) {    
                         localScenario = true;          
                         System.out.println("Key has been found in the contents of this file within the directory."); 
+                        break;
                         // Print message for every file that contains the key. 
                         // Set localScenario to true
                  
@@ -101,7 +108,6 @@ public class ContentFilter extends Processing_elements {
                     }
                 }
             }
-
             if (ifFile(path)) { // *SCENARIO IF LOCAL ENTRY IS A SINGLE FILE*
                 boolean hasKey = false; // hasKey false by default
                 File newFile = new File(path); // Create new local file with the extracted path to hold contents of
@@ -144,3 +150,4 @@ public class ContentFilter extends Processing_elements {
         return file.isDirectory();
     }
 }
+

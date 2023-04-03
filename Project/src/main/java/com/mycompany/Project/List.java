@@ -1,86 +1,91 @@
 package com.mycompany.Project;
 
-import java.util.ArrayList;
 import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 public class List extends Processing_elements {
 
     // initialize variables
     private int Max;
     private String localPath = "empty";
-    private ArrayList<String> outputList = new ArrayList<String>();
+    public ArrayList<String> outputList = new ArrayList<String>();
+
+    public void setMax() {
+        this.Max = Max;
+    }
+
+    public int getMax() {
+        return this.Max;
+    }
 
     // constructor to process input values and entries
     public List(ArrayList<String> inputValue, ArrayList<String> entries) {
-        String tempstr = null;
-        for (String str : inputValue){
-            System.out.println(str); 
+        for (String text : inputValue) {
+            System.out.println(text);
 
-            // find the local path
-            if (str.contains("local")){
-                tempstr = str.replace("type", " ").replace(":", " ").strip();
-            }
-            if(str.contains("path") && tempstr.equals("local")){
-                this.localPath = str.replace("path :", " ").strip();
+            if (text.contains("value") || text.contains("Value")) {
+                this.Max = Integer.parseInt(text.replaceAll("value", "").replaceAll(" ", "").replaceAll(":", ""));
             }
 
-            // get the value of Max
-            if(str.contains("Max")){
-                tempstr = str.replace("name", " ").replace(":", " ").strip();    
-            }
-            if(str.contains("value") && tempstr.equals("Max")){
-                tempstr = str.replace("value", " ").replace(":", " ").strip();
-                this.Max = Integer.parseInt(tempstr);
-            }
-        }  
+        }
+        for (String files : entries) {
+            inputValue.add(files);
+        }
+
+        loopEntries(inputValue);
     }
 
-    // define the operations function to process the input directory and create output list
+    // define the operations function to process the input directory and create
+    // output list
     public void operations() {
         // check if local path is specified
-        if (localPath.equals("empty")) {
-            System.out.println("No local path specified");
-            return;
-        }
 
-        // check if the directory exists
-        File dir = new File(localPath);
-        if (!dir.exists()) {
-            System.out.println("The specified directory does not exist");
-            return;
-        }
-
-        // get all files in the directory
-        File[] files = dir.listFiles();
-        if (files == null) {
-            System.out.println("The specified directory is empty");
-            return;
-        }
-
-        // loop through the files
-        for (File file : files) {
+        if (local) {
+            File file = new File(path);
             if (file.isDirectory()) {
-                // if the file is a directory, get its files
-                File[] subFiles = file.listFiles();
-                if (subFiles == null) {
-                    System.out.println("The specified subdirectory is empty");
-                } else {
-                    // loop through the subdirectory files
-                    int count = 0;
-                    for (File subFile : subFiles) {
-                        if (count >= Max) {
-                            break;
-                        }
-                        if (subFile.isFile()) {
-                            // add the file to the output list if it is a file
-                            outputList.add(subFile.getAbsolutePath());
-                            count++;
-                        }
-                    }
+                ArrayList<String> dirList = listProcess(file);
+                int num = Math.min(dirList.size(), getMax());
+                for (int i = 0; i < num; i++) {
+                    outputList.add(dirList.get(i));
                 }
             }
+            System.out.println("List of Files\n"+ outputList);
+        }
+        if (!local) {
+            System.out.println(isRemoteDIR(this.entryID));
+            if (isRemoteDIR(this.entryID)) {
+                getEntriesRemoteFileNamesDIR();
+                // String temp = getEntriesRemoteFileName(this.entryID);
+                //get directory path
+                // File dir = new File(temp);
+                // String absoluteDirPath = dir.getAbsolutePath();
+                // ArrayList<String> dirList = listProcess(dir);
+                // int num = Math.min(dirList.size(), getMax());
+                if(data.size() < Max){
+                    Max = data.size();
+                }
+                for (int i = 0; i < Max; i++) {
+                    generateRemoteJson(repoID, data.get(i));
+                }
+            }
+            System.out.println("List of Files\n"+ outputList);
         }
     }
 
+    private static ArrayList<String> listProcess(File dir){
+        ArrayList<String> dirList = new ArrayList<String>();
 
+        //
+        for (File file : dir.listFiles()) {
+            if (file.isDirectory()) {
+                // Gets everyfile from directory
+                dirList.addAll(listProcess(file));
+            } else {
+                // Individual Entries will be added to the array
+                dirList.add(file.getAbsolutePath());
+            }
+        }
+        return dirList;
+    }
 }

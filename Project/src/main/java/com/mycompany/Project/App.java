@@ -23,10 +23,10 @@ public class App {
             String name = null;
 
             // read each line indiviually
-            while ((s = reader.readLine()) != null && name == null) {
+            while ((s = reader.readLine()) != null ) {
 
                 //name gives senario name 
-                if (s.contains("name") && name == null) {
+                if (s.contains("name")) {
                     s = s.replace("\"", "").replace("name", "").replace(":", "").replace(",", "");
                     name = s.stripIndent().strip();
                     s = reader.readLine();
@@ -47,6 +47,7 @@ public class App {
         } catch (IOException ex) {
             System.out.println(ex);
         }
+        System.exit(0);
     }
 
     //gets the json file from user input
@@ -81,6 +82,7 @@ public class App {
 
             while ((s = reader.readLine()) != null) {
                 //keeps track of if the reader is still in the same scenario
+
                 if(s.contains("{")){
                     insideParameters++;
                 }
@@ -94,6 +96,7 @@ public class App {
                 }
                 //if it's exiting the scenario
                 if(insideParameters == 0 && type != null){
+                    
                     //create a new filter class
                     newfilter = false;
                     generatefilterClass(filterDetails, type);
@@ -102,11 +105,11 @@ public class App {
                 }
 
                 //and details from each line as long as it is not a curly bracket line
-                if(newfilter == true && !(s.strip().contains("{")|| s.strip().contains("}"))){
+                if(newfilter == true && !(s.strip().contains("{")|| s.strip().contains("}")||s.strip().contains("[")|| s.strip().contains("]") )){
 
 
                     //help clean up text to make it easier to use
-                    filterDetails.add(s.replace("\"", " ").replace(",", ""));
+                    filterDetails.add(s.replace("\"", " ").replace(",", "").trim());
                     
                     //identify which type of scenario it is
                     if(s.contains("type") && type == null){
@@ -120,17 +123,22 @@ public class App {
     }
 
     //create new scenario class
+    //this will preform the operations 
+    //each processing element will then return a list of entries
+    //these entries will be stored in an arraylist and later passed to the next processing element
     public static void generatefilterClass(ArrayList<String> inputValues, String type){
 
-        System.out.println("\n");
 
-        type = type.strip().replace("type", "").replace("\"", "").replace(":", "").replace(",", "");
-       
-        System.out.println(type.stripIndent());
+        //remove the type, filter and other key words for the switch statement
+        type = type.toLowerCase();
+        type = type.strip().replace("type", "").replace("\"", "").replace(":", "").replace(",", "").replace("filter", "");
+        // System.out.println("\n");
+        // System.out.println(type.stripIndent());
         
         //switch statement to match the type to the scenario
         //then create the new object and add it to the arraylist of past filters
         switch(type.stripIndent()){
+<<<<<<< HEAD
             case "List":    
                 //List list = new List(inputValues, pastEntries);
                 break;
@@ -166,16 +174,71 @@ public class App {
                 //     System.out.println(text);
                 // }
                 
+=======
+            case "list":    
+                List list = new List(inputValues, pastEntries);
+                pastEntries = list.outputs();
+                System.out.println("\n");
+                for(String text: pastEntries){
+                    System.out.println(text);
+                }
+                System.out.println("\n");
+>>>>>>> feafaddddb833d4f462c5513f2a3fb69106ccc0d
                 break;
-            case "Print":    
-                // Print print = new Print(inputValues, pastEntries);
+            case "length":    
+                LengthFilter lengthfilter = new LengthFilter(inputValues, pastEntries);
+                pastEntries = lengthfilter.outputs();
+                break;
+            case "name":    
+                NameFilter namefilter = new NameFilter(inputValues, pastEntries);
+                pastEntries = namefilter.outputs();
+                // System.out.println("\nFiles containing key:\n");
+                // for (String text: namefilter.outputs())
+                //     {
+                //         System.out.println(text);
+                //     }
+                //     if (namefilter.outputs().size() == 0)
+                //     {
+                //         System.out.println("None");
+                //     }
+                break;
+            case "content":    
+                ContentFilter contentfilter = new ContentFilter(inputValues, pastEntries);
+                pastEntries = contentfilter.outputs();
+                break;
+            case "count":    
+                CountFilter countfilter = new CountFilter(inputValues, pastEntries);
+                pastEntries = countfilter.outputs();
+                // for(String text: pastEntries){
+                //     System.out.println(text);
+                // }
+                break;
+            case "split":    
+                Split split = new Split(inputValues, pastEntries);
+                pastEntries = split.outputs();
+                break;
+            case "rename":    
+                Rename rename = new Rename(inputValues, pastEntries);
+                pastEntries = rename.outputs();
+                // for(String text: pastEntries){
+                //     System.out.println(text);
+                // }
+                break;
+            case "print":    
+                Print print = new Print(inputValues, pastEntries);
+                pastEntries = print.outputs();
                 break;
 
             default:
-                System.out.println("type does not exist");
+                System.out.println("The Processing Type In The JSON File Does Not Exist");
                 break;
 
         }
+        System.out.println("\n");
+        for(String text: pastEntries){
+            System.out.println(text);
+        }
+        System.out.println("\n");
     }
 
 }
