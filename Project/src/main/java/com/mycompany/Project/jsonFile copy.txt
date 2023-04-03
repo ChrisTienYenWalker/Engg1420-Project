@@ -2,20 +2,20 @@
 "name": "First Scenario",
 "processing_elements": [
 {
-"type": "rename",
+"type": "Content Filter",
 "input_entries": [
 {
+"type": "local"
+"path": "C:\Users\walke\OneDrive\Documents\GitHub\Engg1420-Project\Project\src\main\java\com\mycompany\Project\LoremIpsum2.txt",
 "type": "remote",
 "repoId": "r-0001d410ba56"
-"entryId": "26"
+"entryId": "28"
 }
 ],
 "parameters": [
 {
 "name": "Key",
-"value": "Lorem"
-"name": "Min",
-"value": "5"
+"value": "frog"
 },
 ]
 },

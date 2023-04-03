@@ -6,10 +6,10 @@ import java.util.List;
 
 import javax.swing.plaf.basic.BasicSplitPaneUI.KeyboardDownRightHandler;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class CountFilter extends Processing_elements {
 
-    private ArrayList<File> pastEntries = new ArrayList<>(); //Decleration of arraylist that takes in a list of files
-    ArrayList<String> outputList = new ArrayList<>(); //Decleration of an arraylist that takes in a list of strings
     private String key;
     private int min;
 
@@ -18,10 +18,10 @@ public class CountFilter extends Processing_elements {
         Boolean keyBool = false; //KeyBool and MinBool used to differentiate the value that is assigened to key and min.
         Boolean minBool = false;
         for (String text : inputValues) {
-            if(text.contains("Key")){ //Checking if key is found, if so set to true
+            if(text.toLowerCase().contains("key")){ //Checking if key is found, if so set to true
                 keyBool = true;
             }
-            if(text.contains("Min")){ //Checking if min is found if so set to true
+            if(text.toLowerCase().contains("min")){ //Checking if min is found if so set to true
                 minBool = true;
             }
             if (text.contains("value") && keyBool) { //When value is found and keybool is true, the if loop replaces all the excess (words,semicolons,spaces) and sets key to the raw value entered.
@@ -35,15 +35,22 @@ public class CountFilter extends Processing_elements {
         }
         System.out.println("data " + min); //Just a check to see that the values entered are correct.
         System.out.println(key);
-        for (String files : pastEntries) {  //Add all the files from the past entries to new arraylist inputValues
-            inputValues.add(files);
-        }
         
-        loopEntries(inputValues);
-
-        for (String text : data) { // use data arrayList to print each line of text
-           // System.out.println(text);
+        if(key == null && min == 0){
+            System.out.println("Parameters couldn't be found in JSON, check formatting");
         }
+
+        //add this file into inputs arrayList
+        else
+        {
+            inputValues.addAll(pastEntries);
+        
+            loopEntries(inputValues);
+        }
+
+        // for (String text : data) { // use data arrayList to print each line of text
+        //    // System.out.println(text);
+        // }
     }
 
     public static boolean ifFile(String filePath) { //Method to check if the path entered is a file
@@ -79,13 +86,14 @@ public class CountFilter extends Processing_elements {
                             count++;
                         } 
                     }
-                        if (count < min) { //if count is less than the minimum amount of instances of the keyword, totalkey is false.
+                        if (count <= min) { //if count is less than the minimum amount of instances of the keyword, totalkey is false.
                             totalKey = false; 
                             System.out.println("The key " + key + " is not found at least " + min + " times");
                         } else {
                             totalKey = true; //if count is greater than the minimum amount of instances of the keyword, totalKey is true.
                             addFileToList();
                             System.out.println("The Key " + key + " is found at least " + min + " times");
+                            addFileToList();
                         }
             }
 
@@ -100,17 +108,19 @@ public class CountFilter extends Processing_elements {
 
                 int count = 0; //set count to 0
                 for (String line : data) { //Read through each line in the file
+                    System.out.println(count);
                     if (line.contains(key)) { //If the key is found increase the count
-                        count++;
+                        
+                        count += StringUtils.countMatches(line, this.key);
                     }
                 }
-                    if (count < min) { //Case for when the count is less than the min instances of the keyword
-                        totalKey = false;
+                System.out.println(count);
+                    if (count <= min) { //Case for when the count is less than the min instances of the keyword
                         System.out.println("The key " + key + " is not found at least " + min + " times in the file");
                     } else { //Case for when the keyword is found equal to or greater the min instances of the keyword
                         totalKey = true;
                         System.out.println("The Key " + key + " is found at least " + min + " times in the file");
-                        outputList.add(path); //Adds the path to the outputList
+                        addFileToList(); //Adds the path to the outputList
                     }
             } else {
                 System.out.println("File path not found");

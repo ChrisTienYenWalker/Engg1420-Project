@@ -14,27 +14,14 @@ public class Rename extends Processing_elements {
     // constructor
     public Rename(ArrayList<String> inputValue, ArrayList<String> pastEntries) {
 
-        //boolean value to help read in suffix value since they are on different lines
-        boolean suffixBool = false;
-
         //loops through the inputValues since it will contain the suffix value
         for (String text : inputValue) {
-
-            // it the line contauns the name value of suffix  
-            //the following line should conatin the value for the suffix
-            if (text.contains("suffix") || text.contains("Suffix")) {
-
-                //set the suffix boolean to true
-                suffixBool = true;
-            }
-            String subtext = text;
             
             //if the next line contains the word value and the suffix boolean is true(one of the lines before contained the word sufffix)
-            if (subtext.contains("value") && suffixBool == true) {
+            if (text.contains("value")) {
 
                 //gets rid of non relatvent information like value and : 
                 suffix = text.replace("value", "").replace(".", "").replace(":", "").trim();
-                suffixBool = false;
                 break;
             }
         }
@@ -70,9 +57,7 @@ public class Rename extends Processing_elements {
             if (file.isFile()) {
 
                 //create the new path name
-                String temp = path;
-                temp = temp.substring(0, temp.length() - 4);
-                temp = temp.concat(suffix).concat(".txt");
+                String temp = path.substring(0, path.length() - 4).concat(suffix).concat(".txt");
 
                 //add the new path name to the outputlist
                 generateLocalJson(temp);
@@ -119,7 +104,6 @@ public class Rename extends Processing_elements {
             if (!isRemoteDIR(this.entryID)) {
                 
                 //make modifications to the name
-                temp = temp.substring(0);
                 temp = temp.concat(suffix).concat(".txt");
                 generateLocalJson(temp);
                 getEntriesRemote(Integer.parseInt(entryID));
@@ -165,7 +149,7 @@ public class Rename extends Processing_elements {
             }
 
             //add the remote entry to the output list
-            generateRemoteJson();
+            generateRemoteJson(this.repoID, this.entryID);
         }
     };
 

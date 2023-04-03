@@ -1,14 +1,9 @@
 package com.mycompany.Project;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.function.Consumer;
 
-import com.laserfiche.api.client.model.AccessKey;
-import com.laserfiche.repository.api.RepositoryApiClient;
-import com.laserfiche.repository.api.RepositoryApiClientImpl;
+
 
 public class Print extends Processing_elements {
 
@@ -17,7 +12,6 @@ public class Print extends Processing_elements {
             
         //add the past entries to the new entries 
         inputValue.addAll(pastEntries);
-
         //goes through all the entries and calls operations
         loopEntries(inputValue);
 
@@ -82,7 +76,7 @@ public class Print extends Processing_elements {
 
             //if it's a folder 
             //add all the lengths of files inside
-            if(!isRemoteDIR(this.entryID)){
+            if(isRemoteDIR(this.entryID)){
 
                 //get the childern entries
                 getEntriesRemoteFileNamesDIR();
@@ -124,52 +118,6 @@ public class Print extends Processing_elements {
         }
 
         //once it sums up all the files in the folder it returns the total size of the folder
-        return length;
-    }
-
-    protected long getRemoteFileSize(String entryID) {
-
-        String servicePrincipalKey = "x0BmysMxlH_XfLoc69Kk";
-        String accessKeyBase64 = "ewoJImN1c3RvbWVySWQiOiAiMTQwMTM1OTIzOCIsCgkiY2xpZW50SWQiOiAiOGFkZTZjNTctZDIxNS00ZmYyLThkOTctOTE1YjRiYWUyZWIzIiwKCSJkb21haW4iOiAibGFzZXJmaWNoZS5jYSIsCgkiandrIjogewoJCSJrdHkiOiAiRUMiLAoJCSJjcnYiOiAiUC0yNTYiLAoJCSJ1c2UiOiAic2lnIiwKCQkia2lkIjogImNCeWdXYnh6YU9jRHZVcUdBU1RfcURTY0plcWw3aU9Ya19SZVFleUpiTzQiLAoJCSJ4IjogIjZNSXNuODRLanFtMEpTUmhmS2tHUTRzbGhkcldCbVNMWk9nMW5oWjhubFkiLAoJCSJ5IjogIlpkZ1M1YWIxdU0yaVdaWHVpdmpBc2VacC11LWlJUlc4MjFwZWhENVJ5bUkiLAoJCSJkIjogIldjN091cDFYV3FudjlEVFVzQWZIYmxGTDFqU3UwRWJRY3g0LXNqbG0xRmMiLAoJCSJpYXQiOiAxNjc3Mjk3NTU0Cgl9Cn0=";
-        AccessKey accessKey = AccessKey.createFromBase64EncodedAccessKey(accessKeyBase64);
-
-        RepositoryApiClient client = RepositoryApiClientImpl.createFromAccessKey(
-                servicePrincipalKey, accessKey);
-        // create a new file and store the remote file in a new local file  
-
-        // delete old file
-        File deleteFile = new File("Project\\remoteFile.txt");
-
-        // create new file
-        final String FILE_NAME = "Project\\remoteFile.txt";
-        Consumer<InputStream> consumer = inputStream -> {
-            File exportedFile = new File(FILE_NAME);
-            try (FileOutputStream outputStream = new FileOutputStream(exportedFile)) {
-                byte[] buffer = new byte[1024];
-                while (true) {
-                    int length = inputStream.read(buffer);
-                    if (length == -1) {
-                        break;
-                    }
-                    outputStream.write(buffer, 0, length);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    inputStream.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-
-        // get the file details
-        client.getEntriesClient()
-                .exportDocument(this.repoID, Integer.parseInt(entryID), null, consumer)
-                .join();
-        long length = deleteFile.length();
-        deleteFile.delete();
         return length;
     }
 

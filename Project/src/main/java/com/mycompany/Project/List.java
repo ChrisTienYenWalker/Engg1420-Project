@@ -22,6 +22,7 @@ public class List extends Processing_elements {
             }
             if(str.contains("path") && tempstr.equals("local")){
                 this.localPath = str.replace("path :", " ").strip();
+                operations();
             }
 
             // get the value of Max

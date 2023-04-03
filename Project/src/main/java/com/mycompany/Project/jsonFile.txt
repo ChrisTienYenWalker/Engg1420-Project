@@ -2,131 +2,27 @@
 "name": "First Scenario",
 "processing_elements": [
 {
-"type": "Rename",
+"type": "rename",
 "input_entries": [
 {
-"type": "local",
-<<<<<<< HEAD
-"path": "C:\Users\ryant\OneDrive\Documents\UofGSem2\ENGG1420new\Engg1420-Project\Project\src\main\java\com\mycompany\Project\testfolderhi\LoremIpsum2hi.txt",
-}
-{
-"type": "local",
-"path": "C:\Users\ryant\OneDrive\Documents\UofGSem2\ENGG1420new\Engg1420-Project\Project\src\main\java\com\mycompany\Project\testfolderhi\SampleCityNamesInCanada.txt",
-}
-{
-"type": "local",
-"path": "C:\Users\ryant\OneDrive\Documents\UofGSem2\ENGG1420new\Engg1420-Project\Project\src\main\java\com\mycompany\Project\LoremIpsum2penguin.txt",
-=======
-<<<<<<< HEAD
-"path": "C:\Users\walke\OneDrive\Documents\GitHub\Engg1420-Project\Project\src\main\java\com\mycompany\Project\testfolder",
-"type": "local",
-"path": "C:\Users\walke\OneDrive\Documents\GitHub\Engg1420-Project\Project\src\main\java\com\mycompany\Project\LoremIpsum2.txt",
 "type": "remote",
-"repoId": " r-0001d410ba56",
-"entryId": "11",
-"type": "remote",
-"entryId": "18",
-"repoId": " r-0001d410ba56",
-
-=======
-<<<<<<< HEAD
-"path": "Project\src\main\java\com\mycompany\Project\testfolder",
-=======
-"path": "C:\Users\walke\OneDrive\Documents\GitHub\Engg1420-Project\GeoNamespenguin",
-=======
-"type": "remote",
-"repoId": "r-0001d410ba56",
-"entryId": "15",
->>>>>>> 039fe5373cd92db8ef57a83ac7fd0832265e7817
->>>>>>> bb6e049c2062f7e063097ba9d8eb271fc54c1e13
->>>>>>> de4cda02238d38e12f3760c5004d86334a1c0ae0
->>>>>>> f56ea05d09ff0207c0dd9acb78d54cb0f4191212
+"repoId": "r-0001d410ba56"
+"entryId": "26"
 }
 ],
 "parameters": [
 {
-<<<<<<< HEAD
-    "name" : "suffix",
-    "value": "_coppied"
-=======
-    "name" : "Key",
-<<<<<<< HEAD
-    "value": "sum"
-}
-]
+"name": "Key",
+"value": "Lorem"
+"name": "Min",
+"value": "5"
 },
-=======
-    "value": "Can"
->>>>>>> de4cda02238d38e12f3760c5004d86334a1c0ae0
-}
 ]
-},
-		{
-			"type": "Print",
-			"input_entries": [],
-			"parameters": []
-		}
-<<<<<<< HEAD
-=======
-=======
-{
-"type": "LengthFilter",
-"input_entries": [
-{
-<<<<<<< HEAD
-"type": "remote",
-"repoId": "r-0001d410ba56",
-"entryId: "15",
-=======
-"type": "local",
-"path": "Project\src\main\java\com\mycompany\Project\LoremIpsum2.txt"
->>>>>>> acd83f1a9d7e7eb6c3f731b93fb83398fa6bf3bf
-}
-],
-"parameters": [
-{
-"name": "Length",
-"value": "1024"
-},
-{
-"name": "Operator",
-"value": "GTE"
-}
-]
-},
-{
-"type": "Split",
-"input_entries": [
-{
-"type": "local",
-"path": "Project\src\main\java\com\mycompany\Project\LoremIpsum2.txt"
-}
-]
-{
-"name": "Lines",
-"value": "4"
-}
-}
-{
-"type": "List",
-"input_entries": [
-{
-"type": "local",
-"path": "Project\src\main\java\com\mycompany\Project\LoremIpsum2.txt"
-}
-]
-{
-"name": "Max",
-"value": "20"  
-}
 },
 {
 "type": "Print",
 "input_entries": [],
 "parameters": []
 }
->>>>>>> 039fe5373cd92db8ef57a83ac7fd0832265e7817
->>>>>>> de4cda02238d38e12f3760c5004d86334a1c0ae0
->>>>>>> f56ea05d09ff0207c0dd9acb78d54cb0f4191212
 ]
 }
